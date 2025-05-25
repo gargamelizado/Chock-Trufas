@@ -1,0 +1,379 @@
+/* Arquivo CSS aperfeiçoado com Flexbox, Grid e efeitos de desfoque */
+
+:root {
+  --color-primary: #fda2a2;
+  --color-secondary: #d13737;
+  --color-tertiary: #b10505;
+  --color-quaternary: #333;
+  --color-quinary: #fdf4f4;
+  --color-senary: #e2d9d9;
+  --color-septenary: #f5f1f1;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  background-color: var(--color-septenary);
+  color: var(--color-quaternary);
+  line-height: 1.6;
+}
+
+header {
+  background-color: wheat;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.boxLogo {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+a {
+  text-decoration: none;
+  color: var(--color-quaternary);
+}
+.nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-evenly;
+}
+
+.nav a {
+  color: white;
+  background-color: var(--color-tertiary);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  transition: 0.3s;
+  text-decoration: none;
+}
+
+.nav a:hover {
+  background-color: white;
+  color: var(--color-tertiary);
+  border: 1px solid var(--color-tertiary);
+}
+.btnAgendar {
+  display: block;
+  width: 220px;
+  margin: 1rem auto;
+  padding: 18px;
+  background-color: blanchedalmond;
+  color: #333;
+  border-radius: 16px;
+  border: none;
+  cursor: pointer;
+}
+.btnAgendar:hover {
+  background-color: var(--color-primary);
+  color: white;
+  transition: 0.3s;
+}
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background-image: url(../assets/img/unnamed.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 16px;
+  margin: 2rem auto;
+  max-width: 1024px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px) brightness(0.8);
+  box-shadow: #f18730e0 0px 0px 20px 0px;
+  opacity: 0.9;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-senary);
+  text-shadow: 0px 0px 8px rgb(43 40 40);
+}
+
+.hero p {
+  font-size: 1.25rem;
+  max-width: 600px;
+  margin: 0 auto;
+  color: var(--color-septenary);
+}
+.section h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-quaternary);
+}
+.sectionSobre {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: var(--color-senary);
+  border-radius: 16px;
+  border: 1px solid var(--color-quaternary);
+  padding: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 4px 10px #796666;
+  backdrop-filter: blur(4px);
+}
+.sectionSobre p {
+  max-width: 50ch;
+  margin: 0 auto;
+}
+.section {
+  padding: 2rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+.cardGroup {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  backdrop-filter: blur(2px);
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(4px);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+ box-shadow: 0 0 15px 4px rgba(194, 12, 12, 0.27);
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--color-primary);
+}
+
+.card img {
+  width: 400px;
+  height: 300px;
+  display: block;
+}
+
+.cardContent {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.cardContent h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.cardContent p {
+  font-size: 0.95rem;
+  color: #444;
+  margin-bottom: 1rem;
+}
+
+.cardContent a {
+  background-color: white;
+  color: var(--color-tertiary);
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--color-tertiary);
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.cardContent a:hover {
+  background-color: var(--color-secondary);
+  color: white;
+}
+.sectionAgendamento {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 2rem;
+}
+.formularioInformes h2 {
+  text-align: center;
+}
+.ctaBanner {
+  background: linear-gradient(
+    to right,
+    var(--color-tertiary),
+    var(--color-secondary)
+  );
+  color: white;
+  text-align: center;
+  padding: 3rem 2rem;
+  margin: 2rem 0;
+  border-radius: 16px;
+  backdrop-filter: blur(4px);
+}
+
+.ctaBanner h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.ctaBanner a {
+  background-color: white;
+  color: var(--color-tertiary);
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: ease-out 0.3s;
+}
+
+.ctaBanner a:hover {
+  background-color: var(--color-senary);
+  transition: ease-in-out 0.3s;
+}
+
+iframe.map {
+  width: 100%;
+  height: 300px;
+  border: none;
+  border-radius: 10px;
+  margin-top: 1rem;
+}
+
+footer {
+  background-color: var(--color-quaternary);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+
+.whatsappBtn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #25d366;
+  color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 50px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-weight: bold;
+  z-index: 1000;
+  text-decoration: none;
+}
+.formularioDados {
+}
+.form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.form label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.form input,
+.form textarea,
+.form select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.form button {
+  background-color: #8e24aa;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  width: 100%;
+}
+.form button:hover {
+  background-color: #7b1fa2;
+}
+.sectionContato {
+  text-align: center;
+}
+@media (max-width: 700px) {
+  header,
+  nav {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero {
+    padding: 2.5rem 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+  }
+
+  .ctaBanner h2 {
+    font-size: 1.6rem;
+  }
+
+  .cardContent h3 {
+    font-size: 1.1rem;
+  }
+  .card img{
+    width: 100%;
+   
+  }
+}
+
+@media (max-width: 400px) {
+  .boxLogo {
+    font-size: 1.1rem;
+  }
+
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero p {
+    font-size: 0.95rem;
+  }
+
+  .ctaBanner h2 {
+    font-size: 1.3rem;
+  }
+
+  .cardContent h3 {
+    font-size: 1rem;
+  }
+
+  .cardContent p {
+    font-size: 0.85rem;
+  }
+
+  .cardContent button {
+    padding: 0.4rem 0.8rem;
+  }
+  
+}
