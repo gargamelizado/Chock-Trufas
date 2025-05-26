@@ -200,6 +200,26 @@ a {
   background-color: var(--color-secondary);
   color: white;
 }
+.tabela table{
+  max-width: 100%;
+  margin: 10px auto;
+  padding: 1rem;
+  border: 1px solid var(--color-quaternary);
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(5, 3, 3, 0.952);
+
+
+ 
+}
+.tabela tbody{
+ margin: 20px 0;
+}
+.tabela th, .tabela td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid var(--color-quaternary);
+  color: black;
+}
 .sectionAgendamento {
   display: flex;
   flex-direction: column;
