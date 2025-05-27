@@ -240,7 +240,7 @@ a {
 }
 
 /* Tabela de preços/produtos */
-.tabela table{
+.tabela table {
   max-width: 100%;
   margin: 10px auto;
   padding: 1rem;
@@ -250,35 +250,36 @@ a {
 }
 
 /* Corpo da tabela */
-.tabela tbody{
+.tabela tbody {
   margin: 20px 0;
 }
 
 /* Cabeçalho da tabela */
-.tabela th{
-  background-color:#ffeddb;
+.tabela th {
+  background-color: #ffeddb;
   border-radius: 10px 10px 0 0;
 }
 
 /* Linhas da tabela */
-.tabela tr{
+.tabela tr {
   border-radius: 10px 10px 0 0;
 }
 
 /* Linhas pares da tabela */
-.tabela tr:nth-child(even) { 
+.tabela tr:nth-child(even) {
   background-color: var(--color-senary);
   border-radius: 10px;
 }
 
 /* Linhas ímpares da tabela */
-.tabela tr:nth-child(odd) { 
+.tabela tr:nth-child(odd) {
   background-color: #ffffff;
   border-radius: 10px;
 }
 
 /* Células da tabela */
-.tabela th, .tabela td {
+.tabela th,
+.tabela td {
   padding: 10px;
   text-align: center;
   border-bottom: 1px solid var(--color-quaternary);
@@ -335,6 +336,9 @@ footer {
 
 /* Container do formulário de dados (vazio para customização futura) */
 .formularioDados {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* Formulário de contato/agendamento */
@@ -415,7 +419,7 @@ footer {
   .cardContent h3 {
     font-size: 1.1rem;
   }
-  .card img{
+  .card img {
     width: 100%;
   }
 }
