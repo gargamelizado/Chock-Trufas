@@ -12,15 +12,18 @@
   </head>
   <body>
     <header>
-      <div class="boxLogo">
-        <img src="assets/img/LOGO.png" alt="Logo" height="50" />
+      <div class="header">
+        <div class="boxLogo">
+          <img src="assets/img/LOGO.png" alt="Logo" height="50" />
+        </div>
+        <nav class="nav">
+          <a href="#precos">Preços</a>
+          <a href="#sobre">Sobre</a>
+          <a href="#fotos">Espaço</a>
+          <a href="#contato">Contato</a>
+        </nav>
+
       </div>
-      <nav class="nav">
-        <a href="#precos">Preços</a>
-        <a href="#sobre">Sobre</a>
-        <a href="#fotos">Espaço</a>
-        <a href="#contato">Contato</a>
-      </nav>
     </header>
 
     <main>
@@ -47,11 +50,11 @@
         <h2>Pacotes de Agendamento</h2>
         <div class="cardGroup">
           <div class="card">
-            <img src="assets/img/img5.jpg" alt="Trufa Simples" />
+            <img src="assets/img/img5.jpg" alt="Cone trufado" />
             <div class="cardContent">
-              <h3>Trufa Simples - R$29</h3>
-              <p>Ideal para lembrancinhas ou pequenas festas.</p>
-              <a href="#agendamento">Agendar</a>
+              <h3>Cone trufado - R$10</h3>
+              <p>Cone trufado com recheio de chocolate.</p>
+              <a href="#agendamento">comprar</a>
             </div>
           </div>
           <div class="card">
@@ -60,9 +63,9 @@
               alt="Pacote Festa"
             />
             <div class="cardContent">
-              <h3>Pacote Festa - R$39</h3>
-              <p>Combo com variedade de sabores para festas.</p>
-              <a href="#agendamento">Agendar</a>
+              <h3>Barra de Chocolate - R$12</h3>
+              <p>Barra de chocolate ao leite com recheio cremoso.</p>
+              <a href="#agendamento">comprar</a>
             </div>
           </div>
           <div class="card">
@@ -71,19 +74,19 @@
               alt="Premium Especial"
             />
             <div class="cardContent">
-              <h3>Premium Especial - R$49</h3>
-              <p>Embalagens personalizadas e entrega agendada.</p>
-              <a href="#agendamento">Agendar</a>
+              <h3>Alfajor Maria - R$12</h3>
+              <p>Alfajor com doce de leite e cobertura de chocolate.</p>
+              <a href="#agendamento">comprar</a>
             </div>
           </div>
         </div>
         <div class="cardGroup">
           <div class="card">
-            <img src="assets/img/hq720.jpg" alt="Trufa Simples" />
+            <img src="assets/img/hq720.jpg" alt="Italianilho" />
             <div class="cardContent">
-              <h3>Trufa Simples - R$29</h3>
-              <p>Ideal para lembrancinhas ou pequenas festas.</p>
-              <a href="#agendamento">Agendar</a>
+              <h3>Italianilho - R$1.20</h3>
+              <p>Italianilho com recheio de queijo e presunto.</p>
+              <a href="#agendamento">comprar</a>
             </div>
           </div>
           <div class="card">
@@ -92,9 +95,9 @@
               alt="Pacote Festa"
             />
             <div class="cardContent">
-              <h3>Pacote Festa - R$39</h3>
-              <p>Combo com variedade de sabores para festas.</p>
-              <a href="#agendamento">Agendar</a>
+              <h3>Pacote Festa - R$79.90</h3>
+              <p>Combo com variedade de opções de salgadinhos para festas.</p>
+              <a href="#agendamento">comprar</a>
             </div>
           </div>
           <div class="card">
@@ -103,9 +106,9 @@
               alt="Premium Especial"
             />
             <div class="cardContent">
-              <h3>Premium Especial - R$49</h3>
-              <p>Embalagens personalizadas e entrega agendada.</p>
-              <a href="#agendamento">Agendar</a>
+              <h3>empadao  - R$10.00</h3>
+              <p>empadao de frango com massa crocante que derrete na boca.</p>
+              <a href="#agendamento">comprar</a>
             </div>
           </div>
         </div>
@@ -155,7 +158,7 @@
             </thead>
             <tbody>
               <tr>
-                <td>Trufa Simples</td>
+                <td>pacote Simples</td>
                 <td>R$29</td>
                 <td>Ideal para lembrancinhas ou pequenas festas.</td>
               </tr>
@@ -165,22 +168,22 @@
                 <td>Combo com variedade de sabores para festas.</td>
               </tr>
               <tr>
-                <td>Premium Especial</td>
+                <td>Pacote Premium</td>
                 <td>R$49</td>
                 <td>Embalagens personalizadas e entrega agendada.</td>
               </tr>
               <tr>
-                <td>Trufa Gourmet</td>
+                <td>pacote Premium especiais</td>
                 <td>R$59</td>
                 <td>Trufas recheadas com ingredientes especiais.</td>
               </tr>
               <tr>
-                <td>Caixa de Doces</td>
+                <td>Pacote Caixa de Doces</td>
                 <td>R$69</td>
                 <td>Caixa com uma seleção de nossos melhores doces.</td>
               </tr>
               <tr>
-                <td>Kit Festa</td>
+                <td>pacote festa Gourmet</td>
                 <td>R$79</td>
                 <td>Inclui trufas, salgados e bebidas.</td>
               </tr>
@@ -244,9 +247,12 @@
           <label for="servico">Serviço</label>
           <select id="servico" name="servico" required>
             <option value="">Selecione um serviço</option>
-            <option value="trufa">Trufa Simples</option>
+            <option value="trufa">pacote Simples</option>
             <option value="festa">Pacote Festa</option>
-            <option value="premium">Premium Especial</option>
+            <option value="premium">Pacote Premium</option>
+            <option value="premium">pacote Premium especiais</option>
+            <option value="premium">Pacote Caixa de Doces</option>
+            <option value="premium">pacote festa Gourmet</option>
           </select>
 
           <label for="mensagem">Mensagem</label>
@@ -258,7 +264,7 @@
 
       <section id="contato" class="sectionContato">
         <h2>Contato</h2>
-        <p>WhatsApp: (21) 99999-9999</p>
+        <p>WhatsApp: (21) 992470799</p>
         <iframe
           class="map"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3676.680316668931!2d-43.0957034!3d-22.851314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x998535af368b87%3A0xde4cc5ffae5503a0!2sCHOCK%20TRUFAS!5e0!3m2!1spt-BR!2sbr!4v1748092536993!5m2!1spt-BR!2sbr"
