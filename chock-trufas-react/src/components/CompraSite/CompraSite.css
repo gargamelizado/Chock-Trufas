@@ -1,0 +1,476 @@
+.paginaCompra {
+  padding-top: 5rem;
+}
+
+.compraHero {
+  width: min(980px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 4rem 0 2rem;
+  text-align: center;
+}
+
+.voltarSite {
+  display: block;
+  margin-bottom: 1rem;
+  color: var(--color-tertiary);
+  font-weight: 800;
+}
+
+.compraHero span {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--color-tertiary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.compraHero h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.1;
+}
+
+.compraHero p {
+  max-width: 640px;
+  margin: 1rem auto 0;
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+
+.compraPedido {
+  width: min(1100px, calc(100% - 2rem));
+  margin: 0 auto 3rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.formPedido,
+.pedidoAjuda {
+  background: var(--color-surface);
+  border: 1px solid var(--color-senary);
+  border-radius: 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.formPedido {
+  padding: clamp(1rem, 3vw, 1.5rem);
+}
+
+.campoLinha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.campoLinha label,
+.catalogoProdutos legend,
+.grupoEntrega legend {
+  font-weight: 800;
+}
+
+.campoLinha input,
+.campoLinha select,
+.campoLinha textarea {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #d8c2bd;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.catalogoProdutos,
+.grupoEntrega,
+.grupoQuantidades,
+.grupoRecheios {
+  border: 0;
+  margin: 0 0 1rem;
+}
+
+.dadosClientePedido {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.catalogoGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+}
+
+.catalogoCard {
+  display: flex;
+  min-height: 168px;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(180deg, #fff, #fff8f4);
+  border: 1px solid var(--color-senary);
+  border-radius: 14px;
+  box-shadow: 0 10px 22px rgba(74, 32, 25, 0.08);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.catalogoCard:hover {
+  transform: translateY(-2px);
+  border-color: rgba(177, 5, 5, 0.32);
+  box-shadow: 0 14px 28px rgba(177, 5, 5, 0.12);
+}
+
+.catalogoCard.selecionado {
+  border-color: var(--color-tertiary);
+  box-shadow: 0 0 0 3px rgba(177, 5, 5, 0.08);
+}
+
+.catalogoCard span,
+.carrinhoTopo span,
+.carrinhoItem header span,
+.pedidoAjuda span {
+  color: var(--color-tertiary);
+  font-size: 0.75rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.catalogoCard h3 {
+  margin: 0.25rem 0;
+  font-size: 1.05rem;
+}
+
+.catalogoCard p {
+  color: var(--color-muted);
+  line-height: 1.35;
+  font-size: 0.92rem;
+}
+
+.catalogoCard em {
+  display: inline-block;
+  margin-top: 0.65rem;
+  color: var(--color-tertiary);
+  font-size: 0.84rem;
+  font-style: normal;
+  font-weight: 900;
+}
+
+.catalogoCard button,
+.carrinhoRemover {
+  border: 1px solid var(--color-tertiary);
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  transition: 0.2s;
+}
+
+.catalogoCard button {
+  width: 100%;
+  padding: 0.72rem 1rem;
+  background: var(--color-tertiary);
+  color: #fff;
+}
+
+.catalogoCard button:hover,
+.catalogoCard .botaoNoCarrinho {
+  background: #fff;
+  color: var(--color-tertiary);
+}
+
+.carrinhoPedido {
+  margin: 1.4rem 0;
+  padding: 1rem;
+  border: 1px solid rgba(177, 5, 5, 0.18);
+  border-radius: 16px;
+  background: #fffdfb;
+}
+
+.carrinhoTopo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.carrinhoTopo h2 {
+  font-size: 1.35rem;
+  line-height: 1.2;
+}
+
+.carrinhoTopo strong {
+  min-width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--color-tertiary);
+  color: #fff;
+}
+
+.carrinhoVazio {
+  padding: 1.25rem;
+  text-align: center;
+  border: 1px dashed var(--color-senary);
+  border-radius: 14px;
+  background: #fff8f4;
+}
+
+.carrinhoVazio p {
+  color: var(--color-muted);
+}
+
+.carrinhoLista {
+  display: grid;
+  gap: 1rem;
+  max-height: min(720px, 68vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.35rem;
+  scrollbar-color: var(--color-tertiary) #fff3ee;
+  scrollbar-width: thin;
+}
+
+.carrinhoLista::-webkit-scrollbar {
+  width: 10px;
+}
+
+.carrinhoLista::-webkit-scrollbar-track {
+  background: #fff3ee;
+  border-radius: 999px;
+}
+
+.carrinhoLista::-webkit-scrollbar-thumb {
+  background: var(--color-tertiary);
+  border-radius: 999px;
+}
+
+.carrinhoItem {
+  padding: 1rem;
+  border: 1px solid var(--color-senary);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.carrinhoItem header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.carrinhoItem h3 {
+  font-size: 1.1rem;
+}
+
+.carrinhoRemover {
+  padding: 0.45rem 0.8rem;
+  background: #fff;
+  color: var(--color-tertiary);
+}
+
+.carrinhoRemover:hover {
+  background: var(--color-tertiary);
+  color: #fff;
+}
+
+.quantidadesProdutos,
+.recheiosProdutos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 0.75rem;
+  padding: 1rem;
+  background: #fff8f4;
+  border: 1px solid var(--color-senary);
+  border-radius: 12px;
+}
+
+.comboPersonalizacao {
+  border: 1px solid rgba(177, 5, 5, 0.18);
+  border-radius: 12px;
+  background: #fff8f4;
+  margin: 0 0 1rem;
+  padding: 1rem;
+}
+
+.comboPersonalizacao legend {
+  padding: 0 0.5rem;
+  font-weight: 900;
+}
+
+.comboPersonalizacao p {
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+}
+
+.comboCategorias {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.comboCategoria {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.comboCategoria h3 {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 1rem;
+}
+
+.comboCategoria h3 span {
+  color: var(--color-tertiary);
+}
+
+.comboStatus {
+  border-radius: 999px;
+  display: inline-block;
+  font-weight: 800;
+  justify-self: start;
+  padding: 0.25rem 0.6rem;
+}
+
+.comboStatus.faltando {
+  background: #fff3d6;
+  color: #8a5a00;
+}
+
+.comboStatus.completo {
+  background: #e9f8ee;
+  color: #217a36;
+}
+
+.comboStatus.excedido {
+  background: #fff1f1;
+  color: #b10505;
+}
+
+.comboItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 90px;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem;
+  background: #fff8f4;
+  border: 1px solid var(--color-senary);
+  border-radius: 10px;
+}
+
+.comboItem input {
+  width: 100%;
+  padding: 0.55rem;
+  border: 1px solid #d8c2bd;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.pedidoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.grupoEntrega {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.grupoEntrega legend {
+  width: 100%;
+}
+
+.retiradaCampos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+}
+
+.botaoEnviarPedido {
+  width: 100%;
+  padding: 0.9rem 1rem;
+  background: var(--color-tertiary);
+  color: #fff;
+  border: 1px solid var(--color-tertiary);
+  border-radius: 999px;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+}
+
+.botaoEnviarPedido:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.botaoEnviarPedido:hover {
+  background: #fff;
+  color: var(--color-tertiary);
+}
+
+.pedidoStatus {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin: 1rem 0;
+  padding: 0.9rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-senary);
+  background: #fff8f4;
+}
+
+.pedidoStatus.success {
+  border-color: #78c287;
+  background: #effaf1;
+}
+
+.pedidoStatus.error {
+  border-color: #d13737;
+  background: #fff1f1;
+}
+
+.pedidoAjuda {
+  padding: 1.25rem;
+  position: sticky;
+  top: 6rem;
+}
+
+.pedidoAjuda h2 {
+  margin-bottom: 0.5rem;
+}
+
+.pedidoAjuda p {
+  color: var(--color-muted);
+}
+
+@media (max-width: 800px) {
+  .compraPedido {
+    grid-template-columns: 1fr;
+  }
+
+  .pedidoAjuda {
+    position: static;
+  }
+
+  .pedidoGrid,
+  .dadosClientePedido,
+  .catalogoGrid,
+  .comboCategorias {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .pedidoGrid,
+  .catalogoGrid {
+    grid-template-columns: 1fr;
+  }
+}

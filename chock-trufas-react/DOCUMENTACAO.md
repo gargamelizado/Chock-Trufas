@@ -1,0 +1,581 @@
+# Documentacao do Site Chock Trufas
+
+Este documento mapeia o site inteiro: estrutura, paginas, componentes, funcoes, rotas do frontend, rotas do backend, arquivos de dados e fluxo de compra.
+
+## 1. Visao geral
+
+O projeto e uma aplicacao React com Vite no frontend e uma API Express simples no backend.
+
+- Frontend: React, Vite e CSS puro.
+- Backend: Express com arquivos JSON para catalogo e pedidos.
+- Porta do site em desenvolvimento: `http://localhost:5173`.
+- Porta da API em desenvolvimento: `http://127.0.0.1:3001`.
+- Fluxo principal: o cliente abre `/compra`, adiciona itens ao carrinho, escolhe recheios ou sabores do combo, informa entrega ou retirada, envia o pedido para a API e o site abre o WhatsApp com a mensagem pronta.
+
+## 2. Estrutura principal
+
+| Caminho | Funcao |
+| --- | --- |
+| `src/main.jsx` | Ponto de entrada do React. Renderiza o `App` dentro da `div#root`. |
+| `src/App.jsx` | Decide qual pagina mostrar: home `/` ou compra `/compra`. |
+| `src/index.css` | Variaveis, reset e base global. |
+| `src/components/*/*.css` | CSS separado por componente, sempre ao lado do JSX correspondente. |
+| `src/components/Header/estilo.css` | CSS ativo do Header. |
+| `src/components/Hero/estilo.css` | CSS ativo do Hero. |
+| `server/server.js` | API Express, rotas, validacoes e persistencia de pedidos. |
+| `server/dev.js` | Script que sobe frontend e backend juntos com `npm run dev`. |
+| `server/data/catalog.json` | Catalogo real usado pela API e carregado pela pagina de compra. |
+| `server/data/orders.json` | Lista de pedidos registrados. |
+| `vite.config.js` | Configura o React no Vite e o proxy `/api` para a API local. |
+
+## 3. Scripts
+
+| Comando | O que faz |
+| --- | --- |
+| `npm run dev` | Sobe backend e frontend juntos. Se a API ja estiver rodando em `3001`, reaproveita ela. |
+| `npm run dev:web` | Sobe apenas o frontend Vite. |
+| `npm run dev:api` | Sobe apenas a API Express. |
+| `npm run lint` | Verifica problemas de codigo com ESLint. |
+| `npm run build` | Gera a versao final do frontend em `dist`. |
+| `npm start` | Sobe a API e serve tambem os arquivos de `dist`, quando existir build. |
+
+## 4. Rotas do frontend
+
+O projeto nao usa React Router. A rota e decidida em `src/App.jsx` com `window.location.pathname`.
+
+| Rota | Componente principal | Conteudo |
+| --- | --- | --- |
+| `/` | `App` com componentes da home | Header, Hero, Sobre, Produtos, Compra, Espaço, Tabela e Footer. |
+| `/compra` | `CompraSite` | Pagina completa de compra com catalogo, carrinho, dados do cliente, entrega ou retirada e envio do pedido. |
+
+### Links internos do menu
+
+| Link | Destino |
+| --- | --- |
+| `/#precos` | Secao de produtos e pacotes. |
+| `/compra` | Pagina de compra. |
+| `/#sobre` | Secao sobre a empresa. |
+| `/#fotos` | Galeria de produtos/espaço. |
+| `/#contato` | Contato, mapa e WhatsApp. |
+
+## 5. Componentes do frontend
+
+### `src/main.jsx`
+
+Responsavel por importar os estilos globais, importar `App` e montar a aplicacao React no HTML.
+
+Funcao principal:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `createRoot(...).render(...)` | Liga o React ao elemento `#root` do `index.html`. |
+
+### `src/App.jsx`
+
+Controla a composicao das paginas.
+
+Funcao principal:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `App()` | Verifica se a URL e `/compra`. Se for, renderiza a pagina de compra. Caso contrario, renderiza a home completa. |
+
+Detalhe importante:
+
+- Na rota `/compra`, o `Footer` recebe `mostrarAgendamento={false}` para remover o formulario antigo de agendamento da pagina de compra.
+
+### `src/components/Header/Header.jsx`
+
+Mostra o topo fixo do site com logo, links e menu mobile.
+
+Estados e funcoes:
+
+| Nome | Tipo | Responsabilidade |
+| --- | --- | --- |
+| `open` | estado | Guarda se o menu mobile esta aberto ou fechado. |
+| `setOpen` | atualizador de estado | Alterna o menu mobile ao clicar no botao. |
+| `Header()` | componente | Renderiza logo, navegacao e botao mobile. |
+
+### `src/components/Hero/Hero.jsx`
+
+Primeira dobra da home. Mostra a logo grande, texto curto e botao para comprar pelo site.
+
+Funcao principal:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `Hero()` | Renderiza a apresentacao inicial e o link para `/compra`. |
+
+### `src/components/Sobre/Sobre.jsx`
+
+Conta a historia da Chock Trufas e passa confianca para o cliente.
+
+Funcao principal:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `Sobre()` | Renderiza a secao `#sobre`. |
+
+### `src/components/Produtos/Produtos.jsx`
+
+Mostra cards com produtos principais, imagem, preco e link para a pagina de compra.
+
+Funcao principal:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `Produtos()` | Renderiza a secao `#precos` com cards de produtos e pacotes. |
+
+Observacao:
+
+- Esta secao e vitrine da home. O catalogo que controla a compra real fica em `server/data/catalog.json`.
+
+### `src/components/Compra/Compra.jsx`
+
+Secao da home que explica a compra pelo site e leva para `/compra`.
+
+Constantes e funcoes:
+
+| Nome | Tipo | Responsabilidade |
+| --- | --- | --- |
+| `pedidosSugeridos` | constante | Lista categorias destacadas: doces para festa, salgados por cento, empadao e tortas. |
+| `Compra()` | componente | Renderiza o resumo do fluxo de compra e botao para abrir a pagina de compra. |
+
+### `src/components/Espaço/Espaço.jsx`
+
+No projeto o nome da pasta e do arquivo esta com cedilha: `Espaço/Espaço.jsx`.
+
+Mostra uma galeria com imagens de produtos e producao.
+
+Funcao principal:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `Espaço()` | Renderiza a secao `#fotos` com cards de imagens. |
+
+### `src/components/Tabela/Tabela.jsx`
+
+Mostra uma tabela simples de precos e descricoes.
+
+Funcao principal:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `Tabela()` | Renderiza a tabela visual de precos da home. |
+
+Observacao:
+
+- Assim como `Produtos`, esta tabela e vitrine. Se mudar regras ou valores do catalogo real, atualize tambem esta tabela para a home nao ficar diferente da compra.
+
+### `src/components/Footer/Footer.jsx`
+
+Mostra depoimentos, formulario opcional de agendamento, mapa, rodape e botao fixo do WhatsApp.
+
+Props, estados e funcoes:
+
+| Nome | Tipo | Responsabilidade |
+| --- | --- | --- |
+| `mostrarAgendamento` | prop | Controla se o formulario antigo de agendamento aparece. Padrao: `true`. |
+| `anoAtual` | constante | Pega o ano atual para o copyright. |
+| `enviarAgendamento(event)` | funcao | Monta uma mensagem com dados do formulario e abre o WhatsApp. |
+| `Footer()` | componente | Renderiza depoimentos, agendamento opcional, contato, mapa e WhatsApp. |
+
+### `src/components/CompraSite/CompraSite.jsx`
+
+E o componente mais importante da aplicacao. Ele controla a compra real pelo site.
+
+Estados:
+
+| Estado | Responsabilidade |
+| --- | --- |
+| `produtos` | Guarda o catalogo exibido na tela. Comeca com os produtos importados de `server/data/catalog.json` e depois tenta carregar `/api/catalog`. |
+| `itensCarrinho` | Lista cada item adicionado. Cada entrada tem `cartItemId` e `productId`, permitindo adicionar o mesmo produto mais de uma vez. |
+| `quantidades` | Guarda quantidades dos produtos comuns, separadas por `cartItemId`. |
+| `recheios` | Guarda o recheio escolhido de cada item, separado por `cartItemId`. |
+| `comboEscolhas` | Guarda escolhas de combos por item, categoria e sabor. |
+| `formaRecebimento` | Controla se o cliente escolheu `Retirada` ou `Entrega`. |
+| `statusPedido` | Mostra estado do envio: parado, enviando, sucesso ou erro. |
+
+Constantes:
+
+| Nome | Responsabilidade |
+| --- | --- |
+| `nomesCategoriaCombo` | Define nomes singular/plural para categorias de combo. |
+| `catalogoBase` | Importa o arquivo `server/data/catalog.json` para servir como base local da tela. |
+| `produtosBase` | Lista de produtos extraida de `catalogoBase.products`, usada como estado inicial e fallback se a API estiver fora do ar. |
+
+Funcoes de carregamento e busca:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `carregarCatalogo()` | Busca `/api/catalog` e atualiza a lista de produtos. Se falhar, usa `produtosBase`, que vem de `server/data/catalog.json`. |
+| `encontrarProduto(produtoId)` | Encontra um produto no catalogo carregado. |
+| `criarItemCarrinhoId(produtoId)` | Cria um ID unico para cada linha do carrinho. |
+| `obterProdutosDoCarrinho()` | Junta `itensCarrinho` com os dados completos do catalogo. |
+| `contarProdutoNoCarrinho(produtoId)` | Conta quantas vezes um produto foi adicionado ao carrinho. |
+
+Funcoes de produto e combo:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `obterCategoriasCombo(produto)` | Retorna categorias do combo, como `salgadinhos`, `docinhos`, `bolo` e `refrigerante`. |
+| `produtoTemCombo(produto)` | Verifica se o produto possui `comboRules`. |
+| `produtoTemRecheio(produto)` | Verifica se o produto possui `fillingOptions`. |
+| `produtosComQuantidadeManual()` | Retorna produtos do carrinho que precisam de quantidade digitada. |
+| `produtosComRecheio()` | Retorna produtos do carrinho que precisam de recheio escolhido. |
+| `obterRegraCombo(produto, categoria)` | Retorna o limite obrigatorio de uma categoria do combo. |
+| `somarEscolhasCombo(cartItemId, categoria)` | Soma o que o cliente ja escolheu em uma categoria. |
+| `obterStatusCategoria(produto, categoria)` | Informa se ainda falta, passou ou completou a quantidade da categoria. |
+| `obterMaximoItem(produto, categoria, item)` | Calcula o maximo permitido para um input sem passar do limite do combo. |
+
+Funcoes de texto e resumo:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `formatarTituloCategoria(categoria)` | Transforma a categoria em titulo visual. |
+| `formatarQuantidadeCategoria(categoria, quantidade)` | Escreve textos como `100 salgadinhos` ou `1 bolo`. |
+| `unirPartes(partes)` | Junta textos com virgula e `e`. |
+| `montarQuantidadeCombo(produto)` | Cria o resumo da regra do combo. Exemplo: `100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes`. |
+| `montarDetalheProduto(produto)` | Monta o detalhe exibido no card do catalogo. |
+| `formatarEscolhasCombo(items)` | Formata as escolhas feitas dentro de uma categoria. |
+| `montarResumoComboEscolhido(selectedComboItems)` | Monta resumo textual dos sabores escolhidos no combo. |
+| `montarMensagem(order)` | Cria a mensagem final enviada para o WhatsApp. |
+
+Funcoes de montagem de payload:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `montarCategoriaCombo(escolhas)` | Converte objeto de escolhas em lista `{ name, quantity }`. |
+| `montarEscolhasCombo(produto)` | Monta todas as categorias escolhidas de um produto combo. |
+
+Funcoes do carrinho:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `adicionarAoCarrinho(produtoId)` | Adiciona uma nova linha no carrinho. O mesmo produto pode ser adicionado varias vezes. |
+| `removerDoCarrinho(cartItemId)` | Remove uma linha especifica do carrinho e limpa quantidade, recheio e escolhas dela. |
+| `alterarQuantidade(cartItemId, quantidade)` | Atualiza a quantidade digitada de uma linha do carrinho. |
+| `alterarRecheio(cartItemId, recheio)` | Atualiza o recheio escolhido de uma linha do carrinho. |
+| `alterarEscolhaCombo(cartItemId, categoria, item, quantidade)` | Atualiza a quantidade de um sabor/item dentro de um combo. |
+
+Funcoes de validacao e envio:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `validarCombosSelecionados()` | Impede envio se qualquer categoria do combo nao fechar exatamente a regra. |
+| `enviarPedido(event)` | Valida campos, monta o payload, envia `POST /api/orders`, trata resposta JSON com seguranca, abre WhatsApp e limpa o carrinho. |
+
+## 6. Fluxo da pagina de compra
+
+1. A pagina tenta carregar o catalogo em `GET /api/catalog`.
+2. O cliente adiciona produtos ao carrinho pelos cards.
+3. Se o produto tiver recheio, aparece um `select` de recheio.
+4. Se o produto nao for combo, aparece input de quantidade.
+5. Se o produto for combo, aparecem categorias com inputs numericos e limite visivel.
+6. O cliente escolhe `Retirada` ou `Entrega`.
+7. Para entrega, o site exige endereco.
+8. Para retirada, o site exige dia, horario, pessoa que vai retirar e documento.
+9. O envio chama `POST /api/orders`.
+10. A API valida tudo, salva em `server/data/orders.json` e devolve o pedido criado.
+11. O frontend abre o WhatsApp com a mensagem do pedido pronta.
+
+## 7. Carrinho
+
+O carrinho fica em `CompraSite.jsx`, no estado `itensCarrinho`.
+
+Cada clique em `Adicionar` cria uma nova linha com `cartItemId` unico. Por isso o cliente consegue adicionar o mesmo produto mais de uma vez e escolher quantidade, recheio ou combo diferente em cada linha.
+
+O visual do carrinho fica em `src/components/CompraSite/CompraSite.css`, principalmente nestas classes:
+
+| Classe | Responsabilidade |
+| --- | --- |
+| `.carrinhoPedido` | Container geral do carrinho. |
+| `.carrinhoTopo` | Cabecalho com titulo e contador. |
+| `.carrinhoVazio` | Estado exibido quando nao tem item. |
+| `.carrinhoLista` | Lista com rolagem vertical quando ha muitos itens. |
+| `.carrinhoItem` | Card de cada item do pedido. |
+| `.carrinhoRemover` | Botao para remover uma linha do carrinho. |
+
+## 8. Catalogo e produtos
+
+A compra real usa `server/data/catalog.json`.
+
+Formato de um produto comum:
+
+```json
+{
+  "id": "cone-trufado",
+  "name": "Cone trufado",
+  "type": "produto",
+  "fillingOptions": ["Brigadeiro", "Beijinho"]
+}
+```
+
+Formato de um combo:
+
+```json
+{
+  "id": "pacote-festa",
+  "name": "Pacote Festa",
+  "type": "combo",
+  "comboRules": {
+    "salgadinhos": 100,
+    "docinhos": 40,
+    "bolo": 1,
+    "refrigerante": 2
+  },
+  "comboItems": {
+    "salgadinhos": ["Coxinha", "Kibe"],
+    "docinhos": ["Brigadeiro", "Beijinho"],
+    "bolo": ["Chocolate"],
+    "refrigerante": ["Coca-cola"]
+  }
+}
+```
+
+### Pacote Festa atual
+
+O `Pacote Festa` esta configurado com:
+
+- 100 salgadinhos.
+- 40 docinhos.
+- 1 bolo.
+- 2 refrigerantes.
+
+O cliente escolhe os sabores, mas o total de cada categoria precisa bater exatamente com a regra.
+
+### Como adicionar um novo produto
+
+1. Abra `server/data/catalog.json`.
+2. Adicione um objeto dentro de `products`.
+3. Use um `id` unico, sem espaco e sem acento.
+4. Use `type: "produto"` para produto comum.
+5. Se o produto tiver recheio, adicione `fillingOptions`.
+6. Se for combo, adicione `comboRules` e `comboItems`.
+7. Se quiser que apareca tambem na home, atualize `Produtos.jsx` e `Tabela.jsx`.
+
+### Como adicionar uma nova categoria de combo
+
+Hoje as categorias com nomes bonitos sao:
+
+- `salgadinhos`
+- `docinhos`
+- `bolo`
+- `refrigerante`
+
+Se criar uma categoria nova, por exemplo `tortas`, atualize tambem:
+
+- `nomesCategoriaCombo` em `src/components/CompraSite/CompraSite.jsx`.
+- `comboCategoryNames` em `server/server.js`.
+
+Se nao atualizar esses dois mapas, a categoria ainda pode funcionar, mas o texto pode aparecer menos bonito.
+
+## 9. Rotas da API
+
+Base local: `http://127.0.0.1:3001`.
+
+| Metodo | Rota | Funcao |
+| --- | --- | --- |
+| `GET` | `/api/health` | Verifica se a API esta rodando. |
+| `GET` | `/api/catalog` | Retorna os produtos do catalogo. |
+| `GET` | `/api/orders` | Retorna todos os pedidos registrados. |
+| `POST` | `/api/orders` | Registra um novo pedido. |
+| `GET` | `*` | Em producao, tenta servir `dist/index.html` para rotas do frontend. |
+
+### `GET /api/health`
+
+Resposta esperada:
+
+```json
+{
+  "ok": true,
+  "service": "chock-trufas-api"
+}
+```
+
+### `GET /api/catalog`
+
+Resposta esperada:
+
+```json
+{
+  "products": []
+}
+```
+
+### `POST /api/orders`
+
+Payload esperado:
+
+```json
+{
+  "customerName": "Cliente",
+  "phone": "21999999999",
+  "items": [
+    {
+      "productId": "cone-trufado",
+      "product": "Cone trufado",
+      "quantity": "2 unidades",
+      "filling": "Brigadeiro",
+      "selectedComboItems": null
+    }
+  ],
+  "desiredDate": "2026-05-10",
+  "deliveryMethod": "Entrega",
+  "address": "Rua exemplo, 123",
+  "pickupDate": "",
+  "pickupTime": "",
+  "pickupPerson": "",
+  "pickupDocument": "",
+  "notes": "Sem observacoes"
+}
+```
+
+Resposta de sucesso:
+
+```json
+{
+  "order": {
+    "id": "uuid-do-pedido",
+    "status": "novo",
+    "createdAt": "data-em-iso"
+  }
+}
+```
+
+Resposta de erro de validacao:
+
+```json
+{
+  "message": "Pedido invalido.",
+  "errors": ["Informe o nome do cliente."]
+}
+```
+
+## 10. Funcoes do backend
+
+Arquivo: `server/server.js`.
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `ensureOrdersFile()` | Garante que a pasta de dados e `orders.json` existam. |
+| `readOrders()` | Le pedidos do JSON e valida se o conteudo e uma lista. |
+| `saveOrders(orders)` | Salva pedidos em `server/data/orders.json`. |
+| `readCatalog()` | Le produtos de `server/data/catalog.json`. |
+| `asyncHandler(handler)` | Encapsula rotas async e manda erros para o middleware do Express. |
+| `cleanText(value)` | Converte valores para texto limpo. |
+| `findCatalogProduct(products, item)` | Encontra produto por `productId` ou nome. |
+| `getComboSummary(product)` | Retorna os itens permitidos de cada categoria do combo. |
+| `getComboRules(product)` | Normaliza regras de combo com quantidades validas. |
+| `getFillingOptions(product)` | Retorna opcoes de recheio de um produto. |
+| `sanitizeFilling(filling, catalogProduct)` | Aceita recheio somente se existir no catalogo. |
+| `sanitizeComboChoices(selectedComboItems, catalogProduct)` | Limpa escolhas de combo usando o catalogo como fonte de verdade. |
+| `sanitizeComboCategory(selectedItems, allowedItems)` | Remove itens invalidos, vazios ou fora do catalogo em uma categoria. |
+| `sumComboCategory(items)` | Soma quantidades de uma categoria de combo. |
+| `formatComboCategory(category, quantity)` | Escreve textos como `40 docinhos`. |
+| `validateComboChoices(items, errors)` | Verifica se cada categoria do combo fechou exatamente a quantidade exigida. |
+| `getComboQuantity(catalogProduct)` | Monta o texto de quantidade do combo. |
+| `formatOrderItemSummary(item)` | Monta resumo do item para compatibilidade com o campo `quantity`. |
+| `validateOrder(body, catalogProducts)` | Valida cliente, telefone, itens, recheios, combos, entrega e retirada. |
+
+Arquivo: `server/dev.js`.
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `apiIsRunning()` | Verifica se a API ja esta ativa em `3001`. |
+| `startProcess(command, args)` | Abre processos filhos, como backend e Vite. |
+| `stopProcesses()` | Encerra processos abertos pelo script. |
+| `startDev()` | Sobe API se necessario e abre o Vite. |
+
+## 11. Validacoes do pedido
+
+A validacao acontece no frontend e no backend.
+
+No frontend:
+
+- Precisa ter pelo menos um item no carrinho.
+- Produtos comuns precisam de quantidade.
+- Produtos com recheio precisam de recheio.
+- Combos precisam fechar exatamente cada categoria.
+- Entrega exige endereco.
+- Retirada exige dia, horario, pessoa e documento.
+
+No backend:
+
+- Nome precisa ter pelo menos 2 caracteres.
+- Telefone precisa ter pelo menos 8 caracteres.
+- Pedido precisa ter itens.
+- Quantidade e obrigatoria para produto comum.
+- Recheio so e aceito se existir no catalogo.
+- Combo so aceita itens existentes no catalogo.
+- Combo precisa fechar exatamente a quantidade exigida.
+- Entrega exige endereco com pelo menos 5 caracteres.
+- Retirada exige dia, horario, pessoa e documento.
+
+## 12. Erros comuns
+
+### `Servidor de pedidos indisponivel`
+
+Normalmente significa que o frontend esta aberto, mas a API nao esta rodando.
+
+Solucao:
+
+```bash
+npm run dev
+```
+
+### `EADDRINUSE: address already in use :::3001`
+
+Significa que a porta `3001` ja esta ocupada por outra API.
+
+Solucoes:
+
+- Fechar o terminal antigo que esta usando a porta.
+- Rodar `npm run dev`, porque `server/dev.js` tenta reaproveitar a API ativa.
+- Se necessario, alterar `PORT` ao iniciar a API.
+
+### `Unexpected end of JSON input`
+
+Esse erro acontecia quando o frontend tentava ler JSON vazio. O envio atual usa `response.text()` antes de fazer `JSON.parse`, entao consegue mostrar uma mensagem melhor quando a API responde vazia ou fora do formato esperado.
+
+### `Nao foi possivel registrar o pedido`
+
+Pode acontecer por validacao do pedido ou erro da API. Para descobrir a causa:
+
+1. Rode `npm run dev`.
+2. Abra `http://127.0.0.1:3001/api/health`.
+3. Verifique se `server/data/catalog.json` e `server/data/orders.json` estao com JSON valido.
+4. Confira a resposta de erro em `POST /api/orders`, porque a API retorna `errors` quando falta algum campo.
+
+## 13. Arquivos de estilo
+
+| Arquivo | Status | Responsabilidade |
+| --- | --- | --- |
+| `src/index.css` | Ativo | Variaveis, reset, `body`, links e imagens. |
+| `src/components/Header/estilo.css` | Ativo | Header fixo, navegacao e menu mobile. |
+| `src/components/Hero/estilo.css` | Ativo | Hero da home e botao principal. |
+| `src/components/Sobre/Sobre.css` | Ativo | Secao sobre a empresa. |
+| `src/components/Produtos/Produtos.css` | Ativo | Cards de produtos da home. |
+| `src/components/Compra/Compra.css` | Ativo | Chamada da home para compra pelo site. |
+| `src/components/Espaço/Espaço.css` | Ativo | Galeria de imagens. |
+| `src/components/Tabela/Tabela.css` | Ativo | Tabela de precos. |
+| `src/components/Footer/Footer.css` | Ativo | Depoimentos, agendamento, contato, mapa, rodape e WhatsApp. |
+| `src/components/CompraSite/CompraSite.css` | Ativo | Pagina de compra, carrinho, combos, formulario e responsividade da compra. |
+
+## 14. Checklist rapido depois de alterar o projeto
+
+Sempre que mexer em produto, carrinho, rota ou backend, rode:
+
+```bash
+npm run lint
+npm run build
+node --check server/dev.js
+node --check server/server.js
+```
+
+Para conferir API manualmente:
+
+```bash
+curl http://127.0.0.1:3001/api/health
+curl http://127.0.0.1:3001/api/catalog
+```

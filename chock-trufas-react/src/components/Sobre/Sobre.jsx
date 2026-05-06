@@ -1,3 +1,6 @@
+import "./Sobre.css";
+
+// Sobre conta a história da Chock Trufas e cria confiança antes da área de produtos.
 export default function Sobre() {
   return (
     <section id="sobre" className="sectionSobre">

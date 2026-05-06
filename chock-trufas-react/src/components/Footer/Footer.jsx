@@ -1,18 +1,43 @@
+import "./Footer.css";
 
+// Footer reúne depoimentos, agendamento opcional, mapa, contato e botão fixo de WhatsApp.
+export default function Footer({ mostrarAgendamento = true }) {
+  const anoAtual = new Date().getFullYear();
 
-export default function Footer() {
+  // Envia o formulário antigo de agendamento direto para WhatsApp quando ele está visível.
+  function enviarAgendamento(event) {
+    event.preventDefault();
+
+    const dados = new FormData(event.currentTarget);
+    const mensagem = [
+      "Olá, quero fazer um agendamento na Chock Trufas.",
+      `Nome: ${dados.get("nome")}`,
+      `Email: ${dados.get("email") || "Não informado"}`,
+      `Telefone: ${dados.get("telefone") || "Não informado"}`,
+      `Serviço: ${dados.get("servico")}`,
+      `Mensagem: ${dados.get("mensagem") || "Sem observações"}`,
+    ].join("\n");
+
+    window.open(
+      `https://wa.me/5521992470799?text=${encodeURIComponent(mensagem)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  }
+
   return <>
-    <section class="section">
+    {/* Depoimentos dão prova social na home e também aparecem no rodapé da compra. */}
+    <section className="depoimentosSection">
         <h2>Depoimentos</h2>
-        <div class="cardGroup">
-          <div class="card">
-            <div class="cardContent">
+        <div className="depoimentosGrid">
+          <div className="depoimentoCard">
+            <div className="depoimentoContent">
               <p>"Os melhores doces da região! Atendimento impecável."</p>
               <strong>- Juliana M.</strong>
             </div>
           </div>
-          <div class="card">
-            <div class="cardContent">
+          <div className="depoimentoCard">
+            <div className="depoimentoContent">
               <p>
                 "Fiz uma encomenda pro aniversário do meu filho e foi um
                 sucesso."
@@ -20,16 +45,16 @@ export default function Footer() {
               <strong>- Carlos R.</strong>
             </div>
           </div>
-          <div class="card">
-            <div class="cardContent">
+          <div className="depoimentoCard">
+            <div className="depoimentoContent">
               <p>
                 "As trufas são deliciosas e o atendimento é super atencioso."
               </p>
               <strong>- Ana P.</strong>
             </div>
           </div>
-          <div class="card">
-            <div class="cardContent">
+          <div className="depoimentoCard">
+            <div className="depoimentoContent">
               <p>
                 "Recomendo a todos! Produtos de qualidade e entrega rápida."
               </p>
@@ -38,44 +63,56 @@ export default function Footer() {
           </div>
         </div>
       </section>
-      <section id="agendamento" class="sectionAgendamento">
-        <div class="formularioInformes">
+      {mostrarAgendamento ? (
+      /* O formulário de agendamento fica fora da página /compra para não misturar fluxos. */
+      <section id="agendamento" className="sectionAgendamento">
+        <div className="formularioInformes">
           <h2>Agendamento</h2>
           <p>Preencha o formulário abaixo para agendar seu horário.</p>
         </div>
-        <form action="#" method="post" class="form">
-          <label for="nome">Nome</label>
+        <form className="form" onSubmit={enviarAgendamento}>
+          <label htmlFor="nome">Nome</label>
           <input type="text" id="nome" name="nome" required />
 
-          <label for="email">Email</label>
+          <label htmlFor="email">Email</label>
           <input type="email" id="email" name="email" />
 
-          <label for="telefone">Telefone</label>
+          <label htmlFor="telefone">Telefone</label>
           <input type="tel" id="telefone" name="telefone" />
 
-          <label for="servico">Serviço</label>
-          <select id="servico" name="servico" required="">
+          <label htmlFor="servico">Serviço</label>
+          <select id="servico" name="servico" required>
             <option value="">Selecione um serviço</option>
-            <option value="trufa">pacote Simples</option>
-            <option value="festa">Pacote Festa</option>
-            <option value="premium">Pacote Premium</option>
-            <option value="premium">pacote Premium especiais</option>
-            <option value="premium">Pacote Caixa de Doces</option>
-            <option value="premium">pacote festa Gourmet</option>
+            <option value="Pacote Simples">Pacote Simples</option>
+            <option value="Pacote Festa">Pacote Festa</option>
+            <option value="Pacote Premium">Pacote Premium</option>
+            <option value="Pacote Premium especiais">Pacote Premium especiais</option>
+            <option value="Pacote Caixa de Doces">Pacote Caixa de Doces</option>
+            <option value="Pacote Festa Gourmet">Pacote Festa Gourmet</option>
           </select>
 
-          <label for="mensagem">Mensagem</label>
+          <label htmlFor="mensagem">Mensagem</label>
           <textarea id="mensagem" name="mensagem" rows="4"></textarea>
 
           <button type="submit">Enviar Agendamento</button>
         </form>
       </section>
-      <section id="contato" class="sectionContato">
+      ) : null}
+      {/* Contato e mapa ajudam o cliente a confirmar a loja e falar pelo WhatsApp. */}
+      <section id="contato" className="sectionContato">
         <h2>Contato</h2>
-        <p>WhatsApp: (21) 992470799</p>
-      
+        <p>WhatsApp: (21) 99247-0799</p>
+        <iframe
+          title="Mapa da Chock Trufas"
+          className="map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3676.680316668931!2d-43.0957034!3d-22.851314!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x998535af368b87%3A0xde4cc5ffae5503a0!2sCHOCK%20TRUFAS!5e0!3m2!1spt-BR!2sbr!4v1775445835340!5m2!1spt-BR!2sbr"
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
       </section>
-      <footer>© 2025 Chock Trufas - Todos os direitos reservados.</footer>
-      <a href="https://wa.me/5521992470799" class="whatsappBtn" target="_blank">WhatsApp</a>
+      <footer>© {anoAtual} Chock Trufas - Todos os direitos reservados.</footer>
+      {/* Atalho fixo para atendimento rápido em qualquer ponto da página. */}
+      <a href="https://wa.me/5521992470799" className="whatsappBtn" target="_blank" rel="noreferrer">WhatsApp</a>
     </>
 }

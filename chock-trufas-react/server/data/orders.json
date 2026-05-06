@@ -1,0 +1,578 @@
+[
+  {
+    "id": "5a5af550-a5c8-4460-ade0-04c8c7dc0d86",
+    "status": "novo",
+    "createdAt": "2026-05-06T17:59:16.433Z",
+    "customerName": "marcelo henrique saezedas",
+    "phone": "(21) 98783-8778",
+    "items": [
+      {
+        "productId": "salgados-cento",
+        "product": "Salgados por cento",
+        "quantity": "100 salgadinhos",
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 17
+            },
+            {
+              "name": "Kibe",
+              "quantity": 16
+            },
+            {
+              "name": "Italianinho",
+              "quantity": 18
+            },
+            {
+              "name": "Bolinha de queijo",
+              "quantity": 22
+            },
+            {
+              "name": "Risole",
+              "quantity": 10
+            },
+            {
+              "name": "Enroladinho",
+              "quantity": 17
+            }
+          ]
+        }
+      },
+      {
+        "productId": "pacote-festa",
+        "product": "Pacote Festa",
+        "quantity": "100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes",
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ],
+          "docinhos": [
+            "Brigadeiro",
+            "Italianinho de chocolate",
+            "Doce de leite",
+            "Beijinho"
+          ],
+          "bolo": [
+            "Bolo de chocolate",
+            "Bolo de cenoura"
+          ],
+          "refrigerante": [
+            "Refrigerante coca-cola",
+            "Refrigerante guaraná"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100,
+          "docinhos": 40,
+          "bolo": 1,
+          "refrigerante": 2
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 10
+            },
+            {
+              "name": "Kibe",
+              "quantity": 25
+            },
+            {
+              "name": "Italianinho",
+              "quantity": 16
+            },
+            {
+              "name": "Bolinha de queijo",
+              "quantity": 32
+            },
+            {
+              "name": "Risole",
+              "quantity": 8
+            },
+            {
+              "name": "Enroladinho",
+              "quantity": 9
+            }
+          ],
+          "docinhos": [
+            {
+              "name": "Brigadeiro",
+              "quantity": 20
+            },
+            {
+              "name": "Italianinho de chocolate",
+              "quantity": 10
+            },
+            {
+              "name": "Doce de leite",
+              "quantity": 10
+            }
+          ],
+          "bolo": [
+            {
+              "name": "Bolo de chocolate",
+              "quantity": 1
+            }
+          ],
+          "refrigerante": [
+            {
+              "name": "Refrigerante coca-cola",
+              "quantity": 2
+            }
+          ]
+        }
+      },
+      {
+        "productId": "pacote-festa",
+        "product": "Pacote Festa",
+        "quantity": "100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes",
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ],
+          "docinhos": [
+            "Brigadeiro",
+            "Italianinho de chocolate",
+            "Doce de leite",
+            "Beijinho"
+          ],
+          "bolo": [
+            "Bolo de chocolate",
+            "Bolo de cenoura"
+          ],
+          "refrigerante": [
+            "Refrigerante coca-cola",
+            "Refrigerante guaraná"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100,
+          "docinhos": 40,
+          "bolo": 1,
+          "refrigerante": 2
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 2
+            },
+            {
+              "name": "Kibe",
+              "quantity": 28
+            },
+            {
+              "name": "Italianinho",
+              "quantity": 18
+            },
+            {
+              "name": "Bolinha de queijo",
+              "quantity": 20
+            },
+            {
+              "name": "Risole",
+              "quantity": 6
+            },
+            {
+              "name": "Enroladinho",
+              "quantity": 26
+            }
+          ],
+          "docinhos": [
+            {
+              "name": "Brigadeiro",
+              "quantity": 30
+            },
+            {
+              "name": "Beijinho",
+              "quantity": 10
+            }
+          ],
+          "bolo": [
+            {
+              "name": "Bolo de chocolate",
+              "quantity": 1
+            }
+          ],
+          "refrigerante": [
+            {
+              "name": "Refrigerante guaraná",
+              "quantity": 2
+            }
+          ]
+        }
+      },
+      {
+        "productId": "salgados-cento",
+        "product": "Salgados por cento",
+        "quantity": "100 salgadinhos",
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 19
+            },
+            {
+              "name": "Bolinha de queijo",
+              "quantity": 20
+            },
+            {
+              "name": "Risole",
+              "quantity": 20
+            },
+            {
+              "name": "Italianinho",
+              "quantity": 20
+            },
+            {
+              "name": "Kibe",
+              "quantity": 10
+            },
+            {
+              "name": "Enroladinho",
+              "quantity": 11
+            }
+          ]
+        }
+      }
+    ],
+    "products": [
+      "Salgados por cento",
+      "Pacote Festa",
+      "Pacote Festa",
+      "Salgados por cento"
+    ],
+    "quantity": "Salgados por cento: 100 salgadinhos, Pacote Festa: 100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes, Pacote Festa: 100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes, Salgados por cento: 100 salgadinhos",
+    "desiredDate": "2026-04-28",
+    "deliveryMethod": "Entrega",
+    "address": "R MAL FLORIANO PEIXOTO",
+    "pickupDate": "",
+    "pickupTime": "",
+    "pickupPerson": "",
+    "pickupDocument": "",
+    "notes": ""
+  },
+  {
+    "id": "df654baf-7a88-444d-a320-3d06927d7325",
+    "status": "novo",
+    "createdAt": "2026-05-06T15:33:25.601Z",
+    "customerName": "Marcelo Henrique Sarzedas Justo",
+    "phone": "21987838778",
+    "items": [
+      {
+        "productId": "barra-chocolate",
+        "product": "Barra de Chocolate",
+        "quantity": "1",
+        "type": "produto",
+        "fillingOptions": [
+          "Brigadeiro",
+          "Beijinho",
+          "Doce de leite",
+          "Doce de leite com coco"
+        ],
+        "filling": "Beijinho",
+        "comboItems": null,
+        "comboRules": null,
+        "selectedComboItems": null
+      }
+    ],
+    "products": [
+      "Barra de Chocolate"
+    ],
+    "quantity": "Barra de Chocolate: 1 - Recheio: Beijinho",
+    "desiredDate": "",
+    "deliveryMethod": "Entrega",
+    "address": "Rua Marechal Floriano Peixoto",
+    "pickupDate": "",
+    "pickupTime": "",
+    "pickupPerson": "",
+    "pickupDocument": "",
+    "notes": ""
+  },
+  {
+    "id": "00ff906d-5d2a-4192-b27c-1dcb0880fa75",
+    "status": "novo",
+    "createdAt": "2026-05-06T14:57:58.203Z",
+    "customerName": "Marcelo Henrique Sarzedas Justo",
+    "phone": "21987838778",
+    "items": [
+      {
+        "productId": "pacote-festa",
+        "product": "Pacote Festa",
+        "quantity": "30 salgadinhos e 15 docinhos",
+        "type": "combo",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ],
+          "docinhos": [
+            "Brigadeiro",
+            "Italianinho de chocolate",
+            "Italianinho de doce de leite",
+            "Beijinho"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 30,
+          "docinhos": 15
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 7
+            },
+            {
+              "name": "Italianinho",
+              "quantity": 6
+            },
+            {
+              "name": "Kibe",
+              "quantity": 3
+            },
+            {
+              "name": "Bolinha de queijo",
+              "quantity": 5
+            },
+            {
+              "name": "Risole",
+              "quantity": 5
+            },
+            {
+              "name": "Enroladinho",
+              "quantity": 4
+            }
+          ],
+          "docinhos": [
+            {
+              "name": "Brigadeiro",
+              "quantity": 5
+            },
+            {
+              "name": "Italianinho de chocolate",
+              "quantity": 5
+            },
+            {
+              "name": "Italianinho de doce de leite",
+              "quantity": 5
+            }
+          ]
+        }
+      }
+    ],
+    "products": [
+      "Pacote Festa"
+    ],
+    "quantity": "Pacote Festa: 30 salgadinhos e 15 docinhos",
+    "desiredDate": "",
+    "deliveryMethod": "Entrega",
+    "address": "Rua Marechal Floriano Peixoto Covanca",
+    "pickupDate": "",
+    "pickupTime": "",
+    "pickupPerson": "",
+    "pickupDocument": "",
+    "notes": ""
+  },
+  {
+    "id": "d613f086-ea55-4cf2-a24f-c87891ea38b1",
+    "status": "novo",
+    "createdAt": "2026-05-06T14:22:18.563Z",
+    "customerName": "Marcelo Henrique Sarzedas Justo",
+    "phone": "21987838778",
+    "items": [
+      {
+        "productId": "pacote-festa",
+        "product": "Pacote Festa",
+        "quantity": "20 salgadinhos e 10 docinhos",
+        "type": "combo",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ],
+          "docinhos": [
+            "Brigadeiro",
+            "Italianinho de chocolate",
+            "Italianinho de doce de leite",
+            "Beijinho"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 20,
+          "docinhos": 10
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 6
+            },
+            {
+              "name": "Kibe",
+              "quantity": 4
+            },
+            {
+              "name": "Italianinho",
+              "quantity": 6
+            },
+            {
+              "name": "Bolinha de queijo",
+              "quantity": 4
+            }
+          ],
+          "docinhos": [
+            {
+              "name": "Brigadeiro",
+              "quantity": 2
+            },
+            {
+              "name": "Italianinho de chocolate",
+              "quantity": 5
+            },
+            {
+              "name": "Doce de leite",
+              "quantity": 3
+            }
+          ]
+        }
+      }
+    ],
+    "products": [
+      "Pacote Festa"
+    ],
+    "quantity": "Pacote Festa: 20 salgadinhos e 10 docinhos",
+    "desiredDate": "2026-05-06",
+    "deliveryMethod": "Entrega",
+    "address": "Rua Marechal Floriano Peixoto Covanca",
+    "pickupDate": "",
+    "pickupTime": "",
+    "pickupPerson": "",
+    "pickupDocument": "",
+    "notes": ""
+  },
+  {
+    "id": "232595b9-9ac9-464f-8674-e3353a0b7c1d",
+    "status": "novo",
+    "createdAt": "2026-05-06T12:46:48.011Z",
+    "customerName": "aline",
+    "phone": "21987838778",
+    "items": [
+      {
+        "product": "Cone trufado",
+        "quantity": "10"
+      },
+      {
+        "product": "Doces para festa",
+        "quantity": "20"
+      },
+      {
+        "product": "Pacote Festa",
+        "quantity": "12"
+      },
+      {
+        "product": "Italianilho",
+        "quantity": "10"
+      },
+      {
+        "product": "Barra de Chocolate",
+        "quantity": "10"
+      },
+      {
+        "product": "Alfajor Maria",
+        "quantity": "8"
+      },
+      {
+        "product": "Empadao",
+        "quantity": "4"
+      },
+      {
+        "product": "Salgados por cento",
+        "quantity": "1"
+      }
+    ],
+    "products": [
+      "Cone trufado",
+      "Doces para festa",
+      "Pacote Festa",
+      "Italianilho",
+      "Barra de Chocolate",
+      "Alfajor Maria",
+      "Empadao",
+      "Salgados por cento"
+    ],
+    "quantity": "Cone trufado: 10, Doces para festa: 20, Pacote Festa: 12, Italianilho: 10, Barra de Chocolate: 10, Alfajor Maria: 8, Empadao: 4, Salgados por cento: 1",
+    "desiredDate": "2026-05-06",
+    "deliveryMethod": "Entrega",
+    "notes": "rua asas do ceu numero 36"
+  },
+  {
+    "id": "cf7dbd73-7990-45d0-a0e9-1a995cd23315",
+    "status": "novo",
+    "createdAt": "2026-05-06T00:29:14.098Z",
+    "customerName": "geladeira",
+    "phone": "21987838778",
+    "products": [
+      "Cone trufado",
+      "Barra de Chocolate",
+      "Alfajor Maria"
+    ],
+    "quantity": "10",
+    "desiredDate": "",
+    "deliveryMethod": "Entrega",
+    "notes": ""
+  }
+]

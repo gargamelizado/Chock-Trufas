@@ -1,0 +1,147 @@
+{
+  "products": [
+    {
+      "id": "cone-trufado",
+      "name": "Cone trufado",
+      "type": "produto",
+      "fillingOptions": [
+        "Brigadeiro",
+        "Beijinho",
+        "Doce de leite",
+        "Doce de leite com coco",
+        "Negresco",
+        "Oreo",
+        "Paçoca",
+        "Ninho com Nutella"
+      ]
+    },
+    {
+      "id": "barra-chocolate",
+      "name": "Barra de Chocolate",
+      "type": "produto",
+      "fillingOptions": [
+        "Brigadeiro",
+        "Beijinho",
+        "Doce de leite",
+        "Doce de leite com coco",
+        "Negresco",
+        "Oreo",
+        "Paçoca",
+        "Ninho com Nutella"
+      ]
+    },
+    {
+      "id": "alfajor-maria",
+      "name": "Alfajor Maria",
+      "type": "produto",
+      "fillingOptions": [
+        "Brigadeiro",
+        "Beijinho",
+        "Doce de leite",
+        "Doce de leite com coco"
+      ]
+    },
+    {
+      "id": "italianilho",
+      "name": "Italianilho",
+      "type": "produto",
+      "fillingOptions":[
+        "Misto(queijo com presuto)",
+        "Palmito",
+        "Frango",
+        "Camarão",
+        "Chocolate",
+        "doce de leite",
+        "beijinho"
+
+      ]
+    },
+    {
+      "id": "pacote-festa",
+      "name": "Pacote Festa",
+      "type": "combo",
+      "comboRules": {
+        "salgadinhos": 100,
+        "docinhos": 40,
+        "bolo": 1,
+        "refrigerante": 2
+      },
+      "comboItems": {
+        "salgadinhos": [
+          "Coxinha",
+          "Kibe",
+          "Italianinho",
+          "Bolinha de queijo",
+          "Risole",
+          "Enroladinho"
+        ],
+        "docinhos": [
+          "Brigadeiro",
+          "Italianinho de chocolate",
+          "Doce de leite",
+          "Beijinho"
+        ],
+        "bolo": [
+          "Chocolate",
+          "Cenoura",
+          "Leite ninho",
+          "Doce de leite",
+          "Ferreiro rocher",
+          "Prestígio"
+        ],
+        "refrigerante": [
+          "Coca-cola",
+          "Guaraná",
+          "Fanta laranja",
+          "Fanta uva",
+          "Sprite",
+          "Pepsi"
+        ]
+      }
+    },
+    {
+      "id": "empadao",
+      "name": "Empadao",
+      "type": "produto",
+      "fillingOptions": [
+        "Frango",
+        "Palmito",
+        "Camarão"
+      ]
+    },
+    {
+      "id": "doces-festa",
+      "name": "Doces para festa",
+      "type": "produto",
+      "comboRules": {
+        "docinhos": 50
+      },
+      "comboItems": {
+        "docinhos": [
+          "Brigadeiro",
+          "Italianinho de chocolate",
+          "Doce de leite",
+          "Beijinho"
+        ]
+      }
+    },
+    {
+      "id": "salgados-cento",
+      "name": "Salgados por cento",
+      "type": "produto",
+      "comboRules": {
+        "salgadinhos": 100
+      },
+      "comboItems": {
+        "salgadinhos": [
+          "Coxinha",
+          "Kibe",
+          "Italianinho",
+          "Bolinha de queijo",
+          "Risole",
+          "Enroladinho"
+        ]
+      }
+    }
+  ]
+}

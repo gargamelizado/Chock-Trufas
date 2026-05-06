@@ -1,10 +1,12 @@
-import React from 'react'
+import "./Tabela.css";
 
+// Tabela resume preços e descrições para quem quer comparar antes de comprar.
 export default function Tabela() {
   return (
     <section className="tabelaPreco">
         <h2>Tabela de Preços</h2>
         <div className="tabela">
+          {/* Tabela fica com rolagem horizontal no mobile para preservar leitura. */}
           <table>
             <thead>
               <tr>
@@ -15,34 +17,34 @@ export default function Tabela() {
             </thead>
             <tbody>
               <tr>
-                <td>pacote Simples</td>
-                <td>R$29</td>
-                <td>Ideal para lembrancinhas ou pequenas festas.</td>
+                <td>Cone trufado</td>
+                <td>R$10</td>
+                <td>Cone trufado com recheio de chocolate.</td>
+              </tr>
+              <tr>
+                <td>Barra de Chocolate</td>
+                <td>R$12</td>
+                <td>Barra de chocolate ao leite com recheio cremoso.</td>
+              </tr>
+              <tr>
+                <td>Alfajor Maria</td>
+                <td>R$12</td>
+                <td>Alfajor com doce de leite e cobertura de chocolate.</td>
+              </tr>
+              <tr>
+                <td>Italianilho</td>
+                <td>R$1.20</td>
+                <td>Salgadinho com recheio de queijo e presunto.</td>
               </tr>
               <tr>
                 <td>Pacote Festa</td>
-                <td>R$39</td>
-                <td>Combo com variedade de sabores para festas.</td>
+                <td>R$79.90</td>
+                <td>100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes escolhidos pelo cliente.</td>
               </tr>
               <tr>
-                <td>Pacote Premium</td>
-                <td>R$49</td>
-                <td>Embalagens personalizadas e entrega agendada.</td>
-              </tr>
-              <tr>
-                <td>pacote Premium especiais</td>
-                <td>R$59</td>
-                <td>Trufas recheadas com ingredientes especiais.</td>
-              </tr>
-              <tr>
-                <td>Pacote Caixa de Doces</td>
-                <td>R$69</td>
-                <td>Caixa com uma seleção de nossos melhores doces.</td>
-              </tr>
-              <tr>
-                <td>pacote festa Gourmet</td>
-                <td>R$79</td>
-                <td>Inclui trufas, salgados e bebidas.</td>
+                <td>Empadao</td>
+                <td>R$10.00</td>
+                <td>Empadao de frango com massa crocante.</td>
               </tr>
             </tbody>
           </table>
