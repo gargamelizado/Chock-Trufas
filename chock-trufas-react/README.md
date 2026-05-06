@@ -5,6 +5,7 @@ Aplicação React + Vite com uma API Express simples para registrar pedidos pelo
 ## Documentação
 
 A documentação completa do site, componentes, funções, rotas, backend e catálogo está em [`DOCUMENTACAO.md`](./DOCUMENTACAO.md).
+Ela também contém a última verificação executada no projeto.
 
 ## Como rodar
 
@@ -29,8 +30,21 @@ O comando `npm run dev` sobe o frontend e o backend juntos:
 
 ## Dados
 
-- Catálogo: `server/data/catalog.json`
+- Catálogo da API: `server/data/catalog.json`
+- Catálogo base do frontend: `src/data/catalog.json`
 - Pedidos registrados: `server/data/orders.json`
 
-O Pacote Festa está configurado no catálogo como 100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes.
+O Pacote Festa está configurado no catálogo como 100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes.
 Cone trufado, Barra de Chocolate e Alfajor Maria exigem escolha de recheio no pedido.
+Na entrega, o formulário possui busca de CEP pela ViaCEP para preencher rua, bairro, cidade e UF.
+
+## Verificação rápida
+
+Depois de alterar o site, rode:
+
+```bash
+npm run lint
+npm run build
+node --check server/server.js
+node --check server/dev.js
+```

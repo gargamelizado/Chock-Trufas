@@ -19,14 +19,18 @@ O projeto e uma aplicacao React com Vite no frontend e uma API Express simples n
 | `src/main.jsx` | Ponto de entrada do React. Renderiza o `App` dentro da `div#root`. |
 | `src/App.jsx` | Decide qual pagina mostrar: home `/` ou compra `/compra`. |
 | `src/index.css` | Variaveis, reset e base global. |
+| `src/data/catalog.json` | Catalogo base importado pelo frontend antes de carregar a API. |
 | `src/components/*/*.css` | CSS separado por componente, sempre ao lado do JSX correspondente. |
 | `src/components/Header/estilo.css` | CSS ativo do Header. |
 | `src/components/Hero/estilo.css` | CSS ativo do Hero. |
 | `server/server.js` | API Express, rotas, validacoes e persistencia de pedidos. |
 | `server/dev.js` | Script que sobe frontend e backend juntos com `npm run dev`. |
-| `server/data/catalog.json` | Catalogo real usado pela API e carregado pela pagina de compra. |
+| `server/data/catalog.json` | Catalogo real usado pela API para validar produtos, combos e valores. |
 | `server/data/orders.json` | Lista de pedidos registrados. |
 | `vite.config.js` | Configura o React no Vite e o proxy `/api` para a API local. |
+| `vercel.json` | Rewrite para `/compra` abrir a aplicacao React em deploy estatico. |
+
+Observacao sobre a raiz do repositorio: existem `../index.html` e `../css/style.css` fora da pasta `chock-trufas-react`. Eles parecem ser uma versao estatica antiga. A aplicacao principal atual e esta pasta React/Vite com backend Express.
 
 ## 3. Scripts
 
@@ -45,7 +49,7 @@ O projeto nao usa React Router. A rota e decidida em `src/App.jsx` com `window.l
 
 | Rota | Componente principal | Conteudo |
 | --- | --- | --- |
-| `/` | `App` com componentes da home | Header, Hero, Sobre, Produtos, Compra, Espaço, Tabela e Footer. |
+| `/` | `App` com componentes da home | Header, Hero, Sobre, Produtos, Compra, Espaco, Tabela e Footer. |
 | `/compra` | `CompraSite` | Pagina completa de compra com catalogo, carrinho, dados do cliente, entrega ou retirada e envio do pedido. |
 
 ### Links internos do menu
@@ -128,7 +132,7 @@ Funcao principal:
 
 Observacao:
 
-- Esta secao e vitrine da home. O catalogo que controla a compra real fica em `server/data/catalog.json`.
+- Esta secao e vitrine da home. Os precos iniciais vêm de `src/data/catalog.json`, e a compra real e validada pela API usando `server/data/catalog.json`.
 
 ### `src/components/Compra/Compra.jsx`
 
@@ -141,9 +145,7 @@ Constantes e funcoes:
 | `pedidosSugeridos` | constante | Lista categorias destacadas: doces para festa, salgados por cento, empadao e tortas. |
 | `Compra()` | componente | Renderiza o resumo do fluxo de compra e botao para abrir a pagina de compra. |
 
-### `src/components/Espaço/Espaço.jsx`
-
-No projeto o nome da pasta e do arquivo esta com cedilha: `Espaço/Espaço.jsx`.
+### `src/components/Espaco/Espaco.jsx`
 
 Mostra uma galeria com imagens de produtos e producao.
 
@@ -151,7 +153,7 @@ Funcao principal:
 
 | Funcao | Responsabilidade |
 | --- | --- |
-| `Espaço()` | Renderiza a secao `#fotos` com cards de imagens. |
+| `Espaco()` | Renderiza a secao `#fotos` com cards de imagens. |
 
 ### `src/components/Tabela/Tabela.jsx`
 
@@ -188,12 +190,14 @@ Estados:
 
 | Estado | Responsabilidade |
 | --- | --- |
-| `produtos` | Guarda o catalogo exibido na tela. Comeca com os produtos importados de `server/data/catalog.json` e depois tenta carregar `/api/catalog`. |
+| `produtos` | Guarda o catalogo exibido na tela. Comeca com os produtos importados de `src/data/catalog.json` e depois tenta carregar `/api/catalog`. |
 | `itensCarrinho` | Lista cada item adicionado. Cada entrada tem `cartItemId` e `productId`, permitindo adicionar o mesmo produto mais de uma vez. |
 | `quantidades` | Guarda quantidades dos produtos comuns, separadas por `cartItemId`. |
 | `recheios` | Guarda o recheio escolhido de cada item, separado por `cartItemId`. |
 | `comboEscolhas` | Guarda escolhas de combos por item, categoria e sabor. |
 | `formaRecebimento` | Controla se o cliente escolheu `Retirada` ou `Entrega`. |
+| `enderecoEntrega` | Guarda CEP, rua, numero, bairro, cidade, UF, complemento e referencia da entrega. |
+| `statusCep` | Mostra se a busca do CEP esta parada, buscando, com sucesso ou com erro. |
 | `statusPedido` | Mostra estado do envio: parado, enviando, sucesso ou erro. |
 
 Constantes:
@@ -201,19 +205,30 @@ Constantes:
 | Nome | Responsabilidade |
 | --- | --- |
 | `nomesCategoriaCombo` | Define nomes singular/plural para categorias de combo. |
-| `catalogoBase` | Importa o arquivo `server/data/catalog.json` para servir como base local da tela. |
+| `catalogoBase` | Importa o arquivo `src/data/catalog.json` para servir como base local da tela. |
 | `produtosBase` | Lista de produtos extraida de `catalogoBase.products`, usada como estado inicial e fallback se a API estiver fora do ar. |
 | `formasPagamento` | Lista as formas aceitas quando o pedido for para entrega: Pix, dinheiro no recebimento e cartao no recebimento. |
+| `enderecoEntregaInicial` | Estado inicial usado para limpar o formulario de endereco depois do envio. |
 
 Funcoes de carregamento e busca:
 
 | Funcao | Responsabilidade |
 | --- | --- |
-| `carregarCatalogo()` | Busca `/api/catalog` e atualiza a lista de produtos. Se falhar, usa `produtosBase`, que vem de `server/data/catalog.json`. |
+| `carregarCatalogo()` | Busca `/api/catalog` e atualiza a lista de produtos. Se falhar, usa `produtosBase`, que vem de `src/data/catalog.json`. |
 | `encontrarProduto(produtoId)` | Encontra um produto no catalogo carregado. |
 | `criarItemCarrinhoId(produtoId)` | Cria um ID unico para cada linha do carrinho. |
 | `obterProdutosDoCarrinho()` | Junta `itensCarrinho` com os dados completos do catalogo. |
 | `contarProdutoNoCarrinho(produtoId)` | Conta quantas vezes um produto foi adicionado ao carrinho. |
+
+Funcoes de CEP e endereco:
+
+| Funcao | Responsabilidade |
+| --- | --- |
+| `limparCep(cep)` | Remove tudo que nao for numero e limita o CEP a 8 digitos. |
+| `formatarCep(cep)` | Aplica a mascara `00000-000` no CEP digitado. |
+| `alterarEnderecoEntrega(campo, valor)` | Atualiza um campo do endereco de entrega. |
+| `buscarEnderecoPeloCep()` | Consulta `https://viacep.com.br/ws/{cep}/json/` e preenche rua, bairro, cidade e UF. |
+| `montarEnderecoEntrega()` | Junta os campos de endereco em uma string unica enviada ao backend. |
 
 Funcoes de produto e combo:
 
@@ -243,7 +258,7 @@ Funcoes de texto e resumo:
 | `formatarTituloCategoria(categoria)` | Transforma a categoria em titulo visual. |
 | `formatarQuantidadeCategoria(categoria, quantidade)` | Escreve textos como `100 salgadinhos` ou `1 bolo`. |
 | `unirPartes(partes)` | Junta textos com virgula e `e`. |
-| `montarQuantidadeCombo(produto)` | Cria o resumo da regra do combo. Exemplo: `100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes`. |
+| `montarQuantidadeCombo(produto)` | Cria o resumo da regra do combo. Exemplo: `100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes`. |
 | `montarDetalheProduto(produto)` | Monta o detalhe exibido no card do catalogo. |
 | `formatarEscolhasCombo(items)` | Formata as escolhas feitas dentro de uma categoria. |
 | `montarResumoComboEscolhido(selectedComboItems)` | Monta resumo textual dos sabores escolhidos no combo. |
@@ -282,12 +297,13 @@ Funcoes de validacao e envio:
 5. Se o produto for combo, aparecem categorias com inputs numericos e limite visivel.
 6. O cliente escolhe `Retirada` ou `Entrega`.
 7. Se escolher entrega, o cliente escolhe a forma de pagamento.
-8. Para entrega, o site exige endereco.
-9. Para retirada, o site exige dia, horario, pessoa que vai retirar e documento.
-10. O carrinho calcula preco unitario, subtotal e total usando `price` do catalogo.
-11. O envio chama `POST /api/orders`.
-12. A API valida tudo, recalcula valores pelo catalogo, salva em `server/data/orders.json` e devolve o pedido criado.
-13. O frontend abre o WhatsApp com a mensagem do pedido pronta.
+8. Para entrega, o site exige CEP, rua, numero, bairro, cidade e UF.
+9. Ao digitar ou sair do campo CEP, o site pode consultar a ViaCEP e preencher dados de endereco automaticamente.
+10. Para retirada, o site exige dia, horario, pessoa que vai retirar e documento.
+11. O carrinho calcula preco unitario, subtotal e total usando `price` do catalogo.
+12. O envio chama `POST /api/orders`.
+13. A API valida tudo, recalcula valores pelo catalogo, salva em `server/data/orders.json` e devolve o pedido criado.
+14. O frontend abre o WhatsApp com a mensagem do pedido pronta.
 
 ## 7. Carrinho
 
@@ -306,9 +322,28 @@ O visual do carrinho fica em `src/components/CompraSite/CompraSite.css`, princip
 | `.carrinhoItem` | Card de cada item do pedido. |
 | `.carrinhoRemover` | Botao para remover uma linha do carrinho. |
 
+## 7.1. CEP e endereco de entrega
+
+A busca de CEP fica no frontend, dentro de `src/components/CompraSite/CompraSite.jsx`.
+
+Quando o cliente escolhe `Entrega`, aparecem os campos:
+
+- CEP.
+- Rua.
+- Numero.
+- Bairro.
+- Cidade.
+- UF.
+- Complemento.
+- Ponto de referencia.
+
+O cliente pode digitar o CEP e sair do campo, ou clicar em `Buscar CEP`. O site consulta a ViaCEP e preenche automaticamente rua, bairro, cidade e UF quando o CEP e encontrado. Numero, complemento e referencia continuam manuais porque normalmente nao vêm da API.
+
+O backend continua recebendo `address` como texto unico. Esse texto e montado por `montarEnderecoEntrega()` antes de enviar o pedido.
+
 ## 8. Catalogo e produtos
 
-A compra real usa `server/data/catalog.json`.
+A compra real usa `server/data/catalog.json` no backend. O frontend usa `src/data/catalog.json` como base inicial e substitui pelos dados de `/api/catalog` quando a API esta disponivel.
 
 Formato de um produto comum:
 
@@ -332,7 +367,7 @@ Formato de um combo:
   "price": 500,
   "comboRules": {
     "salgadinhos": 100,
-    "docinhos": 40,
+    "docinhos": 50,
     "bolo": 1,
     "refrigerante": 2
   },
@@ -350,7 +385,7 @@ Formato de um combo:
 O `Pacote Festa` esta configurado com:
 
 - 100 salgadinhos.
-- 40 docinhos.
+- 50 docinhos.
 - 1 bolo.
 - 2 refrigerantes.
 
@@ -358,8 +393,8 @@ O cliente escolhe os sabores, mas o total de cada categoria precisa bater exatam
 
 ### Como adicionar um novo produto
 
-1. Abra `server/data/catalog.json`.
-2. Adicione um objeto dentro de `products`.
+1. Abra `server/data/catalog.json` e `src/data/catalog.json`.
+2. Adicione o mesmo objeto dentro de `products` nos dois arquivos.
 3. Use um `id` unico, sem espaco e sem acento.
 4. Use `type: "produto"` para produto comum.
 5. Se o produto tiver recheio, adicione `fillingOptions`.
@@ -390,9 +425,13 @@ Base local: `http://127.0.0.1:3001`.
 | --- | --- | --- |
 | `GET` | `/api/health` | Verifica se a API esta rodando. |
 | `GET` | `/api/catalog` | Retorna os produtos do catalogo. |
-| `GET` | `/api/orders` | Retorna todos os pedidos registrados. |
+| `GET` | `/api/orders` | Retorna pedidos somente com `ORDERS_ADMIN_TOKEN` e header `x-admin-token`. Sem token, responde 404. |
 | `POST` | `/api/orders` | Registra um novo pedido. |
 | `GET` | `*` | Em producao, tenta servir `dist/index.html` para rotas do frontend. |
+
+### `GET /api/orders`
+
+Esta rota nao fica aberta para visitantes. Para consultar pedidos, configure `ORDERS_ADMIN_TOKEN` no ambiente da API e envie o mesmo valor no header `x-admin-token`.
 
 ### `GET /api/health`
 
@@ -493,7 +532,7 @@ Arquivo: `server/server.js`.
 | `sanitizeComboChoices(selectedComboItems, catalogProduct)` | Limpa escolhas de combo usando o catalogo como fonte de verdade. |
 | `sanitizeComboCategory(selectedItems, allowedItems)` | Remove itens invalidos, vazios ou fora do catalogo em uma categoria. |
 | `sumComboCategory(items)` | Soma quantidades de uma categoria de combo. |
-| `formatComboCategory(category, quantity)` | Escreve textos como `40 docinhos`. |
+| `formatComboCategory(category, quantity)` | Escreve textos como `50 docinhos`. |
 | `validateComboChoices(items, errors)` | Verifica se cada categoria do combo fechou exatamente a quantidade exigida. |
 | `getComboQuantity(catalogProduct)` | Monta o texto de quantidade do combo. |
 | `formatOrderItemSummary(item)` | Monta resumo do item para compatibilidade com o campo `quantity`. |
@@ -518,7 +557,7 @@ No frontend:
 - Produtos comuns precisam de quantidade.
 - Produtos com recheio precisam de recheio.
 - Combos precisam fechar exatamente cada categoria.
-- Entrega exige endereco.
+- Entrega exige CEP, rua, numero, bairro, cidade e UF no frontend.
 - Retirada exige dia, horario, pessoa e documento.
 
 No backend:
@@ -580,7 +619,7 @@ Pode acontecer por validacao do pedido ou erro da API. Para descobrir a causa:
 | `src/components/Sobre/Sobre.css` | Ativo | Secao sobre a empresa. |
 | `src/components/Produtos/Produtos.css` | Ativo | Cards de produtos da home. |
 | `src/components/Compra/Compra.css` | Ativo | Chamada da home para compra pelo site. |
-| `src/components/Espaço/Espaço.css` | Ativo | Galeria de imagens. |
+| `src/components/Espaco/Espaco.css` | Ativo | Galeria de imagens. |
 | `src/components/Tabela/Tabela.css` | Ativo | Tabela de precos. |
 | `src/components/Footer/Footer.css` | Ativo | Depoimentos, agendamento, contato, mapa, rodape e WhatsApp. |
 | `src/components/CompraSite/CompraSite.css` | Ativo | Pagina de compra, carrinho, combos, formulario e responsividade da compra. |
@@ -602,3 +641,58 @@ Para conferir API manualmente:
 curl http://127.0.0.1:3001/api/health
 curl http://127.0.0.1:3001/api/catalog
 ```
+
+## 15. Verificacao completa executada
+
+Ultima verificacao: 2026-05-06.
+
+### Resultado geral
+
+O site React/Vite, a pagina `/compra`, o catalogo, o backend e o fluxo basico de pedido foram verificados por comando. A verificacao visual fina ainda deve ser feita no navegador, principalmente em celular, porque isso depende de olhar a interface renderizada.
+
+### Comandos executados
+
+| Verificacao | Resultado |
+| --- | --- |
+| `npm run lint` | Passou sem erros. |
+| `npm run build` | Passou e gerou `dist/`. |
+| `node --check server/server.js` | Passou sem erro de sintaxe. |
+| `node --check server/dev.js` | Passou sem erro de sintaxe. |
+| JSON de `server/data/catalog.json` | Valido. |
+| JSON de `src/data/catalog.json` | Valido. |
+| JSON de `server/data/orders.json` | Valido. |
+| Comparacao `server/data/catalog.json` x `src/data/catalog.json` | Iguais no momento da verificacao. |
+| `GET /` no Vite local | Respondeu 200. |
+| `GET /compra` no Vite local | Respondeu 200. |
+| `GET /api/catalog` via proxy do Vite | Respondeu 200. |
+| `GET /api/health` em API temporaria | Respondeu 200. |
+| `GET /api/catalog` em API temporaria | Respondeu 200. |
+| `GET /api/orders` sem token | Respondeu 404, como esperado. |
+| `GET /api/orders` com `x-admin-token` correto | Respondeu 200. |
+| `POST /api/orders` invalido | Respondeu 400 com lista de erros. |
+| `POST /api/orders` valido | Respondeu 201, recalculou o total pelo backend e salvou o pedido. |
+| `GET https://viacep.com.br/ws/01001000/json/` | Respondeu com dados de CEP. |
+
+O pedido criado durante o teste foi removido de `server/data/orders.json` depois da verificacao.
+
+### Pontos revisados
+
+- Home carrega com Header, Hero, Sobre, Produtos, Compra, Espaco, Tabela e Footer.
+- `/compra` carrega com Header, CompraSite e Footer sem formulario antigo de agendamento.
+- Carrinho permite adicionar o mesmo produto mais de uma vez.
+- Produtos comuns exigem quantidade e, quando configurado, recheio.
+- Combos exigem que as categorias fechem exatamente a regra do catalogo.
+- Forma de pagamento aparece e e obrigatoria somente para entrega.
+- Campo de CEP consulta a ViaCEP e preenche endereco da entrega.
+- Retirada exige dia, horario, pessoa que vai retirar e documento.
+- Backend recalcula preco unitario, subtotal e total usando `server/data/catalog.json`.
+- Rota publica de pedidos nao expoe `orders.json` sem token.
+- CSS dos componentes esta separado ao lado de cada JSX.
+- Pasta antiga com acento foi trocada para `src/components/Espaco`.
+
+### Atencao antes de publicar
+
+- Configure `ORDERS_ADMIN_TOKEN` no ambiente se for consultar pedidos pela rota `GET /api/orders`.
+- Em deploy estatico, confirme se o provedor respeita `vercel.json` ou configure rewrite equivalente para `/compra`.
+- Se alterar produtos, mantenha `server/data/catalog.json` e `src/data/catalog.json` sincronizados.
+- Faça uma passada visual no navegador em desktop e celular para confirmar espacos, rolagem do carrinho e formulario do rodape.

@@ -6,7 +6,7 @@ import Compra from "./components/Compra/Compra";
 import CompraSite from "./components/CompraSite/CompraSite";
 import Footer from "./components/Footer/Footer";
 import Tabela from "./components/Tabela/Tabela";
-import Espaço from "./components/Espaço/Espaço";
+import Espaco from "./components/Espaco/Espaco";
 
 // App controla a composição das páginas: site institucional na raiz e compra em /compra.
 function App() {
@@ -32,7 +32,7 @@ function App() {
       <Sobre />
       <Produtos />
       <Compra />
-      <Espaço />
+      <Espaco />
       <Tabela />
       <Footer />
     </>

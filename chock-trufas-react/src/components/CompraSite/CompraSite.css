@@ -99,9 +99,7 @@
 }
 
 .catalogoProdutos,
-.grupoEntrega,
-.grupoQuantidades,
-.grupoRecheios {
+.grupoEntrega {
   border: 0;
   margin: 0 0 1rem;
 }
@@ -177,15 +175,6 @@
   margin-top: 0.6rem;
   color: var(--color-tertiary);
   font-size: 1rem;
-}
-
-.catalogoCard em {
-  display: inline-block;
-  margin-top: 0.65rem;
-  color: var(--color-tertiary);
-  font-size: 0.84rem;
-  font-style: normal;
-  font-weight: 900;
 }
 
 .catalogoCard button,
@@ -320,26 +309,39 @@
 }
 
 .carrinhoRemover {
-  padding: 0.45rem 0.8rem;
-  background: #fff;
-  color: var(--color-tertiary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  min-height: 38px;
+  padding: 0.45rem 0.85rem;
+  background: #fff1f1;
+  border-color: rgba(177, 5, 5, 0.35);
+  color: #b10505;
+  white-space: nowrap;
+}
+
+.carrinhoRemover span {
+  display: inline-grid;
+  width: 18px;
+  height: 18px;
+  place-items: center;
+  border-radius: 999px;
+  background: #b10505;
+  color: #fff;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .carrinhoRemover:hover {
-  background: var(--color-tertiary);
+  background: #b10505;
+  border-color: #b10505;
   color: #fff;
 }
 
-.quantidadesProdutos,
-.recheiosProdutos {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1rem;
-  margin-top: 0.75rem;
-  padding: 1rem;
-  background: #fff8f4;
-  border: 1px solid var(--color-senary);
-  border-radius: 12px;
+.carrinhoRemover:hover span {
+  background: #fff;
+  color: #b10505;
 }
 
 .comboPersonalizacao {
@@ -424,12 +426,6 @@
   font: inherit;
 }
 
-.pedidoGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-}
-
 .grupoEntrega {
   display: flex;
   flex-wrap: wrap;
@@ -468,6 +464,80 @@
   color: var(--color-quaternary);
   font-size: 1.04rem;
   font-weight: 800;
+}
+
+.enderecoEntrega {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid rgba(177, 5, 5, 0.18);
+  border-radius: 16px;
+  background: #fff8f4;
+}
+
+.cepLinha {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.cepLinha .campoLinha {
+  margin-bottom: 0;
+}
+
+.botaoBuscarCep {
+  min-height: 47px;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-tertiary);
+  border-radius: 999px;
+  background: var(--color-tertiary);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+}
+
+.botaoBuscarCep:disabled {
+  cursor: wait;
+  opacity: 0.75;
+}
+
+.botaoBuscarCep:hover:not(:disabled) {
+  background: var(--color-quaternary);
+  border-color: var(--color-quaternary);
+}
+
+.cepStatus {
+  display: inline-flex;
+  margin: 0.75rem 0 1rem;
+  font-weight: 800;
+}
+
+.cepStatus.success {
+  color: #217a36;
+}
+
+.cepStatus.error {
+  color: #b10505;
+}
+
+.cepStatus.loading {
+  color: var(--color-tertiary);
+}
+
+.enderecoGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.enderecoGrid .campoLinha {
+  margin-bottom: 0;
+}
+
+.campoRua,
+.campoReferencia {
+  grid-column: span 2;
 }
 
 .retiradaCampos {
@@ -565,16 +635,38 @@
     position: static;
   }
 
-  .pedidoGrid,
   .dadosClientePedido,
   .catalogoGrid,
-  .comboCategorias {
+  .comboCategorias,
+  .enderecoGrid {
     grid-template-columns: 1fr;
+  }
+
+  .cepLinha {
+    grid-template-columns: 1fr;
+  }
+
+  .campoRua,
+  .campoReferencia {
+    grid-column: auto;
+  }
+
+  .carrinhoItem header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .carrinhoValores {
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .carrinhoRemover {
+    width: 100%;
   }
 }
 
 @media (max-width: 480px) {
-  .pedidoGrid,
   .catalogoGrid {
     grid-template-columns: 1fr;
   }

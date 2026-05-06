@@ -4,7 +4,7 @@ import img3 from "../../assets/Alfajor-Maria-01-1920x1442-1200x901.jpg";
 import img4 from "../../assets/hq720.jpg";
 import img5 from "../../assets/como-fazer-salgados-para-vender-min.jpg";
 import img6 from "../../assets/empadao-de-frango-na-marmita.jpg";
-import catalogoBase from "../../../server/data/catalog.json";
+import catalogoBase from "../../data/catalog.json";
 import "./Produtos.css";
 
 const produtosCatalogo = Array.isArray(catalogoBase.products) ? catalogoBase.products : [];

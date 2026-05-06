@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import catalogoBase from "../../../server/data/catalog.json";
+import catalogoBase from "../../data/catalog.json";
 import "./CompraSite.css";
 
 const nomesCategoriaCombo = {
@@ -11,6 +11,16 @@ const nomesCategoriaCombo = {
 
 const produtosBase = Array.isArray(catalogoBase.products) ? catalogoBase.products : [];
 const formasPagamento = ["Pix", "Dinheiro no recebimento", "Cartão no recebimento"];
+const enderecoEntregaInicial = {
+  cep: "",
+  rua: "",
+  numero: "",
+  bairro: "",
+  cidade: "",
+  estado: "",
+  complemento: "",
+  referencia: "",
+};
 
 // Página completa de compra: carrega o catálogo, monta o carrinho e envia o pedido para a API.
 export default function CompraSite() {
@@ -20,6 +30,11 @@ export default function CompraSite() {
   const [recheios, setRecheios] = useState({});
   const [comboEscolhas, setComboEscolhas] = useState({});
   const [formaRecebimento, setFormaRecebimento] = useState("");
+  const [enderecoEntrega, setEnderecoEntrega] = useState(enderecoEntregaInicial);
+  const [statusCep, setStatusCep] = useState({
+    type: "idle",
+    message: "",
+  });
   const [statusPedido, setStatusPedido] = useState({
     type: "idle",
     message: "",
@@ -49,7 +64,10 @@ export default function CompraSite() {
   }
 
   function criarItemCarrinhoId(produtoId) {
-    return `${produtoId}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const idSeguro = globalThis.crypto?.randomUUID?.();
+    const idFallback = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+    return `${produtoId}-${idSeguro || idFallback}`;
   }
 
   function obterProdutosDoCarrinho() {
@@ -111,23 +129,23 @@ export default function CompraSite() {
     return obterPrecoProduto(produto) * obterQuantidadeNumerica(produto);
   }
 
-  function obterTotalCarrinho() {
-    return obterProdutosDoCarrinho().reduce(
+  function obterTotalCarrinho(produtosCarrinho = obterProdutosDoCarrinho()) {
+    return produtosCarrinho.reduce(
       (total, produto) => total + obterSubtotalProduto(produto),
       0
     );
   }
 
-  function carrinhoTemItemSemPreco() {
-    return obterProdutosDoCarrinho().some((produto) => !produtoTemPreco(produto));
+  function carrinhoTemItemSemPreco(produtosCarrinho = obterProdutosDoCarrinho()) {
+    return produtosCarrinho.some((produto) => !produtoTemPreco(produto));
   }
 
-  function produtosComQuantidadeManual() {
-    return obterProdutosDoCarrinho().filter((produto) => !produtoTemCombo(produto));
+  function produtosComQuantidadeManual(produtosCarrinho = obterProdutosDoCarrinho()) {
+    return produtosCarrinho.filter((produto) => !produtoTemCombo(produto));
   }
 
-  function produtosComRecheio() {
-    return obterProdutosDoCarrinho().filter((produto) => produtoTemRecheio(produto));
+  function produtosComRecheio(produtosCarrinho = obterProdutosDoCarrinho()) {
+    return produtosCarrinho.filter((produto) => produtoTemRecheio(produto));
   }
 
   function formatarTituloCategoria(categoria) {
@@ -309,20 +327,119 @@ export default function CompraSite() {
   }
 
   function alterarEscolhaCombo(cartItemId, categoria, item, quantidade) {
+    const quantidadeNumerica =
+      quantidade === ""
+        ? ""
+        : Math.max(0, Math.floor(Number(String(quantidade).replace(",", ".")) || 0));
+
     setComboEscolhas((escolhasAtuais) => ({
       ...escolhasAtuais,
       [cartItemId]: {
         ...escolhasAtuais[cartItemId],
         [categoria]: {
           ...escolhasAtuais[cartItemId]?.[categoria],
-          [item]: quantidade,
+          [item]: quantidadeNumerica,
         },
       },
     }));
   }
 
+  function limparCep(cep) {
+    return String(cep || "").replace(/\D/g, "").slice(0, 8);
+  }
+
+  function formatarCep(cep) {
+    const cepLimpo = limparCep(cep);
+
+    return cepLimpo.length > 5
+      ? `${cepLimpo.slice(0, 5)}-${cepLimpo.slice(5)}`
+      : cepLimpo;
+  }
+
+  function alterarEnderecoEntrega(campo, valor) {
+    const valorTratado = campo === "cep" ? formatarCep(valor) : valor;
+
+    setEnderecoEntrega((enderecoAtual) => ({
+      ...enderecoAtual,
+      [campo]: valorTratado,
+    }));
+
+    if (campo === "cep" && limparCep(valorTratado).length < 8) {
+      setStatusCep({
+        type: "idle",
+        message: "",
+      });
+    }
+  }
+
+  async function buscarEnderecoPeloCep() {
+    const cepLimpo = limparCep(enderecoEntrega.cep);
+
+    if (cepLimpo.length !== 8) {
+      setStatusCep({
+        type: "error",
+        message: "Digite um CEP com 8 números.",
+      });
+      return;
+    }
+
+    setStatusCep({
+      type: "loading",
+      message: "Buscando CEP...",
+    });
+
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
+
+      if (!response.ok) {
+        throw new Error("CEP inválido.");
+      }
+
+      const data = await response.json();
+
+      if (data.erro) {
+        throw new Error("CEP não encontrado.");
+      }
+
+      setEnderecoEntrega((enderecoAtual) => ({
+        ...enderecoAtual,
+        cep: data.cep || formatarCep(cepLimpo),
+        rua: data.logradouro || enderecoAtual.rua,
+        bairro: data.bairro || enderecoAtual.bairro,
+        cidade: data.localidade || enderecoAtual.cidade,
+        estado: data.uf || enderecoAtual.estado,
+      }));
+      setStatusCep({
+        type: "success",
+        message: "Endereço preenchido pelo CEP.",
+      });
+    } catch (error) {
+      setStatusCep({
+        type: "error",
+        message: error.message || "Não foi possível buscar o CEP.",
+      });
+    }
+  }
+
+  function montarEnderecoEntrega() {
+    const { cep, rua, numero, bairro, cidade, estado, complemento, referencia } =
+      enderecoEntrega;
+    const partesEndereco = [
+      `${rua}, ${numero}`,
+      bairro,
+      `${cidade} - ${estado}`,
+      `CEP ${cep}`,
+      complemento ? `Complemento: ${complemento}` : "",
+      referencia ? `Referência: ${referencia}` : "",
+    ];
+
+    return partesEndereco.filter(Boolean).join(" | ");
+  }
+
   function validarCombosSelecionados() {
-    for (const produto of obterProdutosDoCarrinho()) {
+    const produtosCarrinho = obterProdutosDoCarrinho();
+
+    for (const produto of produtosCarrinho) {
       if (!produtoTemCombo(produto)) {
         continue;
       }
@@ -394,7 +511,8 @@ export default function CompraSite() {
     event.preventDefault();
 
     const dados = new FormData(event.currentTarget);
-    const itens = obterProdutosDoCarrinho().map((produto) => ({
+    const produtosCarrinho = obterProdutosDoCarrinho();
+    const itens = produtosCarrinho.map((produto) => ({
       productId: produto.id,
       product: produto.name,
       quantity: produtoTemCombo(produto)
@@ -414,13 +532,15 @@ export default function CompraSite() {
       return;
     }
 
-    if (carrinhoTemItemSemPreco()) {
-      alert("Existe produto sem preço cadastrado no catálogo. Adicione o campo price no catalog.json antes de finalizar.");
+    if (carrinhoTemItemSemPreco(produtosCarrinho)) {
+      alert(
+        "Existe produto sem preço cadastrado no catálogo. Adicione o campo price no catalog.json antes de finalizar."
+      );
       return;
     }
 
     if (
-      produtosComQuantidadeManual().some(
+      produtosComQuantidadeManual(produtosCarrinho).some(
         (produto) => obterQuantidadeNumerica(produto) <= 0
       )
     ) {
@@ -429,7 +549,7 @@ export default function CompraSite() {
     }
 
     if (
-      produtosComRecheio().some(
+      produtosComRecheio(produtosCarrinho).some(
         (produto) => !String(recheios[produto.cartItemId] || "").trim()
       )
     ) {
@@ -448,7 +568,7 @@ export default function CompraSite() {
       desiredDate: dados.get("data"),
       deliveryMethod: dados.get("entrega"),
       paymentMethod: formaRecebimento === "Entrega" ? dados.get("pagamento") : "",
-      address: dados.get("endereco"),
+      address: formaRecebimento === "Entrega" ? montarEnderecoEntrega() : "",
       pickupDate: dados.get("diaRetirada"),
       pickupTime: dados.get("horarioRetirada"),
       pickupPerson: dados.get("pessoaRetirada"),
@@ -522,6 +642,11 @@ export default function CompraSite() {
       setRecheios({});
       setComboEscolhas({});
       setFormaRecebimento("");
+      setEnderecoEntrega(enderecoEntregaInicial);
+      setStatusCep({
+        type: "idle",
+        message: "",
+      });
     } catch (error) {
       setStatusPedido({
         type: "error",
@@ -532,8 +657,8 @@ export default function CompraSite() {
   }
 
   const produtosDoCarrinho = obterProdutosDoCarrinho();
-  const totalCarrinho = obterTotalCarrinho();
-  const temItemSemPreco = carrinhoTemItemSemPreco();
+  const totalCarrinho = obterTotalCarrinho(produtosDoCarrinho);
+  const temItemSemPreco = carrinhoTemItemSemPreco(produtosDoCarrinho);
 
   return (
     <main className="paginaCompra">
@@ -642,9 +767,12 @@ export default function CompraSite() {
                       <button
                         type="button"
                         className="carrinhoRemover"
+                        aria-label={`Remover ${produto.name} do carrinho`}
+                        title="Remover item do carrinho"
                         onClick={() => removerDoCarrinho(produto.cartItemId)}
                       >
-                        Remover
+                        <span aria-hidden="true">×</span>
+                        Remover item
                       </button>
                     </header>
 
@@ -722,6 +850,7 @@ export default function CompraSite() {
                                   <input
                                     type="number"
                                     min="0"
+                                    step="1"
                                     max={obterMaximoItem(produto, categoria, item)}
                                     value={
                                       comboEscolhas[produto.cartItemId]?.[categoria]?.[
@@ -788,15 +917,151 @@ export default function CompraSite() {
                 ))}
               </fieldset>
 
-              <div className="campoLinha">
-                <label htmlFor="endereco">Endereço para entrega</label>
-                <input
-                  id="endereco"
-                  name="endereco"
-                  type="text"
-                  placeholder="Rua, número, bairro e ponto de referência"
-                  required
-                />
+              <div className="enderecoEntrega">
+                <div className="cepLinha">
+                  <div className="campoLinha">
+                    <label htmlFor="cepEntrega">CEP</label>
+                    <input
+                      id="cepEntrega"
+                      name="cepEntrega"
+                      type="text"
+                      inputMode="numeric"
+                      autoComplete="postal-code"
+                      maxLength="9"
+                      value={enderecoEntrega.cep}
+                      onBlur={buscarEnderecoPeloCep}
+                      onChange={(event) =>
+                        alterarEnderecoEntrega("cep", event.target.value)
+                      }
+                      placeholder="00000-000"
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="button"
+                    className="botaoBuscarCep"
+                    onClick={buscarEnderecoPeloCep}
+                    disabled={statusCep.type === "loading"}
+                  >
+                    {statusCep.type === "loading" ? "Buscando..." : "Buscar CEP"}
+                  </button>
+                </div>
+
+                {statusCep.message ? (
+                  <small className={`cepStatus ${statusCep.type}`}>
+                    {statusCep.message}
+                  </small>
+                ) : null}
+
+                <div className="enderecoGrid">
+                  <div className="campoLinha campoRua">
+                    <label htmlFor="ruaEntrega">Rua</label>
+                    <input
+                      id="ruaEntrega"
+                      name="ruaEntrega"
+                      type="text"
+                      value={enderecoEntrega.rua}
+                      onChange={(event) =>
+                        alterarEnderecoEntrega("rua", event.target.value)
+                      }
+                      placeholder="Rua"
+                      required
+                    />
+                  </div>
+
+                  <div className="campoLinha">
+                    <label htmlFor="numeroEntrega">Número</label>
+                    <input
+                      id="numeroEntrega"
+                      name="numeroEntrega"
+                      type="text"
+                      value={enderecoEntrega.numero}
+                      onChange={(event) =>
+                        alterarEnderecoEntrega("numero", event.target.value)
+                      }
+                      placeholder="123"
+                      required
+                    />
+                  </div>
+
+                  <div className="campoLinha">
+                    <label htmlFor="bairroEntrega">Bairro</label>
+                    <input
+                      id="bairroEntrega"
+                      name="bairroEntrega"
+                      type="text"
+                      value={enderecoEntrega.bairro}
+                      onChange={(event) =>
+                        alterarEnderecoEntrega("bairro", event.target.value)
+                      }
+                      placeholder="Bairro"
+                      required
+                    />
+                  </div>
+
+                  <div className="campoLinha">
+                    <label htmlFor="cidadeEntrega">Cidade</label>
+                    <input
+                      id="cidadeEntrega"
+                      name="cidadeEntrega"
+                      type="text"
+                      value={enderecoEntrega.cidade}
+                      onChange={(event) =>
+                        alterarEnderecoEntrega("cidade", event.target.value)
+                      }
+                      placeholder="Cidade"
+                      required
+                    />
+                  </div>
+
+                  <div className="campoLinha">
+                    <label htmlFor="estadoEntrega">UF</label>
+                    <input
+                      id="estadoEntrega"
+                      name="estadoEntrega"
+                      type="text"
+                      maxLength="2"
+                      value={enderecoEntrega.estado}
+                      onChange={(event) =>
+                        alterarEnderecoEntrega(
+                          "estado",
+                          event.target.value.toUpperCase()
+                        )
+                      }
+                      placeholder="RJ"
+                      required
+                    />
+                  </div>
+
+                  <div className="campoLinha">
+                    <label htmlFor="complementoEntrega">Complemento</label>
+                    <input
+                      id="complementoEntrega"
+                      name="complementoEntrega"
+                      type="text"
+                      value={enderecoEntrega.complemento}
+                      onChange={(event) =>
+                        alterarEnderecoEntrega("complemento", event.target.value)
+                      }
+                      placeholder="Apto, casa, bloco..."
+                    />
+                  </div>
+
+                  <div className="campoLinha campoReferencia">
+                    <label htmlFor="referenciaEntrega">Ponto de referência</label>
+                    <input
+                      id="referenciaEntrega"
+                      name="referenciaEntrega"
+                      type="text"
+                      value={enderecoEntrega.referencia}
+                      onChange={(event) =>
+                        alterarEnderecoEntrega("referencia", event.target.value)
+                      }
+                      placeholder="Próximo de..."
+                    />
+                  </div>
+                </div>
               </div>
             </>
           ) : null}

@@ -70,9 +70,8 @@
 }
 
 .sectionAgendamento {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(280px, 500px);
-  align-items: start;
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   background: var(--color-surface);
   border: 1px solid var(--color-senary);
@@ -81,15 +80,23 @@
 }
 
 .formularioInformes h2 {
-  text-align: left;
+  text-align: center;
+  font-size: clamp(1.85rem, 3vw, 2.65rem);
+  line-height: 1.12;
+  margin: 0.4rem 0 0.7rem;
+  color: var(--color-quaternary);
 }
 
 .formularioInformes p {
   color: var(--color-muted);
+  max-width: 50ch;
+  margin: 0.65rem auto 0;
+  text-align: center;
 }
 
 .form {
-  width: 100%;
+  width: min(100%, 500px);
+  margin: 0 auto;
   background: var(--color-quinary);
   padding: 1.25rem;
   border: 1px solid var(--color-senary);
@@ -185,16 +192,6 @@ footer {
   box-shadow: 0 8px 20px rgba(0,0,0,0.16);
   font-weight: 800;
   z-index: 1000;
-}
-
-@media (max-width: 800px) {
-  .sectionAgendamento {
-    grid-template-columns: 1fr;
-  }
-
-  .formularioInformes h2 {
-    text-align: center;
-  }
 }
 
 @media (max-width: 480px) {

@@ -4,10 +4,10 @@ import img3 from "../../assets/empadao-de-carne-seca.jpg"
 import img4 from "../../assets/barras.jpg"
 import img5 from "../../assets/Alfajor-Maria-01-1920x1442-1200x901.jpg" 
 import img6 from "../../assets/doce_capa.webp"
-import "./Espaço.css";
+import "./Espaco.css";
 
-// Espaço mostra fotos de produtos e produção para reforçar variedade visual da loja.
-export default function Espaço() {
+// Espaco mostra fotos de produtos e produção para reforçar variedade visual da loja.
+export default function Espaco() {
   return (
 <section id="fotos" className="espacoSection">
         <div className="espacoCabecalho">

@@ -1,4 +1,4 @@
-import catalogoBase from "../../../server/data/catalog.json";
+import catalogoBase from "../../data/catalog.json";
 import "./Tabela.css";
 
 const produtosCatalogo = Array.isArray(catalogoBase.products) ? catalogoBase.products : [];
@@ -60,7 +60,7 @@ export default function Tabela() {
               <tr>
                 <td>Pacote Festa</td>
                 <td>{formatarPrecoProduto("pacote-festa")}</td>
-                <td>100 salgadinhos, 40 docinhos, 1 bolo e 2 refrigerantes escolhidos pelo cliente.</td>
+                <td>100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes escolhidos pelo cliente.</td>
               </tr>
               <tr>
                 <td>Empadão</td>

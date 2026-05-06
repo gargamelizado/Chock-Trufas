@@ -1,5 +1,79 @@
 [
   {
+    "id": "71d79b21-90f0-46a8-ae68-fdcbf731f0dd",
+    "status": "novo",
+    "createdAt": "2026-05-06T23:51:08.885Z",
+    "customerName": "Marcelo Henrique Sarzedas Justo",
+    "phone": "21987838778",
+    "items": [
+      {
+        "productId": "salgados-cento",
+        "product": "Salgados por cento",
+        "quantity": "100 salgadinhos",
+        "quantityNumber": 1,
+        "unitPrice": 100,
+        "subtotal": 100,
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 20
+            },
+            {
+              "name": "Kibe",
+              "quantity": 19
+            },
+            {
+              "name": "Italianinho",
+              "quantity": 18
+            },
+            {
+              "name": "Bolinha de queijo",
+              "quantity": 21
+            },
+            {
+              "name": "Risole",
+              "quantity": 12
+            },
+            {
+              "name": "Enroladinho",
+              "quantity": 10
+            }
+          ]
+        }
+      }
+    ],
+    "products": [
+      "Salgados por cento"
+    ],
+    "quantity": "Salgados por cento: 100 salgadinhos - R$ 100.00",
+    "total": 100,
+    "desiredDate": "",
+    "deliveryMethod": "Entrega",
+    "paymentMethod": "Dinheiro no recebimento",
+    "address": "Rua Marechal Floriano Peixoto, 361 | Covanca | São Gonçalo - RJ | CEP 24425-008",
+    "pickupDate": "",
+    "pickupTime": "",
+    "pickupPerson": "",
+    "pickupDocument": "",
+    "notes": ""
+  },
+  {
     "id": "1fbebc9b-5697-4e1f-9bca-e543a8178f0d",
     "status": "novo",
     "createdAt": "2026-05-06T19:40:09.009Z",

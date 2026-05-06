@@ -373,16 +373,22 @@ function validateOrder(body, catalogProducts) {
   return { order, errors };
 }
 
-app.get("/api/health", (request, response) => {
+app.get("/api/health", (_request, response) => {
   response.json({ ok: true, service: "chock-trufas-api" });
 });
 
 app.get("/api/orders", asyncHandler(async (request, response) => {
+  const adminToken = process.env.ORDERS_ADMIN_TOKEN;
+
+  if (!adminToken || request.get("x-admin-token") !== adminToken) {
+    return response.status(404).json({ message: "Rota não encontrada." });
+  }
+
   const orders = await readOrders();
-  response.json({ orders });
+  return response.json({ orders });
 }));
 
-app.get("/api/catalog", asyncHandler(async (request, response) => {
+app.get("/api/catalog", asyncHandler(async (_request, response) => {
   const products = await readCatalog();
   response.json({ products });
 }));
@@ -411,7 +417,7 @@ app.post("/api/orders", asyncHandler(async (request, response) => {
 
 app.use(express.static(distDir));
 
-app.get("*", async (request, response, next) => {
+app.get("*", async (_request, response, next) => {
   try {
     await fs.access(path.join(distDir, "index.html"));
     response.sendFile(path.join(distDir, "index.html"));
@@ -420,7 +426,7 @@ app.get("*", async (request, response, next) => {
   }
 });
 
-app.use((error, request, response, _next) => {
+app.use((error, _request, response, _next) => {
   console.error(error);
 
   if (error.type === "entity.parse.failed") {
