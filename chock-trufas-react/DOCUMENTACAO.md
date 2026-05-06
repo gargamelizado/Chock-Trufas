@@ -203,6 +203,7 @@ Constantes:
 | `nomesCategoriaCombo` | Define nomes singular/plural para categorias de combo. |
 | `catalogoBase` | Importa o arquivo `server/data/catalog.json` para servir como base local da tela. |
 | `produtosBase` | Lista de produtos extraida de `catalogoBase.products`, usada como estado inicial e fallback se a API estiver fora do ar. |
+| `formasPagamento` | Lista as formas aceitas quando o pedido for para entrega: Pix, dinheiro no recebimento e cartao no recebimento. |
 
 Funcoes de carregamento e busca:
 
@@ -221,6 +222,13 @@ Funcoes de produto e combo:
 | `obterCategoriasCombo(produto)` | Retorna categorias do combo, como `salgadinhos`, `docinhos`, `bolo` e `refrigerante`. |
 | `produtoTemCombo(produto)` | Verifica se o produto possui `comboRules`. |
 | `produtoTemRecheio(produto)` | Verifica se o produto possui `fillingOptions`. |
+| `formatarMoeda(valor)` | Formata valores em real brasileiro. |
+| `obterPrecoProduto(produto)` | Le o campo `price` do produto no catalogo. |
+| `produtoTemPreco(produto)` | Verifica se o produto possui preco valido. |
+| `obterQuantidadeNumerica(produto)` | Converte a quantidade digitada em numero para calcular subtotal. |
+| `obterSubtotalProduto(produto)` | Calcula preco unitario vezes quantidade. |
+| `obterTotalCarrinho()` | Soma todos os subtotais do carrinho. |
+| `carrinhoTemItemSemPreco()` | Verifica se ha item sem preco cadastrado no catalogo. |
 | `produtosComQuantidadeManual()` | Retorna produtos do carrinho que precisam de quantidade digitada. |
 | `produtosComRecheio()` | Retorna produtos do carrinho que precisam de recheio escolhido. |
 | `obterRegraCombo(produto, categoria)` | Retorna o limite obrigatorio de uma categoria do combo. |
@@ -270,14 +278,16 @@ Funcoes de validacao e envio:
 1. A pagina tenta carregar o catalogo em `GET /api/catalog`.
 2. O cliente adiciona produtos ao carrinho pelos cards.
 3. Se o produto tiver recheio, aparece um `select` de recheio.
-4. Se o produto nao for combo, aparece input de quantidade.
+4. Se o produto nao for combo, aparece input numerico de quantidade.
 5. Se o produto for combo, aparecem categorias com inputs numericos e limite visivel.
 6. O cliente escolhe `Retirada` ou `Entrega`.
-7. Para entrega, o site exige endereco.
-8. Para retirada, o site exige dia, horario, pessoa que vai retirar e documento.
-9. O envio chama `POST /api/orders`.
-10. A API valida tudo, salva em `server/data/orders.json` e devolve o pedido criado.
-11. O frontend abre o WhatsApp com a mensagem do pedido pronta.
+7. Se escolher entrega, o cliente escolhe a forma de pagamento.
+8. Para entrega, o site exige endereco.
+9. Para retirada, o site exige dia, horario, pessoa que vai retirar e documento.
+10. O carrinho calcula preco unitario, subtotal e total usando `price` do catalogo.
+11. O envio chama `POST /api/orders`.
+12. A API valida tudo, recalcula valores pelo catalogo, salva em `server/data/orders.json` e devolve o pedido criado.
+13. O frontend abre o WhatsApp com a mensagem do pedido pronta.
 
 ## 7. Carrinho
 
@@ -307,6 +317,7 @@ Formato de um produto comum:
   "id": "cone-trufado",
   "name": "Cone trufado",
   "type": "produto",
+  "price": 10,
   "fillingOptions": ["Brigadeiro", "Beijinho"]
 }
 ```
@@ -318,6 +329,7 @@ Formato de um combo:
   "id": "pacote-festa",
   "name": "Pacote Festa",
   "type": "combo",
+  "price": 500,
   "comboRules": {
     "salgadinhos": 100,
     "docinhos": 40,
@@ -415,13 +427,17 @@ Payload esperado:
     {
       "productId": "cone-trufado",
       "product": "Cone trufado",
-      "quantity": "2 unidades",
+      "quantity": "2",
+      "quantityNumber": 2,
+      "unitPrice": 10,
+      "subtotal": 20,
       "filling": "Brigadeiro",
       "selectedComboItems": null
     }
   ],
   "desiredDate": "2026-05-10",
   "deliveryMethod": "Entrega",
+  "paymentMethod": "Pix",
   "address": "Rua exemplo, 123",
   "pickupDate": "",
   "pickupTime": "",
@@ -438,7 +454,9 @@ Resposta de sucesso:
   "order": {
     "id": "uuid-do-pedido",
     "status": "novo",
-    "createdAt": "data-em-iso"
+    "createdAt": "data-em-iso",
+    "total": 20,
+    "paymentMethod": "Pix"
   }
 }
 ```
@@ -464,6 +482,9 @@ Arquivo: `server/server.js`.
 | `readCatalog()` | Le produtos de `server/data/catalog.json`. |
 | `asyncHandler(handler)` | Encapsula rotas async e manda erros para o middleware do Express. |
 | `cleanText(value)` | Converte valores para texto limpo. |
+| `parsePositiveNumber(value)` | Converte texto ou numero em valor positivo. |
+| `roundCurrency(value)` | Arredonda valores monetarios para duas casas. |
+| `getProductPrice(product)` | Le e valida o `price` do produto no catalogo. |
 | `findCatalogProduct(products, item)` | Encontra produto por `productId` ou nome. |
 | `getComboSummary(product)` | Retorna os itens permitidos de cada categoria do combo. |
 | `getComboRules(product)` | Normaliza regras de combo com quantidades validas. |
@@ -505,7 +526,9 @@ No backend:
 - Nome precisa ter pelo menos 2 caracteres.
 - Telefone precisa ter pelo menos 8 caracteres.
 - Pedido precisa ter itens.
-- Quantidade e obrigatoria para produto comum.
+- Quantidade numerica maior que zero e obrigatoria para produto comum.
+- Todo item precisa ter `price` valido no catalogo.
+- Forma de pagamento precisa ser escolhida somente quando o pedido for para entrega.
 - Recheio so e aceito se existir no catalogo.
 - Combo so aceita itens existentes no catalogo.
 - Combo precisa fechar exatamente a quantidade exigida.

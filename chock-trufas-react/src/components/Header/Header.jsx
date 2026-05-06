@@ -7,15 +7,17 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="header">
+    <header className="header">
       {/* Identidade visual da loja sempre visível no topo. */}
       <div className="boxLogo">
-        <img src={Logo} alt="Chock Trufas logo, a brand identity for an artisanal chocolate truffle shop" height="50" />
+        <a href="/" aria-label="Ir para o início">
+          <img src={Logo} alt="Logo da Chock Trufas" height="50" />
+        </a>
       </div>
       {/* Navegação usa links com hash para seções da home e link direto para compra. */}
       <nav className={`nav ${open ? "navAberta" : ""}`} id="myLinks">
         <a href="/#precos">Preços</a>
-        <a href="/compra">Comprar</a>
+        <a className="navComprar" href="/compra">Comprar</a>
         <a href="/#sobre">Sobre</a>
         <a href="/#fotos">Espaço</a>
         <a href="/#contato">Contato</a>
@@ -31,6 +33,6 @@ export default function Header() {
       >
         {open ? "close" : "menu"}
       </button>
-    </div>
+    </header>
   )
 }

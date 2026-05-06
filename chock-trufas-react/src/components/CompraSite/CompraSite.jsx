@@ -10,6 +10,7 @@ const nomesCategoriaCombo = {
 };
 
 const produtosBase = Array.isArray(catalogoBase.products) ? catalogoBase.products : [];
+const formasPagamento = ["Pix", "Dinheiro no recebimento", "Cartão no recebimento"];
 
 // Página completa de compra: carrega o catálogo, monta o carrinho e envia o pedido para a API.
 export default function CompraSite() {
@@ -77,6 +78,50 @@ export default function CompraSite() {
     return Array.isArray(produto?.fillingOptions) && produto.fillingOptions.length > 0;
   }
 
+  function formatarMoeda(valor) {
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    }).format(Number(valor || 0));
+  }
+
+  function obterPrecoProduto(produto) {
+    const preco = Number(produto?.price);
+
+    return Number.isFinite(preco) && preco > 0 ? preco : 0;
+  }
+
+  function produtoTemPreco(produto) {
+    return obterPrecoProduto(produto) > 0;
+  }
+
+  function obterQuantidadeNumerica(produto) {
+    if (produtoTemCombo(produto)) {
+      return 1;
+    }
+
+    const quantidade = Number(
+      String(quantidades[produto.cartItemId] || "").replace(",", ".")
+    );
+
+    return Number.isFinite(quantidade) && quantidade > 0 ? quantidade : 0;
+  }
+
+  function obterSubtotalProduto(produto) {
+    return obterPrecoProduto(produto) * obterQuantidadeNumerica(produto);
+  }
+
+  function obterTotalCarrinho() {
+    return obterProdutosDoCarrinho().reduce(
+      (total, produto) => total + obterSubtotalProduto(produto),
+      0
+    );
+  }
+
+  function carrinhoTemItemSemPreco() {
+    return obterProdutosDoCarrinho().some((produto) => !produtoTemPreco(produto));
+  }
+
   function produtosComQuantidadeManual() {
     return obterProdutosDoCarrinho().filter((produto) => !produtoTemCombo(produto));
   }
@@ -123,6 +168,12 @@ export default function CompraSite() {
     if (produtoTemRecheio(produto)) {
       detalhes.push(`${produto.fillingOptions.length} opções de recheio`);
     }
+
+    detalhes.push(
+      produtoTemPreco(produto)
+        ? `${formatarMoeda(obterPrecoProduto(produto))}`
+        : "Valor a confirmar"
+    );
 
     return detalhes.length > 0 ? detalhes.join(" · ") : "Quantidade livre";
   }
@@ -299,8 +350,9 @@ export default function CompraSite() {
           ? ` (${montarResumoComboEscolhido(item.selectedComboItems)})`
           : "";
         const recheioResumo = item.filling ? ` - Recheio: ${item.filling}` : "";
+        const valorResumo = item.subtotal ? ` - ${formatarMoeda(item.subtotal)}` : "";
 
-        return `${item.product}: ${item.quantity}${recheioResumo}${comboResumo}`;
+        return `${item.product}: ${item.quantity}${recheioResumo}${comboResumo}${valorResumo}`;
       })
       .join(", ");
 
@@ -310,11 +362,15 @@ export default function CompraSite() {
       `Nome: ${order.customerName}`,
       `Telefone: ${order.phone}`,
       `Itens: ${itens}`,
+      `Total: ${formatarMoeda(order.total)}`,
       `Entrega ou retirada: ${order.deliveryMethod}`,
     ];
 
     if (order.deliveryMethod === "Entrega") {
-      mensagem.push(`Endereço: ${order.address}`);
+      mensagem.push(
+        `Pagamento: ${order.paymentMethod}`,
+        `Endereço: ${order.address}`
+      );
     }
 
     if (order.deliveryMethod === "Retirada") {
@@ -344,6 +400,9 @@ export default function CompraSite() {
       quantity: produtoTemCombo(produto)
         ? montarQuantidadeCombo(produto)
         : String(quantidades[produto.cartItemId] || "").trim(),
+      quantityNumber: obterQuantidadeNumerica(produto),
+      unitPrice: obterPrecoProduto(produto),
+      subtotal: obterSubtotalProduto(produto),
       filling: produtoTemRecheio(produto)
         ? String(recheios[produto.cartItemId] || "")
         : "",
@@ -355,12 +414,17 @@ export default function CompraSite() {
       return;
     }
 
+    if (carrinhoTemItemSemPreco()) {
+      alert("Existe produto sem preço cadastrado no catálogo. Adicione o campo price no catalog.json antes de finalizar.");
+      return;
+    }
+
     if (
       produtosComQuantidadeManual().some(
-        (produto) => !String(quantidades[produto.cartItemId] || "").trim()
+        (produto) => obterQuantidadeNumerica(produto) <= 0
       )
     ) {
-      alert("Informe a quantidade dos produtos no carrinho.");
+      alert("Informe uma quantidade numérica maior que zero para todos os produtos.");
       return;
     }
 
@@ -383,6 +447,7 @@ export default function CompraSite() {
       items: itens,
       desiredDate: dados.get("data"),
       deliveryMethod: dados.get("entrega"),
+      paymentMethod: formaRecebimento === "Entrega" ? dados.get("pagamento") : "",
       address: dados.get("endereco"),
       pickupDate: dados.get("diaRetirada"),
       pickupTime: dados.get("horarioRetirada"),
@@ -467,6 +532,8 @@ export default function CompraSite() {
   }
 
   const produtosDoCarrinho = obterProdutosDoCarrinho();
+  const totalCarrinho = obterTotalCarrinho();
+  const temItemSemPreco = carrinhoTemItemSemPreco();
 
   return (
     <main className="paginaCompra">
@@ -512,8 +579,13 @@ export default function CompraSite() {
                       <span>{produtoTemCombo(produto) ? "Personalizado" : "Produto"}</span>
                       <h3>{produto.name}</h3>
                       <p>{montarDetalheProduto(produto)}</p>
+                      <strong className="catalogoPreco">
+                        {produtoTemPreco(produto)
+                          ? formatarMoeda(obterPrecoProduto(produto))
+                          : "Valor a confirmar"}
+                      </strong>
                       {estaNoCarrinho ? (
-                        <em>{quantidadeNoCarrinho} no carrinho</em>
+                        <p> {quantidadeNoCarrinho}  no carrinho</p>
                       ) : null}
                     </div>
                     <button
@@ -555,6 +627,18 @@ export default function CompraSite() {
                         </span>
                         <h3>{produto.name}</h3>
                       </div>
+                      <div className="carrinhoValores">
+                        <span>
+                          {produtoTemPreco(produto)
+                            ? formatarMoeda(obterPrecoProduto(produto))
+                            : "Valor a confirmar"}
+                        </span>
+                        <strong>
+                          {produtoTemPreco(produto)
+                            ? formatarMoeda(obterSubtotalProduto(produto))
+                            : "Sem preço"}
+                        </strong>
+                      </div>
                       <button
                         type="button"
                         className="carrinhoRemover"
@@ -594,12 +678,14 @@ export default function CompraSite() {
                         </label>
                         <input
                           id={`quantidade-${produto.cartItemId}`}
-                          type="text"
+                          type="number"
+                          min="1"
+                          step="1"
                           value={quantidades[produto.cartItemId] || ""}
                           onChange={(event) =>
                             alterarQuantidade(produto.cartItemId, event.target.value)
                           }
-                          placeholder="Ex: 10 unidades, 1 cento"
+                          placeholder="Ex: 10"
                           required
                         />
                       </div>
@@ -665,12 +751,7 @@ export default function CompraSite() {
           </section>
 
           {/* Data e forma de recebimento definem quais campos extras serão obrigatórios. */}
-          <div className="pedidoGrid">
-            <div className="campoLinha">
-              <label htmlFor="data">Data desejada</label>
-              <input id="data" name="data" type="date" />
-            </div>
-          </div>
+         
 
           <fieldset className="grupoEntrega">
             <legend>Forma de recebimento</legend>
@@ -696,16 +777,28 @@ export default function CompraSite() {
           </fieldset>
 
           {formaRecebimento === "Entrega" ? (
-            <div className="campoLinha">
-              <label htmlFor="endereco">Endereço para entrega</label>
-              <input
-                id="endereco"
-                name="endereco"
-                type="text"
-                placeholder="Rua, número, bairro e ponto de referência"
-                required
-              />
-            </div>
+            <>
+              <fieldset className="grupoPagamento">
+                <legend>Forma de pagamento na entrega</legend>
+                {formasPagamento.map((forma) => (
+                  <label key={forma}>
+                    <input type="radio" name="pagamento" value={forma} required />
+                    <span>{forma}</span>
+                  </label>
+                ))}
+              </fieldset>
+
+              <div className="campoLinha">
+                <label htmlFor="endereco">Endereço para entrega</label>
+                <input
+                  id="endereco"
+                  name="endereco"
+                  type="text"
+                  placeholder="Rua, número, bairro e ponto de referência"
+                  required
+                />
+              </div>
+            </>
           ) : null}
 
           {formaRecebimento === "Retirada" ? (
@@ -783,12 +876,15 @@ export default function CompraSite() {
         {/* Resumo fixo ajuda o cliente a entender o estado do carrinho enquanto preenche o pedido. */}
         <aside className="pedidoAjuda">
           <span>Resumo</span>
-          <h2>{produtosDoCarrinho.length} item(ns) no carrinho</h2>
+          <h2>{formatarMoeda(totalCarrinho)}</h2>
+          <strong>{produtosDoCarrinho.length} item(ns)  no carrinho</strong>
           <p>
-            O valor final, prazo e disponibilidade são confirmados no
-            atendimento. Assim a loja consegue ajustar sabores, tamanhos e
-            detalhes personalizados.
+            Total estimado pelo catálogo. Prazo, disponibilidade e detalhes
+            personalizados continuam sendo confirmados no atendimento.
           </p>
+          {temItemSemPreco ? (
+            <small>Existe item sem preço cadastrado no catálogo.</small>
+          ) : null}
         </aside>
       </section>
     </main>

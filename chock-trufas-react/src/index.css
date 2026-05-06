@@ -1,14 +1,18 @@
 :root {
-  --color-primary: #fda2a2;
-  --color-secondary: #d13737;
-  --color-tertiary: #b10505;
-  --color-quaternary: #2f2424;
-  --color-quinary: #fff8f4;
-  --color-senary: #ead8d2;
-  --color-septenary: #fff3ee;
+  --color-primary: #f7b6aa;
+  --color-secondary: #c33a32;
+  --color-tertiary: #8f1714;
+  --color-quaternary: #261a18;
+  --color-quinary: #fff7f2;
+  --color-senary: #ead7cf;
+  --color-septenary: #fffaf7;
   --color-surface: #ffffff;
-  --color-muted: #6f5b58;
-  --shadow-soft: 0 14px 35px rgba(74, 32, 25, 0.12);
+  --color-muted: #6a5651;
+  --color-accent: #1f6b4e;
+  --color-gold: #b98535;
+  --shadow-soft: 0 18px 45px rgba(66, 31, 26, 0.12);
+  --shadow-card: 0 10px 28px rgba(66, 31, 26, 0.09);
+  --radius-section: 18px;
 }
 
 * {
@@ -24,10 +28,14 @@ html {
 
 body {
   font-family: "Inter", sans-serif;
-  background: var(--color-septenary);
+  background:
+    radial-gradient(circle at top left, rgba(247, 182, 170, 0.16), transparent 34rem),
+    linear-gradient(180deg, #fffaf7 0%, #fff3ee 54%, #fffaf7 100%);
   color: var(--color-quaternary);
   line-height: 1.6;
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 
 a {
@@ -37,4 +45,15 @@ a {
 
 img {
   max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: rgba(143, 23, 20, 0.16);
 }

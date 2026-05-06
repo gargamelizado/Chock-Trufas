@@ -1,52 +1,129 @@
 .hero {
-  text-align: center;
-  padding: 7rem 1.5rem 4rem;
+  min-height: 680px;
+  display: grid;
+  align-items: end;
+  padding: 8.5rem clamp(1rem, 5vw, 4rem) 4rem;
   background:
-    linear-gradient(180deg, rgba(255, 248, 244, 0.86), rgba(255, 237, 219, 0.96)),
+    linear-gradient(90deg, rgba(38, 26, 24, 0.86), rgba(38, 26, 24, 0.48) 46%, rgba(38, 26, 24, 0.16)),
+    linear-gradient(180deg, rgba(38, 26, 24, 0.08), rgba(255, 250, 247, 0.08)),
     url("../../assets/doce_capa.webp") center/cover;
-  color: var(--color-quaternary);
+  color: #fff;
   box-shadow: var(--shadow-soft);
   overflow: hidden;
 }
 
-.hero h1 img {
-  width: min(360px, 82vw);
-  filter: drop-shadow(0 8px 18px rgba(74, 32, 25, 0.16));
+.heroConteudo {
+  width: min(720px, 100%);
+}
+
+.heroLogo {
+  width: min(220px, 54vw);
+  display: block;
+  margin-bottom: 1.25rem;
+  filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.28));
+}
+
+.heroEyebrow {
+  display: inline-flex;
+  margin-bottom: 0.85rem;
+  color: #ffe6d9;
+  font-size: 0.82rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 5.8rem);
+  line-height: 0.95;
+  margin-bottom: 1rem;
+  max-width: 8ch;
 }
 
 .hero p {
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
-  max-width: 620px;
-  margin: 1rem auto 0;
-  color: var(--color-quaternary);
+  font-size: clamp(1.06rem, 2vw, 1.28rem);
+  max-width: 640px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.btnAgendar {
-  display: inline-block;
-  margin-top: 1.3rem;
-  padding: 0.85rem 1.3rem;
-  background: var(--color-tertiary);
-  color: #fff;
+.heroAcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.btnAgendar,
+.btnSecundario {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  padding: 0.85rem 1.25rem;
   border-radius: 999px;
-  border: 1px solid var(--color-tertiary);
-  box-shadow: 0 10px 20px rgba(177, 5, 5, 0.22);
-  font-weight: 700;
+  font-weight: 900;
   transition: 0.25s;
 }
 
-.btnAgendar:hover {
+.btnAgendar {
   background: #fff;
   color: var(--color-tertiary);
+  border: 1px solid var(--color-tertiary);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.18);
+}
+
+.btnAgendar:hover {
+  background: var(--color-primary);
+  color: var(--color-quaternary);
+}
+
+.btnSecundario {
+  border: 1px solid rgba(255, 255, 255, 0.46);
+  color: #fff;
+}
+
+.btnSecundario:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.heroDestaques {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1.5rem;
+}
+
+.heroDestaques span {
+  padding: 0.5rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 0.88rem;
+  font-weight: 800;
 }
 
 @media (max-width: 800px) {
   .hero {
-    padding-top: 8rem;
+    min-height: 640px;
+    align-items: end;
+    padding-top: 8.5rem;
+    background:
+      linear-gradient(180deg, rgba(38, 26, 24, 0.82), rgba(38, 26, 24, 0.58)),
+      url("../../assets/doce_capa.webp") center/cover;
   }
 }
 
 @media (max-width: 480px) {
-  .hero h1 img {
-    width: min(280px, 74vw);
+  .hero {
+    min-height: 620px;
+  }
+
+  .heroLogo {
+    width: min(190px, 58vw);
+  }
+
+  .heroAcoes a {
+    width: 100%;
   }
 }

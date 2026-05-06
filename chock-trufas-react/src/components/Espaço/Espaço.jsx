@@ -10,7 +10,10 @@ import "./Espaço.css";
 export default function Espaço() {
   return (
 <section id="fotos" className="espacoSection">
-        <h2>Nosso Espaço</h2>
+        <div className="espacoCabecalho">
+          <span>Produção e variedade</span>
+          <h2>Um pouco do que sai da nossa cozinha</h2>
+        </div>
         {/* Galeria superior com produtos salgados e bolos. */}
         <div className="espacoCardGroup">
           <div className="espacoCard">

@@ -19,6 +19,7 @@ const comboCategoryNames = {
   bolo: ["bolo", "bolos"],
   refrigerante: ["refrigerante", "refrigerantes"],
 };
+const paymentMethods = ["Pix", "Dinheiro no recebimento", "Cartão no recebimento"];
 
 app.use(express.json({ limit: "100kb" }));
 
@@ -72,6 +73,20 @@ function asyncHandler(handler) {
 
 function cleanText(value) {
   return String(value || "").trim();
+}
+
+function parsePositiveNumber(value) {
+  const number = Number(String(value || "").replace(",", "."));
+
+  return Number.isFinite(number) && number > 0 ? number : 0;
+}
+
+function roundCurrency(value) {
+  return Math.round(Number(value || 0) * 100) / 100;
+}
+
+function getProductPrice(product) {
+  return parsePositiveNumber(product?.price);
 }
 
 function findCatalogProduct(products, item) {
@@ -218,7 +233,8 @@ function getComboQuantity(catalogProduct) {
 
 function formatOrderItemSummary(item) {
   const filling = item.filling ? ` - Recheio: ${item.filling}` : "";
-  return `${item.product}: ${item.quantity}${filling}`;
+  const subtotal = item.subtotal ? ` - R$ ${item.subtotal.toFixed(2)}` : "";
+  return `${item.product}: ${item.quantity}${filling}${subtotal}`;
 }
 
 function validateOrder(body, catalogProducts) {
@@ -231,6 +247,10 @@ function validateOrder(body, catalogProducts) {
           const comboRules = getComboRules(catalogProduct);
           const fillingOptions = getFillingOptions(catalogProduct);
           const hasCombo = Boolean(comboRules);
+          const quantityNumber = hasCombo
+            ? 1
+            : parsePositiveNumber(item?.quantityNumber || item?.quantity);
+          const unitPrice = getProductPrice(catalogProduct);
 
           return {
             productId: cleanText(item?.productId || catalogProduct?.id),
@@ -239,6 +259,9 @@ function validateOrder(body, catalogProducts) {
               hasCombo
                 ? getComboQuantity(catalogProduct)
                 : cleanText(item?.quantity),
+            quantityNumber,
+            unitPrice,
+            subtotal: roundCurrency(unitPrice * quantityNumber),
             type: cleanText(hasCombo ? "combo" : catalogProduct?.type || "produto"),
             fillingOptions,
             filling: sanitizeFilling(item?.filling, catalogProduct),
@@ -253,6 +276,9 @@ function validateOrder(body, catalogProducts) {
         .filter((item) => item.product)
     : [];
   const orderItems = items.map(({ fillingOptions: _fillingOptions, ...item }) => item);
+  const total = roundCurrency(
+    orderItems.reduce((sum, item) => sum + Number(item.subtotal || 0), 0)
+  );
 
   const order = {
     customerName: cleanText(body.customerName),
@@ -260,8 +286,10 @@ function validateOrder(body, catalogProducts) {
     items: orderItems,
     products: orderItems.map((item) => item.product),
     quantity: orderItems.map(formatOrderItemSummary).join(", "),
+    total,
     desiredDate: cleanText(body.desiredDate),
     deliveryMethod: cleanText(body.deliveryMethod),
+    paymentMethod: cleanText(body.paymentMethod),
     address: cleanText(body.address),
     pickupDate: cleanText(body.pickupDate),
     pickupTime: cleanText(body.pickupTime),
@@ -282,8 +310,18 @@ function validateOrder(body, catalogProducts) {
     errors.push("Escolha pelo menos um produto.");
   }
 
-  if (order.items.some((item) => !item.comboRules && !item.quantity)) {
-    errors.push("Informe a quantidade de todos os produtos.");
+  if (order.items.some((item) => !item.comboRules && item.quantityNumber <= 0)) {
+    errors.push("Informe uma quantidade numérica maior que zero para todos os produtos.");
+  }
+
+  const productsWithoutPrice = order.items
+    .filter((item) => item.unitPrice <= 0)
+    .map((item) => item.product);
+
+  if (productsWithoutPrice.length > 0) {
+    errors.push(
+      `Cadastre preço no catálogo para: ${productsWithoutPrice.join(", ")}.`
+    );
   }
 
   if (
@@ -301,6 +339,13 @@ function validateOrder(body, catalogProducts) {
 
   if (!["Retirada", "Entrega"].includes(order.deliveryMethod)) {
     errors.push("Escolha retirada ou entrega.");
+  }
+
+  if (
+    order.deliveryMethod === "Entrega" &&
+    !paymentMethods.includes(order.paymentMethod)
+  ) {
+    errors.push("Escolha a forma de pagamento.");
   }
 
   if (order.deliveryMethod === "Entrega" && order.address.length < 5) {

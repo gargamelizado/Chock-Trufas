@@ -1,5 +1,424 @@
 [
   {
+    "id": "1fbebc9b-5697-4e1f-9bca-e543a8178f0d",
+    "status": "novo",
+    "createdAt": "2026-05-06T19:40:09.009Z",
+    "customerName": "Marcelo Henrique Sarzedas Justo",
+    "phone": "21987838778",
+    "items": [
+      {
+        "productId": "salgados-cento",
+        "product": "Salgados por cento",
+        "quantity": "100 salgadinhos",
+        "quantityNumber": 1,
+        "unitPrice": 100,
+        "subtotal": 100,
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 100
+            }
+          ]
+        }
+      },
+      {
+        "productId": "doces-festa",
+        "product": "Doces para festa",
+        "quantity": "50 docinhos",
+        "quantityNumber": 1,
+        "unitPrice": 100,
+        "subtotal": 100,
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "docinhos": [
+            "Brigadeiro",
+            "Italianinho de chocolate",
+            "Doce de leite",
+            "Beijinho"
+          ]
+        },
+        "comboRules": {
+          "docinhos": 50
+        },
+        "selectedComboItems": {
+          "docinhos": [
+            {
+              "name": "Brigadeiro",
+              "quantity": 50
+            }
+          ]
+        }
+      },
+      {
+        "productId": "salgados-cento",
+        "product": "Salgados por cento",
+        "quantity": "100 salgadinhos",
+        "quantityNumber": 1,
+        "unitPrice": 100,
+        "subtotal": 100,
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 100
+            }
+          ]
+        }
+      },
+      {
+        "productId": "empadao",
+        "product": "Empadao",
+        "quantity": "1",
+        "quantityNumber": 1,
+        "unitPrice": 10,
+        "subtotal": 10,
+        "type": "produto",
+        "filling": "Frango",
+        "comboItems": null,
+        "comboRules": null,
+        "selectedComboItems": null
+      },
+      {
+        "productId": "pacote-festa",
+        "product": "Pacote Festa",
+        "quantity": "100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes",
+        "quantityNumber": 1,
+        "unitPrice": 500,
+        "subtotal": 500,
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ],
+          "docinhos": [
+            "Brigadeiro",
+            "Italianinho de chocolate",
+            "Doce de leite",
+            "Beijinho"
+          ],
+          "bolo": [
+            "Chocolate",
+            "Cenoura",
+            "Leite ninho",
+            "Doce de leite",
+            "Ferreiro rocher",
+            "Prestígio"
+          ],
+          "refrigerante": [
+            "Coca-cola",
+            "Guaraná",
+            "Fanta laranja",
+            "Fanta uva",
+            "Sprite",
+            "Pepsi"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100,
+          "docinhos": 50,
+          "bolo": 1,
+          "refrigerante": 2
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 100
+            }
+          ],
+          "docinhos": [
+            {
+              "name": "Brigadeiro",
+              "quantity": 50
+            }
+          ],
+          "bolo": [
+            {
+              "name": "Chocolate",
+              "quantity": 1
+            }
+          ],
+          "refrigerante": [
+            {
+              "name": "Coca-cola",
+              "quantity": 2
+            }
+          ]
+        }
+      },
+      {
+        "productId": "empadao",
+        "product": "Empadao",
+        "quantity": "1",
+        "quantityNumber": 1,
+        "unitPrice": 10,
+        "subtotal": 10,
+        "type": "produto",
+        "filling": "Frango",
+        "comboItems": null,
+        "comboRules": null,
+        "selectedComboItems": null
+      },
+      {
+        "productId": "empadao",
+        "product": "Empadao",
+        "quantity": "1",
+        "quantityNumber": 1,
+        "unitPrice": 10,
+        "subtotal": 10,
+        "type": "produto",
+        "filling": "Palmito",
+        "comboItems": null,
+        "comboRules": null,
+        "selectedComboItems": null
+      },
+      {
+        "productId": "pacote-festa",
+        "product": "Pacote Festa",
+        "quantity": "100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes",
+        "quantityNumber": 1,
+        "unitPrice": 500,
+        "subtotal": 500,
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ],
+          "docinhos": [
+            "Brigadeiro",
+            "Italianinho de chocolate",
+            "Doce de leite",
+            "Beijinho"
+          ],
+          "bolo": [
+            "Chocolate",
+            "Cenoura",
+            "Leite ninho",
+            "Doce de leite",
+            "Ferreiro rocher",
+            "Prestígio"
+          ],
+          "refrigerante": [
+            "Coca-cola",
+            "Guaraná",
+            "Fanta laranja",
+            "Fanta uva",
+            "Sprite",
+            "Pepsi"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100,
+          "docinhos": 50,
+          "bolo": 1,
+          "refrigerante": 2
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 100
+            }
+          ],
+          "docinhos": [
+            {
+              "name": "Brigadeiro",
+              "quantity": 20
+            },
+            {
+              "name": "Italianinho de chocolate",
+              "quantity": 30
+            }
+          ],
+          "bolo": [
+            {
+              "name": "Chocolate",
+              "quantity": 1
+            }
+          ],
+          "refrigerante": [
+            {
+              "name": "Coca-cola",
+              "quantity": 2
+            }
+          ]
+        }
+      },
+      {
+        "productId": "pacote-festa",
+        "product": "Pacote Festa",
+        "quantity": "100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes",
+        "quantityNumber": 1,
+        "unitPrice": 500,
+        "subtotal": 500,
+        "type": "combo",
+        "filling": "",
+        "comboItems": {
+          "salgadinhos": [
+            "Coxinha",
+            "Kibe",
+            "Italianinho",
+            "Bolinha de queijo",
+            "Risole",
+            "Enroladinho"
+          ],
+          "docinhos": [
+            "Brigadeiro",
+            "Italianinho de chocolate",
+            "Doce de leite",
+            "Beijinho"
+          ],
+          "bolo": [
+            "Chocolate",
+            "Cenoura",
+            "Leite ninho",
+            "Doce de leite",
+            "Ferreiro rocher",
+            "Prestígio"
+          ],
+          "refrigerante": [
+            "Coca-cola",
+            "Guaraná",
+            "Fanta laranja",
+            "Fanta uva",
+            "Sprite",
+            "Pepsi"
+          ]
+        },
+        "comboRules": {
+          "salgadinhos": 100,
+          "docinhos": 50,
+          "bolo": 1,
+          "refrigerante": 2
+        },
+        "selectedComboItems": {
+          "salgadinhos": [
+            {
+              "name": "Coxinha",
+              "quantity": 100
+            }
+          ],
+          "docinhos": [
+            {
+              "name": "Brigadeiro",
+              "quantity": 18
+            },
+            {
+              "name": "Doce de leite",
+              "quantity": 32
+            }
+          ],
+          "bolo": [
+            {
+              "name": "Prestígio",
+              "quantity": 1
+            }
+          ],
+          "refrigerante": [
+            {
+              "name": "Guaraná",
+              "quantity": 2
+            }
+          ]
+        }
+      },
+      {
+        "productId": "empadao",
+        "product": "Empadao",
+        "quantity": "1",
+        "quantityNumber": 1,
+        "unitPrice": 10,
+        "subtotal": 10,
+        "type": "produto",
+        "filling": "Camarão",
+        "comboItems": null,
+        "comboRules": null,
+        "selectedComboItems": null
+      },
+      {
+        "productId": "empadao",
+        "product": "Empadao",
+        "quantity": "2",
+        "quantityNumber": 2,
+        "unitPrice": 10,
+        "subtotal": 20,
+        "type": "produto",
+        "filling": "Palmito",
+        "comboItems": null,
+        "comboRules": null,
+        "selectedComboItems": null
+      }
+    ],
+    "products": [
+      "Salgados por cento",
+      "Doces para festa",
+      "Salgados por cento",
+      "Empadao",
+      "Pacote Festa",
+      "Empadao",
+      "Empadao",
+      "Pacote Festa",
+      "Pacote Festa",
+      "Empadao",
+      "Empadao"
+    ],
+    "quantity": "Salgados por cento: 100 salgadinhos - R$ 100.00, Doces para festa: 50 docinhos - R$ 100.00, Salgados por cento: 100 salgadinhos - R$ 100.00, Empadao: 1 - Recheio: Frango - R$ 10.00, Pacote Festa: 100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes - R$ 500.00, Empadao: 1 - Recheio: Frango - R$ 10.00, Empadao: 1 - Recheio: Palmito - R$ 10.00, Pacote Festa: 100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes - R$ 500.00, Pacote Festa: 100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes - R$ 500.00, Empadao: 1 - Recheio: Camarão - R$ 10.00, Empadao: 2 - Recheio: Palmito - R$ 20.00",
+    "total": 1860,
+    "desiredDate": "",
+    "deliveryMethod": "Entrega",
+    "paymentMethod": "Pix",
+    "address": "Rua Marechal Floriano Peixoto Covanca",
+    "pickupDate": "",
+    "pickupTime": "",
+    "pickupPerson": "",
+    "pickupDocument": "",
+    "notes": ""
+  },
+  {
     "id": "5a5af550-a5c8-4460-ade0-04c8c7dc0d86",
     "status": "novo",
     "createdAt": "2026-05-06T17:59:16.433Z",

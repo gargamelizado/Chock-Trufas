@@ -4,6 +4,7 @@
       "id": "cone-trufado",
       "name": "Cone trufado",
       "type": "produto",
+      "price": 10.0,
       "fillingOptions": [
         "Brigadeiro",
         "Beijinho",
@@ -19,6 +20,7 @@
       "id": "barra-chocolate",
       "name": "Barra de Chocolate",
       "type": "produto",
+      "price": 5.0,
       "fillingOptions": [
         "Brigadeiro",
         "Beijinho",
@@ -34,6 +36,7 @@
       "id": "alfajor-maria",
       "name": "Alfajor Maria",
       "type": "produto",
+      "price": 8.0,
       "fillingOptions": [
         "Brigadeiro",
         "Beijinho",
@@ -45,6 +48,7 @@
       "id": "italianilho",
       "name": "Italianilho",
       "type": "produto",
+      "price": 10.0,
       "fillingOptions":[
         "Misto(queijo com presuto)",
         "Palmito",
@@ -60,9 +64,10 @@
       "id": "pacote-festa",
       "name": "Pacote Festa",
       "type": "combo",
+      "price": 500.0,
       "comboRules": {
         "salgadinhos": 100,
-        "docinhos": 40,
+        "docinhos": 50,
         "bolo": 1,
         "refrigerante": 2
       },
@@ -103,6 +108,7 @@
       "id": "empadao",
       "name": "Empadao",
       "type": "produto",
+      "price": 10.0,
       "fillingOptions": [
         "Frango",
         "Palmito",
@@ -113,6 +119,7 @@
       "id": "doces-festa",
       "name": "Doces para festa",
       "type": "produto",
+      "price": 100.0,
       "comboRules": {
         "docinhos": 50
       },
@@ -129,6 +136,7 @@
       "id": "salgados-cento",
       "name": "Salgados por cento",
       "type": "produto",
+      "price": 100.0,
       "comboRules": {
         "salgadinhos": 100
       },

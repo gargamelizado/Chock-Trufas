@@ -3,7 +3,7 @@ import "./Compra.css";
 const pedidosSugeridos = [
   "Doces para festa",
   "Salgados por cento",
-  "Empadao e tortas",
+  "Empadão e tortas",
 ];
 
 // Compra é a chamada da home que explica o fluxo e leva para a página /compra.
@@ -13,21 +13,22 @@ export default function Compra() {
       {/* Texto curto para preparar o cliente antes de abrir o carrinho. */}
       <div className="compraTexto">
         <span>Compra pelo site</span>
-        <h2>Monte seu pedido em uma página exclusiva</h2>
+        <h2>Monte o pedido com sabores, quantidades e retirada ou entrega</h2>
         <p>
-          Clique para abrir a área de compra, escolher produtos, informar
-          quantidade e enviar tudo direto para o atendimento.
+          A página de compra reúne carrinho, recheios, combos de festa,
+          endereço ou dados de retirada. Depois, a loja confirma o pedido pelo
+          atendimento.
         </p>
       </div>
 
       <div className="compraGrid">
         {/* Passo a passo simples do pedido pelo site. */}
         <div className="compraCardPrincipal">
-        <h3>Como vai funcionar</h3>
+        <h3>Como funciona</h3>
         <ol>
-          <li>Cliente escolhe o tipo de produto.</li>
-            <li>Informa quantidade, data e observações.</li>
-          <li>A loja confirma o pedido no atendimento.</li>
+          <li>Escolha os produtos e adicione ao carrinho.</li>
+          <li>Informe recheios, sabores e quantidades.</li>
+          <li>Envie o pedido para a loja confirmar no WhatsApp.</li>
         </ol>
         </div>
 

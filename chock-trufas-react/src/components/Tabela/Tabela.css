@@ -1,21 +1,38 @@
 .tabelaPreco {
   width: min(1180px, calc(100% - 2rem));
   max-width: calc(100vw - 2rem);
-  margin: 2.5rem auto;
+  margin: 3.5rem auto;
   overflow-wrap: anywhere;
 }
 
-.tabelaPreco h2 {
+.tabelaCabecalho {
   text-align: center;
-  font-size: clamp(1.65rem, 3vw, 2.2rem);
-  margin-bottom: 1rem;
-  color: var(--color-quaternary);
+  max-width: 720px;
+  margin: 0 auto 1.4rem;
+}
+
+.tabelaCabecalho span {
+  color: var(--color-tertiary);
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.tabelaCabecalho h2 {
+  font-size: clamp(1.85rem, 3vw, 2.65rem);
+  line-height: 1.12;
+  margin: 0.4rem 0 0.6rem;
+}
+
+.tabelaCabecalho p {
+  color: var(--color-muted);
 }
 
 .tabela {
   overflow-x: auto;
-  border-radius: 12px;
+  border-radius: 16px;
   box-shadow: var(--shadow-soft);
+  border: 1px solid var(--color-senary);
 }
 
 .tabela table {
@@ -27,14 +44,16 @@
 
 .tabela th,
 .tabela td {
-  padding: 0.85rem;
+  padding: 0.95rem;
   text-align: left;
   border-bottom: 1px solid var(--color-senary);
   color: var(--color-quaternary);
 }
 
 .tabela th {
-  background: #ffeddb;
+  background: #fff0e8;
+  font-size: 0.82rem;
+  text-transform: uppercase;
 }
 
 .tabela tr:nth-child(even) {

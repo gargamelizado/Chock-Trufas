@@ -28,7 +28,10 @@ export default function Footer({ mostrarAgendamento = true }) {
   return <>
     {/* Depoimentos dão prova social na home e também aparecem no rodapé da compra. */}
     <section className="depoimentosSection">
-        <h2>Depoimentos</h2>
+        <div className="footerCabecalho">
+          <span>Clientes</span>
+          <h2>Quem encomenda, recomenda</h2>
+        </div>
         <div className="depoimentosGrid">
           <div className="depoimentoCard">
             <div className="depoimentoContent">
@@ -67,8 +70,12 @@ export default function Footer({ mostrarAgendamento = true }) {
       /* O formulário de agendamento fica fora da página /compra para não misturar fluxos. */
       <section id="agendamento" className="sectionAgendamento">
         <div className="formularioInformes">
-          <h2>Agendamento</h2>
-          <p>Preencha o formulário abaixo para agendar seu horário.</p>
+          <span>Atendimento</span>
+          <h2>Fale sobre sua encomenda</h2>
+          <p>
+            Envie uma ideia inicial do pedido. A confirmação de sabores, prazo
+            e entrega continua pelo WhatsApp.
+          </p>
         </div>
         <form className="form" onSubmit={enviarAgendamento}>
           <label htmlFor="nome">Nome</label>
@@ -86,7 +93,7 @@ export default function Footer({ mostrarAgendamento = true }) {
             <option value="Pacote Simples">Pacote Simples</option>
             <option value="Pacote Festa">Pacote Festa</option>
             <option value="Pacote Premium">Pacote Premium</option>
-            <option value="Pacote Premium especiais">Pacote Premium especiais</option>
+            <option value="Pacote Premium Especial">Pacote Premium Especial</option>
             <option value="Pacote Caixa de Doces">Pacote Caixa de Doces</option>
             <option value="Pacote Festa Gourmet">Pacote Festa Gourmet</option>
           </select>
@@ -100,8 +107,14 @@ export default function Footer({ mostrarAgendamento = true }) {
       ) : null}
       {/* Contato e mapa ajudam o cliente a confirmar a loja e falar pelo WhatsApp. */}
       <section id="contato" className="sectionContato">
-        <h2>Contato</h2>
-        <p>WhatsApp: (21) 99247-0799</p>
+        <div className="contatoResumo">
+          <span>Contato</span>
+          <h2>Atendimento Chock Trufas</h2>
+          <p>WhatsApp: (21) 99247-0799</p>
+          <a href="https://wa.me/5521992470799" target="_blank" rel="noreferrer">
+            Conversar pelo WhatsApp
+          </a>
+        </div>
         <iframe
           title="Mapa da Chock Trufas"
           className="map"
@@ -111,7 +124,7 @@ export default function Footer({ mostrarAgendamento = true }) {
           referrerPolicy="no-referrer-when-downgrade"
         />
       </section>
-      <footer>© {anoAtual} Chock Trufas - Todos os direitos reservados.</footer>
+      <footer>© {anoAtual} Chock Trufas - Doces e salgados sob encomenda.</footer>
       {/* Atalho fixo para atendimento rápido em qualquer ponto da página. */}
       <a href="https://wa.me/5521992470799" className="whatsappBtn" target="_blank" rel="noreferrer">WhatsApp</a>
     </>

@@ -5,10 +5,25 @@ import "./estilo.css";
 export default function Hero() {
  return (
 <section className="hero">
-        {/* Logo grande reforça a marca antes da chamada de compra. */}
-        <h1><img src={Logo} alt="Chock Trufas logo, a brand identity for an artisanal chocolate truffle shop" /></h1>
-        <p>Doces e salgados artesanais para encomendas, festas e momentos especiais.</p>
-        <a className="btnAgendar" href="/compra">Comprar pelo site</a>
+        <div className="heroConteudo">
+          {/* Logo grande reforça a marca antes da chamada de compra. */}
+          <img className="heroLogo" src={Logo} alt="Logo da Chock Trufas" />
+          <span className="heroEyebrow">Encomendas artesanais em Niterói e São Gonçalo</span>
+          <h1>Chock Trufas</h1>
+          <p>
+            Doces, salgados e combos para festas feitos sob encomenda, com
+            escolha de sabores e atendimento direto pelo WhatsApp.
+          </p>
+          <div className="heroAcoes">
+            <a className="btnAgendar" href="/compra">Comprar pelo site</a>
+            <a className="btnSecundario" href="/#precos">Ver produtos</a>
+          </div>
+          <div className="heroDestaques" aria-label="Diferenciais da Chock Trufas">
+            <span>Produção artesanal</span>
+            <span>Pedidos personalizados</span>
+            <span>Entrega ou retirada</span>
+          </div>
+        </div>
       </section>
   )
 }

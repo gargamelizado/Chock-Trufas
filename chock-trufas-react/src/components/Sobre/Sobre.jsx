@@ -4,16 +4,20 @@ import "./Sobre.css";
 export default function Sobre() {
   return (
     <section id="sobre" className="sectionSobre">
-        <h2>Como começou</h2>
+        <span className="sobreEyebrow">Nossa história</span>
+        <h2>Produção familiar com cuidado de encomenda especial</h2>
         <p>
-          Um empresa familiar criada, a princípio, para atender amigos, parentes
-          e vizinhos, mas com o imediato crescimento e aceitação por esses
-          contatos iniciais e em seguida para alguns clientes via whatsapp a
-          Chock Trufas vem aumentando seu público de maneira exponencial e hoje
-          atendemos as cidades de Niterói e São Gonçalo com uma grande
-          diversificação de produtos, tendo como forte sua qualidade, higiene,
-          rapidez na entrega e um clientela grande e muito satisfeita.
+          A Chock Trufas nasceu dentro de uma família, atendendo amigos,
+          parentes e vizinhos. Com a boa aceitação dos primeiros pedidos, a loja
+          cresceu pelo WhatsApp e hoje atende Niterói e São Gonçalo com doces,
+          salgados e combos preparados com higiene, capricho e atenção aos
+          detalhes de cada cliente.
         </p>
+        <div className="sobrePilares">
+          <strong>Qualidade artesanal</strong>
+          <strong>Atendimento direto</strong>
+          <strong>Pedidos personalizados</strong>
+        </div>
       </section>
   );
 }
