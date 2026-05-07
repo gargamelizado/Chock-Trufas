@@ -24,6 +24,7 @@ O projeto e uma aplicacao React com Vite no frontend e uma API Express simples n
 | `src/components/Header/estilo.css` | CSS ativo do Header. |
 | `src/components/Hero/estilo.css` | CSS ativo do Hero. |
 | `server/server.js` | API Express, rotas, validacoes e persistencia de pedidos. |
+| `api/[...path].js` | Funcao serverless usada pela Vercel para atender `/api/*`. |
 | `server/dev.js` | Script que sobe frontend e backend juntos com `npm run dev`. |
 | `server/data/catalog.json` | Catalogo real usado pela API para validar produtos, combos e valores. |
 | `server/data/orders.json` | Lista de pedidos registrados. |
@@ -433,6 +434,14 @@ Base local: `http://127.0.0.1:3001`.
 
 Esta rota nao fica aberta para visitantes. Para consultar pedidos, configure `ORDERS_ADMIN_TOKEN` no ambiente da API e envie o mesmo valor no header `x-admin-token`.
 
+### Vercel e `/api/orders`
+
+Na Vercel, o Express nao roda como servidor permanente com `app.listen`. Por isso existe `api/[...path].js`, que importa o `app` de `server/server.js` e entrega as rotas `/api/*` como serverless function.
+
+O `vercel.json` nao reescreve `/api/*` para o frontend. Ele deixa `/api/orders`, `/api/catalog` e `/api/health` chegarem na funcao serverless. Isso corrige o erro em que finalizar pedido batia no HTML do React em vez de bater na API.
+
+Atencao: arquivo JSON em Vercel nao e banco de dados permanente. Para o deploy, `orders.json` nao deve ser tratado como historico definitivo. O pedido consegue ser validado e retornado para abrir o WhatsApp, mas historico real em producao precisa de banco de dados ou armazenamento externo.
+
 ### `GET /api/health`
 
 Resposta esperada:
@@ -671,6 +680,7 @@ O site React/Vite, a pagina `/compra`, o catalogo, o backend e o fluxo basico de
 | `GET /api/orders` com `x-admin-token` correto | Respondeu 200. |
 | `POST /api/orders` invalido | Respondeu 400 com lista de erros. |
 | `POST /api/orders` valido | Respondeu 201, recalculou o total pelo backend e salvou o pedido. |
+| Simulacao serverless `VERCEL=1` com `api/[...path].js` | `POST /api/orders` respondeu 201. |
 | `GET https://viacep.com.br/ws/01001000/json/` | Respondeu com dados de CEP. |
 
 O pedido criado durante o teste foi removido de `server/data/orders.json` depois da verificacao.
@@ -693,6 +703,7 @@ O pedido criado durante o teste foi removido de `server/data/orders.json` depois
 ### Atencao antes de publicar
 
 - Configure `ORDERS_ADMIN_TOKEN` no ambiente se for consultar pedidos pela rota `GET /api/orders`.
-- Em deploy estatico, confirme se o provedor respeita `vercel.json` ou configure rewrite equivalente para `/compra`.
+- Em deploy na Vercel, confirme que o projeto usa a pasta `chock-trufas-react` como root ou que o build aponta para ela.
+- Para historico permanente de pedidos em producao, troque o JSON por banco de dados ou armazenamento externo.
 - Se alterar produtos, mantenha `server/data/catalog.json` e `src/data/catalog.json` sincronizados.
 - Faça uma passada visual no navegador em desktop e celular para confirmar espacos, rolagem do carrinho e formulario do rodape.

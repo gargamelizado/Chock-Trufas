@@ -38,6 +38,12 @@ O Pacote Festa está configurado no catálogo como 100 salgadinhos, 50 docinhos,
 Cone trufado, Barra de Chocolate e Alfajor Maria exigem escolha de recheio no pedido.
 Na entrega, o formulário possui busca de CEP pela ViaCEP para preencher rua, bairro, cidade e UF.
 
+## Vercel
+
+O deploy precisa incluir a pasta `api/`. Ela transforma o backend Express em função serverless para `/api/health`, `/api/catalog` e `/api/orders`.
+
+Importante: em Vercel, pedido salvo em JSON não é armazenamento definitivo. A função consegue finalizar o pedido e abrir o WhatsApp, mas para histórico permanente o próximo passo é ligar banco de dados ou outro serviço de armazenamento.
+
 ## Verificação rápida
 
 Depois de alterar o site, rode:

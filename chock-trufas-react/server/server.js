@@ -1,14 +1,16 @@
 import crypto from "node:crypto";
 import fs from "node:fs/promises";
 import path from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 import express from "express";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, "..");
 const dataDir = path.join(__dirname, "data");
-const ordersFile = path.join(dataDir, "orders.json");
+const ordersFile = process.env.VERCEL
+  ? path.join("/tmp", "chock-trufas-orders.json")
+  : path.join(dataDir, "orders.json");
 const catalogFile = path.join(dataDir, "catalog.json");
 const distDir = path.join(rootDir, "dist");
 const app = express();
@@ -436,18 +438,25 @@ app.use((error, _request, response, _next) => {
   response.status(500).json({ message: "Erro interno no servidor." });
 });
 
-const server = app.listen(port, () => {
-  console.log(`Chock Trufas API running at http://127.0.0.1:${port}`);
-});
+const runningDirectly =
+  process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href;
 
-server.on("error", (error) => {
-  if (error.code === "EADDRINUSE") {
-    console.error(
-      `A porta ${port} ja esta em uso. A API provavelmente ja esta aberta. Feche o terminal antigo ou use npm run dev para reaproveitar a API ativa.`
-    );
+if (runningDirectly) {
+  const server = app.listen(port, () => {
+    console.log(`Chock Trufas API running at http://127.0.0.1:${port}`);
+  });
+
+  server.on("error", (error) => {
+    if (error.code === "EADDRINUSE") {
+      console.error(
+        `A porta ${port} ja esta em uso. A API provavelmente ja esta aberta. Feche o terminal antigo ou use npm run dev para reaproveitar a API ativa.`
+      );
+      process.exit(1);
+    }
+
+    console.error(error);
     process.exit(1);
-  }
+  });
+}
 
-  console.error(error);
-  process.exit(1);
-});
+export default app;
