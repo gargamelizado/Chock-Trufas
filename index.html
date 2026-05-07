@@ -30,7 +30,15 @@
           <a href="#fotos">Espaço</a>
           <a href="#contato">Contato</a>
         </nav>
-        <span class="material-symbols-outlined menuMoblie" onclick="myFunction()"> menu </span>
+        <button
+          class="material-symbols-outlined menuMoblie"
+          type="button"
+          aria-controls="myLinks"
+          aria-expanded="false"
+          onclick="myFunction()"
+        >
+          menu
+        </button>
       </div>
     </header>
 
@@ -291,17 +299,30 @@
     <a href="https://wa.me/5521999999999" class="whatsappBtn" target="_blank"
       >WhatsApp</a
     >
+    <script>
+      const menu = document.getElementById("myLinks");
+      const menuButton = document.querySelector(".menuMoblie");
+      const desktopMenu = window.matchMedia("(min-width: 1024px)");
+
+      function closeMobileMenu() {
+        menu.classList.remove("is-open");
+        menu.removeAttribute("style");
+        menuButton.setAttribute("aria-expanded", "false");
+      }
+
+      function myFunction() {
+        const isOpen = menu.classList.toggle("is-open");
+        menuButton.setAttribute("aria-expanded", String(isOpen));
+      }
+
+      function syncMenuWithScreen(event) {
+        if (event.matches) {
+          closeMobileMenu();
+        }
+      }
+
+      desktopMenu.addEventListener("change", syncMenuWithScreen);
+      syncMenuWithScreen(desktopMenu);
+    </script>
   </body>
-  <script>
-    function myFunction() {
-  var x = document.getElementById("myLinks");
-  if (x.style.display === "block") {
-    x.style.display = "none";
-    
-  } else {
-    x.style.display = "block";
-    
-  }
-}
-  </script>
 </html>

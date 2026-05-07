@@ -78,6 +78,14 @@ main{
 }
 .menuMoblie{
   display:none;
+  border: 0;
+  background: transparent;
+  color: var(--color-tertiary);
+  line-height: 1;
+}
+
+.nav.is-open {
+  display: flex;
 }
 /* =========================
   Botões
@@ -380,18 +388,25 @@ footer {
 /* =========================
   Responsividade
 ========================= */
-@media (max-width: 700px) {
+@media (max-width: 1023px) {
   .header{
     padding: 1rem;
   }
   .header,
-  nav {
+  .nav {
    flex-direction: column;
    align-items: center;
    
   }
   .nav{
     display:none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+  .nav.is-open {
+    display: flex;
+    width: 100%;
   }
 .menuMoblie{
   display:block;
@@ -420,6 +435,24 @@ footer {
   .card img {
    width: 100%;
    height: auto;
+  }
+}
+
+@media (min-width: 1024px) {
+  .header {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .nav,
+  .nav.is-open {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+  }
+
+  .menuMoblie {
+    display: none;
   }
 }
 
