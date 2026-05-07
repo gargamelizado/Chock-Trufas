@@ -1,9 +1,8 @@
 .depoimentosSection,
 .sectionAgendamento,
 .sectionContato {
-  width: min(1180px, calc(100% - 2rem));
-  max-width: calc(100vw - 2rem);
-  margin: 3.5rem auto;
+  width: var(--container);
+  margin: clamp(3.5rem, 7vw, 5rem) auto;
   padding: clamp(1.25rem, 3vw, 2rem);
   overflow-wrap: anywhere;
 }
@@ -31,6 +30,7 @@
   line-height: 1.12;
   margin: 0.4rem 0 0.7rem;
   color: var(--color-quaternary);
+  text-wrap: balance;
 }
 
 .depoimentosGrid {
@@ -42,16 +42,16 @@
 
 .depoimentoCard {
   background: var(--color-surface);
-  border: 1px solid rgba(234, 216, 210, 0.9);
-  border-radius: 16px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-card);
   overflow: hidden;
-  transition: transform 0.25s, box-shadow 0.25s;
+  transition: transform var(--transition), box-shadow var(--transition);
 }
 
 .depoimentoCard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 14px 32px rgba(177, 5, 5, 0.16);
+  box-shadow: 0 16px 34px rgba(44, 25, 20, 0.13);
 }
 
 .depoimentoContent {
@@ -73,10 +73,18 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  background: var(--color-surface);
-  border: 1px solid var(--color-senary);
-  border-radius: var(--radius-section);
-  box-shadow: var(--shadow-soft);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 246, 239, 0.86));
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.formularioInformes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  align-items: center;
 }
 
 .formularioInformes h2 {
@@ -97,10 +105,10 @@
 .form {
   width: min(100%, 500px);
   margin: 0 auto;
-  background: var(--color-quinary);
+  background: #fff;
   padding: 1.25rem;
-  border: 1px solid var(--color-senary);
-  border-radius: 16px;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
 }
 
 .form label {
@@ -116,9 +124,10 @@
   padding: 0.82rem;
   margin-bottom: 0.9rem;
   border: 1px solid #d8c2bd;
-  border-radius: 10px;
+  border-radius: 8px;
   font: inherit;
   background: #fff;
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
 .form input:focus,
@@ -138,17 +147,19 @@
   font: inherit;
   font-weight: 800;
   width: 100%;
-  transition: 0.25s;
+  transition: background var(--transition), border-color var(--transition), transform var(--transition);
 }
 
 .form button:hover {
   background: var(--color-quaternary);
   border-color: var(--color-quaternary);
   color: #fff;
+  transform: translateY(-1px);
 }
 
 .sectionContato {
   text-align: center;
+  padding-top: 0;
 }
 
 .contatoResumo p {
@@ -163,6 +174,12 @@
   background: var(--color-accent);
   color: #fff;
   font-weight: 900;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.contatoResumo a:hover {
+  background: #174c3b;
+  transform: translateY(-1px);
 }
 
 iframe.map {
@@ -170,7 +187,7 @@ iframe.map {
   height: 360px;
   border: 0;
   margin-top: 1rem;
-  border-radius: 16px;
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-soft);
 }
 
@@ -189,9 +206,24 @@ footer {
   color: #fff;
   padding: 0.8rem 1rem;
   border-radius: 999px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.16);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
   font-weight: 800;
   z-index: 1000;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.whatsappBtn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.22);
+}
+
+@media (max-width: 800px) {
+  .whatsappBtn {
+    right: 12px;
+    bottom: 12px;
+    padding: 0.72rem 0.88rem;
+    font-size: 0.92rem;
+  }
 }
 
 @media (max-width: 480px) {
@@ -199,10 +231,5 @@ footer {
   .sectionAgendamento,
   .sectionContato {
     width: min(100% - 1rem, 1180px);
-  }
-
-  .whatsappBtn {
-    right: 12px;
-    bottom: 12px;
   }
 }

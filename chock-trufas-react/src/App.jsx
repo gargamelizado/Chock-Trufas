@@ -19,7 +19,7 @@ function App() {
         <Header />
         <CompraSite />
         {/* Na página de compra o formulário antigo de agendamento fica oculto. */}
-        <Footer mostrarAgendamento={false} />
+        <Footer mostrarAgendamento={false} mostrarWhatsApp={false} />
       </>
     );
   }

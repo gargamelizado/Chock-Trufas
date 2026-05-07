@@ -1,7 +1,6 @@
 .tabelaPreco {
-  width: min(1180px, calc(100% - 2rem));
-  max-width: calc(100vw - 2rem);
-  margin: 3.5rem auto;
+  width: var(--container);
+  margin: clamp(3.5rem, 7vw, 5rem) auto;
   overflow-wrap: anywhere;
 }
 
@@ -22,6 +21,7 @@
   font-size: clamp(1.85rem, 3vw, 2.65rem);
   line-height: 1.12;
   margin: 0.4rem 0 0.6rem;
+  text-wrap: balance;
 }
 
 .tabelaCabecalho p {
@@ -30,9 +30,10 @@
 
 .tabela {
   overflow-x: auto;
-  border-radius: 16px;
+  border-radius: var(--radius-card);
   box-shadow: var(--shadow-soft);
-  border: 1px solid var(--color-senary);
+  border: 1px solid var(--color-line);
+  background: #fff;
 }
 
 .tabela table {
@@ -46,18 +47,29 @@
 .tabela td {
   padding: 0.95rem;
   text-align: left;
-  border-bottom: 1px solid var(--color-senary);
+  border-bottom: 1px solid var(--color-line);
   color: var(--color-quaternary);
 }
 
 .tabela th {
-  background: #fff0e8;
+  background: #fff2ea;
   font-size: 0.82rem;
   text-transform: uppercase;
+  color: var(--color-tertiary);
 }
 
 .tabela tr:nth-child(even) {
-  background: #fff8f4;
+  background: #fff9f5;
+}
+
+.tabela tbody tr:hover {
+  background: #fff1e9;
+}
+
+.tabela td:nth-child(2) {
+  color: var(--color-tertiary);
+  font-weight: 900;
+  white-space: nowrap;
 }
 
 @media (max-width: 480px) {

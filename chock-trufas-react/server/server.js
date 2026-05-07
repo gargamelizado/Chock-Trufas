@@ -21,7 +21,13 @@ const comboCategoryNames = {
   bolo: ["bolo", "bolos"],
   refrigerante: ["refrigerante", "refrigerantes"],
 };
-const paymentMethods = ["Pix", "Dinheiro no recebimento", "Cartão no recebimento"];
+const paymentMethods = [
+  "Pix",
+  "Dinheiro",
+  "Cartão de crédito",
+  "Cartão de débito",
+  "Ticket restaurante",
+];
 
 app.use(express.json({ limit: "100kb" }));
 

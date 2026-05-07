@@ -1,23 +1,24 @@
 .hero {
-  min-height: 680px;
+  min-height: clamp(620px, 88svh, 720px);
   display: grid;
   align-items: end;
-  padding: 8.5rem clamp(1rem, 5vw, 4rem) 4rem;
+  padding: 8.5rem clamp(1rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
   background:
-    linear-gradient(90deg, rgba(38, 26, 24, 0.86), rgba(38, 26, 24, 0.48) 46%, rgba(38, 26, 24, 0.16)),
+    linear-gradient(90deg, rgba(36, 23, 20, 0.9), rgba(36, 23, 20, 0.54) 48%, rgba(36, 23, 20, 0.18)),
     linear-gradient(180deg, rgba(38, 26, 24, 0.08), rgba(255, 250, 247, 0.08)),
     url("../../assets/doce_capa.webp") center/cover;
   color: #fff;
-  box-shadow: var(--shadow-soft);
   overflow: hidden;
 }
 
 .heroConteudo {
   width: min(720px, 100%);
+  max-width: 100%;
+  animation: entradaHero 520ms ease both;
 }
 
 .heroLogo {
-  width: min(220px, 54vw);
+  width: min(210px, 54vw);
   display: block;
   margin-bottom: 1.25rem;
   filter: drop-shadow(0 12px 28px rgba(0, 0, 0, 0.28));
@@ -26,10 +27,11 @@
 .heroEyebrow {
   display: inline-flex;
   margin-bottom: 0.85rem;
-  color: #ffe6d9;
+  color: #ffe2d2;
   font-size: 0.82rem;
   font-weight: 900;
   letter-spacing: 0;
+  line-height: 1.35;
   text-transform: uppercase;
 }
 
@@ -38,6 +40,7 @@
   line-height: 0.95;
   margin-bottom: 1rem;
   max-width: 8ch;
+  text-wrap: balance;
 }
 
 .hero p {
@@ -62,7 +65,12 @@
   padding: 0.85rem 1.25rem;
   border-radius: 999px;
   font-weight: 900;
-  transition: 0.25s;
+  transition: transform var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.btnAgendar:hover,
+.btnSecundario:hover {
+  transform: translateY(-2px);
 }
 
 .btnAgendar {
@@ -73,7 +81,7 @@
 }
 
 .btnAgendar:hover {
-  background: var(--color-primary);
+  background: #ffe2d2;
   color: var(--color-quaternary);
 }
 
@@ -103,20 +111,51 @@
   font-weight: 800;
 }
 
+@keyframes entradaHero {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 800px) {
   .hero {
-    min-height: 640px;
+    min-height: 620px;
     align-items: end;
     padding-top: 8.5rem;
     background:
       linear-gradient(180deg, rgba(38, 26, 24, 0.82), rgba(38, 26, 24, 0.58)),
       url("../../assets/doce_capa.webp") center/cover;
   }
+
+  .heroEyebrow {
+    display: block;
+    max-width: 32ch;
+  }
+
+  .heroAcoes a {
+    flex: 1 1 220px;
+  }
+
+  .heroDestaques {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, max-content));
+  }
+
+  .heroDestaques span {
+    min-width: 0;
+  }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 560px) {
   .hero {
-    min-height: 620px;
+    min-height: 600px;
+    padding-bottom: 2.5rem;
   }
 
   .heroLogo {
@@ -125,5 +164,10 @@
 
   .heroAcoes a {
     width: 100%;
+    flex-basis: 100%;
+  }
+
+  .heroDestaques {
+    grid-template-columns: 1fr;
   }
 }

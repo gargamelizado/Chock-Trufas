@@ -31,7 +31,6 @@ O comando `npm run dev` sobe o frontend e o backend juntos:
 ## Dados
 
 - Catálogo da API: `server/data/catalog.json`
-- Catálogo base do frontend: `src/data/catalog.json`
 - Pedidos registrados: `server/data/orders.json`
 
 O Pacote Festa está configurado no catálogo como 100 salgadinhos, 50 docinhos, 1 bolo e 2 refrigerantes.

@@ -19,7 +19,6 @@ O projeto e uma aplicacao React com Vite no frontend e uma API Express simples n
 | `src/main.jsx` | Ponto de entrada do React. Renderiza o `App` dentro da `div#root`. |
 | `src/App.jsx` | Decide qual pagina mostrar: home `/` ou compra `/compra`. |
 | `src/index.css` | Variaveis, reset e base global. |
-| `src/data/catalog.json` | Catalogo base importado pelo frontend antes de carregar a API. |
 | `src/components/*/*.css` | CSS separado por componente, sempre ao lado do JSX correspondente. |
 | `src/components/Header/estilo.css` | CSS ativo do Header. |
 | `src/components/Hero/estilo.css` | CSS ativo do Hero. |
@@ -133,7 +132,7 @@ Funcao principal:
 
 Observacao:
 
-- Esta secao e vitrine da home. Os precos iniciais vêm de `src/data/catalog.json`, e a compra real e validada pela API usando `server/data/catalog.json`.
+- Esta secao e vitrine da home. Os precos vêm de `/api/catalog`, que le `server/data/catalog.json`.
 
 ### `src/components/Compra/Compra.jsx`
 
@@ -191,7 +190,8 @@ Estados:
 
 | Estado | Responsabilidade |
 | --- | --- |
-| `produtos` | Guarda o catalogo exibido na tela. Comeca com os produtos importados de `src/data/catalog.json` e depois tenta carregar `/api/catalog`. |
+| `produtos` | Guarda o catalogo exibido na tela depois de carregar `/api/catalog`. |
+| `catalogoStatus` | Guarda mensagem de carregamento ou erro do catalogo. |
 | `itensCarrinho` | Lista cada item adicionado. Cada entrada tem `cartItemId` e `productId`, permitindo adicionar o mesmo produto mais de uma vez. |
 | `quantidades` | Guarda quantidades dos produtos comuns, separadas por `cartItemId`. |
 | `recheios` | Guarda o recheio escolhido de cada item, separado por `cartItemId`. |
@@ -206,16 +206,14 @@ Constantes:
 | Nome | Responsabilidade |
 | --- | --- |
 | `nomesCategoriaCombo` | Define nomes singular/plural para categorias de combo. |
-| `catalogoBase` | Importa o arquivo `src/data/catalog.json` para servir como base local da tela. |
-| `produtosBase` | Lista de produtos extraida de `catalogoBase.products`, usada como estado inicial e fallback se a API estiver fora do ar. |
-| `formasPagamento` | Lista as formas aceitas quando o pedido for para entrega: Pix, dinheiro no recebimento e cartao no recebimento. |
+| `formasPagamento` | Lista as formas aceitas quando o pedido for para entrega. |
 | `enderecoEntregaInicial` | Estado inicial usado para limpar o formulario de endereco depois do envio. |
 
 Funcoes de carregamento e busca:
 
 | Funcao | Responsabilidade |
 | --- | --- |
-| `carregarCatalogo()` | Busca `/api/catalog` e atualiza a lista de produtos. Se falhar, usa `produtosBase`, que vem de `src/data/catalog.json`. |
+| `carregarCatalogo()` | Busca `/api/catalog` e atualiza a lista de produtos. Se falhar, mostra erro de catalogo indisponivel. |
 | `encontrarProduto(produtoId)` | Encontra um produto no catalogo carregado. |
 | `criarItemCarrinhoId(produtoId)` | Cria um ID unico para cada linha do carrinho. |
 | `obterProdutosDoCarrinho()` | Junta `itensCarrinho` com os dados completos do catalogo. |
@@ -344,7 +342,7 @@ O backend continua recebendo `address` como texto unico. Esse texto e montado po
 
 ## 8. Catalogo e produtos
 
-A compra real usa `server/data/catalog.json` no backend. O frontend usa `src/data/catalog.json` como base inicial e substitui pelos dados de `/api/catalog` quando a API esta disponivel.
+A compra real usa `server/data/catalog.json`. Ele e o banco de dados do catalogo. O frontend nao possui mais copia do catalogo; ele busca os produtos em `/api/catalog`.
 
 Formato de um produto comum:
 
@@ -365,7 +363,7 @@ Formato de um combo:
   "id": "pacote-festa",
   "name": "Pacote Festa",
   "type": "combo",
-  "price": 500,
+  "price": 120,
   "comboRules": {
     "salgadinhos": 100,
     "docinhos": 50,
@@ -394,8 +392,8 @@ O cliente escolhe os sabores, mas o total de cada categoria precisa bater exatam
 
 ### Como adicionar um novo produto
 
-1. Abra `server/data/catalog.json` e `src/data/catalog.json`.
-2. Adicione o mesmo objeto dentro de `products` nos dois arquivos.
+1. Abra `server/data/catalog.json`.
+2. Adicione o novo objeto dentro de `products`.
 3. Use um `id` unico, sem espaco e sem acento.
 4. Use `type: "produto"` para produto comum.
 5. Se o produto tiver recheio, adicione `fillingOptions`.
@@ -668,9 +666,7 @@ O site React/Vite, a pagina `/compra`, o catalogo, o backend e o fluxo basico de
 | `node --check server/server.js` | Passou sem erro de sintaxe. |
 | `node --check server/dev.js` | Passou sem erro de sintaxe. |
 | JSON de `server/data/catalog.json` | Valido. |
-| JSON de `src/data/catalog.json` | Valido. |
 | JSON de `server/data/orders.json` | Valido. |
-| Comparacao `server/data/catalog.json` x `src/data/catalog.json` | Iguais no momento da verificacao. |
 | `GET /` no Vite local | Respondeu 200. |
 | `GET /compra` no Vite local | Respondeu 200. |
 | `GET /api/catalog` via proxy do Vite | Respondeu 200. |
@@ -705,5 +701,5 @@ O pedido criado durante o teste foi removido de `server/data/orders.json` depois
 - Configure `ORDERS_ADMIN_TOKEN` no ambiente se for consultar pedidos pela rota `GET /api/orders`.
 - Em deploy na Vercel, confirme que o projeto usa a pasta `chock-trufas-react` como root ou que o build aponta para ela.
 - Para historico permanente de pedidos em producao, troque o JSON por banco de dados ou armazenamento externo.
-- Se alterar produtos, mantenha `server/data/catalog.json` e `src/data/catalog.json` sincronizados.
+- Se alterar produtos, edite `server/data/catalog.json`, que e a fonte de verdade do catalogo.
 - Faça uma passada visual no navegador em desktop e celular para confirmar espacos, rolagem do carrinho e formulario do rodape.

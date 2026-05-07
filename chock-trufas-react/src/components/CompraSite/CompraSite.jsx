@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import catalogoBase from "../../data/catalog.json";
 import "./CompraSite.css";
 
 const nomesCategoriaCombo = {
@@ -9,8 +8,13 @@ const nomesCategoriaCombo = {
   refrigerante: ["refrigerante", "refrigerantes"],
 };
 
-const produtosBase = Array.isArray(catalogoBase.products) ? catalogoBase.products : [];
-const formasPagamento = ["Pix", "Dinheiro no recebimento", "Cartão no recebimento"];
+const formasPagamento = [
+  "Pix",
+  "Dinheiro",
+  "Cartão de crédito",
+  "Cartão de débito",
+  "Ticket restaurante",
+];
 const enderecoEntregaInicial = {
   cep: "",
   rua: "",
@@ -24,7 +28,11 @@ const enderecoEntregaInicial = {
 
 // Página completa de compra: carrega o catálogo, monta o carrinho e envia o pedido para a API.
 export default function CompraSite() {
-  const [produtos, setProdutos] = useState(produtosBase);
+  const [produtos, setProdutos] = useState([]);
+  const [catalogoStatus, setCatalogoStatus] = useState({
+    type: "loading",
+    message: "Carregando catálogo...",
+  });
   const [itensCarrinho, setItensCarrinho] = useState([]);
   const [quantidades, setQuantidades] = useState({});
   const [recheios, setRecheios] = useState({});
@@ -41,7 +49,7 @@ export default function CompraSite() {
     orderId: "",
   });
 
-  // Sincroniza os produtos da tela com o catálogo do backend; se a API cair, mantém o catalog.json importado.
+  // Carrega o catálogo real pela API; server/data/catalog.json é a fonte de verdade.
   useEffect(() => {
     async function carregarCatalogo() {
       try {
@@ -50,9 +58,20 @@ export default function CompraSite() {
 
         if (response.ok && Array.isArray(data.products)) {
           setProdutos(data.products);
+          setCatalogoStatus({
+            type: "success",
+            message: "",
+          });
+          return;
         }
+
+        throw new Error("A API não retornou o catálogo.");
       } catch {
-        setProdutos(produtosBase);
+        setProdutos([]);
+        setCatalogoStatus({
+          type: "error",
+          message: "Não foi possível carregar o catálogo. Verifique a API.",
+        });
       }
     }
 
@@ -187,13 +206,11 @@ export default function CompraSite() {
       detalhes.push(`${produto.fillingOptions.length} opções de recheio`);
     }
 
-    detalhes.push(
-      produtoTemPreco(produto)
-        ? `${formatarMoeda(obterPrecoProduto(produto))}`
-        : "Valor a confirmar"
-    );
+    return detalhes.length > 0 ? detalhes.join(" · ") : "Produto sob encomenda";
+  }
 
-    return detalhes.length > 0 ? detalhes.join(" · ") : "Quantidade livre";
+  function formatarResumoItens(quantidade) {
+    return quantidade === 1 ? "1 item no carrinho" : `${quantidade} itens no carrinho`;
   }
 
   function montarResumoComboEscolhido(selectedComboItems) {
@@ -670,60 +687,63 @@ export default function CompraSite() {
           Adicione os produtos ao carrinho, escolha recheios e sabores, e envie
           o pedido direto para o atendimento da Chock Trufas.
         </p>
+        <div className="compraEtapas" aria-label="Etapas da compra">
+          <span>1. Produtos</span>
+          <span>2. Sabores</span>
+          <span>3. Entrega ou retirada</span>
+        </div>
       </section>
 
       <section className="compraPedido">
         <form className="formPedido" onSubmit={enviarPedido}>
-          {/* Dados básicos do cliente que acompanham todo pedido enviado ao backend. */}
-          <div className="dadosClientePedido">
-            <div className="campoLinha">
-              <label htmlFor="nome">Nome</label>
-              <input id="nome" name="nome" type="text" required />
-            </div>
-
-            <div className="campoLinha">
-              <label htmlFor="telefone">Telefone</label>
-              <input id="telefone" name="telefone" type="tel" required />
-            </div>
-          </div>
-
           {/* Catálogo visual: o cliente adiciona produtos ao carrinho sem depender de checkbox cru. */}
           <fieldset className="catalogoProdutos">
             <legend>Adicionar produtos</legend>
-            <div className="catalogoGrid">
-              {produtos.map((produto) => {
-                const quantidadeNoCarrinho = contarProdutoNoCarrinho(produto.id);
-                const estaNoCarrinho = quantidadeNoCarrinho > 0;
+            <p className="catalogoIntro">
+              Escolha quantos itens quiser. O mesmo produto pode entrar mais de
+              uma vez com recheios ou sabores diferentes.
+            </p>
+            {catalogoStatus.message ? (
+              <div className={`catalogoStatus ${catalogoStatus.type}`} role="status">
+                {catalogoStatus.message}
+              </div>
+            ) : null}
+            {produtos.length > 0 ? (
+              <div className="catalogoGrid">
+                {produtos.map((produto) => {
+                  const quantidadeNoCarrinho = contarProdutoNoCarrinho(produto.id);
+                  const estaNoCarrinho = quantidadeNoCarrinho > 0;
 
-                return (
-                  <article
-                    className={`catalogoCard ${estaNoCarrinho ? "selecionado" : ""}`}
-                    key={produto.id}
-                  >
-                    <div>
-                      <span>{produtoTemCombo(produto) ? "Personalizado" : "Produto"}</span>
-                      <h3>{produto.name}</h3>
-                      <p>{montarDetalheProduto(produto)}</p>
-                      <strong className="catalogoPreco">
-                        {produtoTemPreco(produto)
-                          ? formatarMoeda(obterPrecoProduto(produto))
-                          : "Valor a confirmar"}
-                      </strong>
-                      {estaNoCarrinho ? (
-                        <p> {quantidadeNoCarrinho}  no carrinho</p>
-                      ) : null}
-                    </div>
-                    <button
-                      type="button"
-                      className={estaNoCarrinho ? "botaoNoCarrinho" : ""}
-                      onClick={() => adicionarAoCarrinho(produto.id)}
+                  return (
+                    <article
+                      className={`catalogoCard ${estaNoCarrinho ? "selecionado" : ""}`}
+                      key={produto.id}
                     >
-                      {estaNoCarrinho ? "Adicionar mais" : "Adicionar"}
-                    </button>
-                  </article>
-                );
-              })}
-            </div>
+                      <div>
+                        <span>{produtoTemCombo(produto) ? "Personalizado" : "Produto"}</span>
+                        <h3>{produto.name}</h3>
+                        <p>{montarDetalheProduto(produto)}</p>
+                        <strong className="catalogoPreco">
+                          {produtoTemPreco(produto)
+                            ? formatarMoeda(obterPrecoProduto(produto))
+                            : "Valor a confirmar"}
+                        </strong>
+                        {estaNoCarrinho ? (
+                          <p>{quantidadeNoCarrinho} no carrinho</p>
+                        ) : null}
+                      </div>
+                      <button
+                        type="button"
+                        className={estaNoCarrinho ? "botaoNoCarrinho" : ""}
+                        onClick={() => adicionarAoCarrinho(produto.id)}
+                      >
+                        {estaNoCarrinho ? "Adicionar mais" : "Adicionar"}
+                      </button>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : null}
           </fieldset>
 
           {/* Carrinho do pedido: concentra quantidades, recheios, combos e remoção de item. */}
@@ -880,8 +900,17 @@ export default function CompraSite() {
           </section>
 
           {/* Data e forma de recebimento definem quais campos extras serão obrigatórios. */}
-         
+          <div className="dadosClientePedido">
+            <div className="campoLinha">
+              <label htmlFor="nome">Nome</label>
+              <input id="nome" name="nome" type="text" required />
+            </div>
 
+            <div className="campoLinha">
+              <label htmlFor="telefone">Telefone</label>
+              <input id="telefone" name="telefone" type="tel" required />
+            </div>
+          </div>
           <fieldset className="grupoEntrega">
             <legend>Forma de recebimento</legend>
             <label>
@@ -1142,7 +1171,7 @@ export default function CompraSite() {
         <aside className="pedidoAjuda">
           <span>Resumo</span>
           <h2>{formatarMoeda(totalCarrinho)}</h2>
-          <strong>{produtosDoCarrinho.length} item(ns)  no carrinho</strong>
+          <strong>{formatarResumoItens(produtosDoCarrinho.length)}</strong>
           <p>
             Total estimado pelo catálogo. Prazo, disponibilidade e detalhes
             personalizados continuam sendo confirmados no atendimento.

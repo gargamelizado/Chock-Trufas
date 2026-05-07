@@ -24,12 +24,12 @@ export default function Compra() {
       <div className="compraGrid">
         {/* Passo a passo simples do pedido pelo site. */}
         <div className="compraCardPrincipal">
-        <h3>Como funciona</h3>
-        <ol>
-          <li>Escolha os produtos e adicione ao carrinho.</li>
-          <li>Informe recheios, sabores e quantidades.</li>
-          <li>Envie o pedido para a loja confirmar no WhatsApp.</li>
-        </ol>
+          <h3>Como funciona</h3>
+          <ol>
+            <li>Escolha os produtos e adicione ao carrinho.</li>
+            <li>Informe recheios, sabores e quantidades.</li>
+            <li>Envie o pedido para a loja confirmar no WhatsApp.</li>
+          </ol>
         </div>
 
         {/* Atalhos de categorias que reforçam o tipo de pedido aceito. */}

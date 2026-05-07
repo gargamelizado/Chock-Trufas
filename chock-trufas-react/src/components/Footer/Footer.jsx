@@ -1,7 +1,7 @@
 import "./Footer.css";
 
 // Footer reúne depoimentos, agendamento opcional, mapa, contato e botão fixo de WhatsApp.
-export default function Footer({ mostrarAgendamento = true }) {
+export default function Footer({ mostrarAgendamento = true, mostrarWhatsApp = true }) {
   const anoAtual = new Date().getFullYear();
 
   // Envia o formulário antigo de agendamento direto para WhatsApp quando ele está visível.
@@ -25,48 +25,49 @@ export default function Footer({ mostrarAgendamento = true }) {
     );
   }
 
-  return <>
+  return (
+    <>
     {/* Depoimentos dão prova social na home e também aparecem no rodapé da compra. */}
     <section className="depoimentosSection">
-        <div className="footerCabecalho">
-          <span>Clientes</span>
-          <h2>Quem encomenda, recomenda</h2>
-        </div>
-        <div className="depoimentosGrid">
-          <div className="depoimentoCard">
-            <div className="depoimentoContent">
-              <p>"Os melhores doces da região! Atendimento impecável."</p>
-              <strong>- Juliana M.</strong>
-            </div>
-          </div>
-          <div className="depoimentoCard">
-            <div className="depoimentoContent">
-              <p>
-                "Fiz uma encomenda pro aniversário do meu filho e foi um
-                sucesso."
-              </p>
-              <strong>- Carlos R.</strong>
-            </div>
-          </div>
-          <div className="depoimentoCard">
-            <div className="depoimentoContent">
-              <p>
-                "As trufas são deliciosas e o atendimento é super atencioso."
-              </p>
-              <strong>- Ana P.</strong>
-            </div>
-          </div>
-          <div className="depoimentoCard">
-            <div className="depoimentoContent">
-              <p>
-                "Recomendo a todos! Produtos de qualidade e entrega rápida."
-              </p>
-              <strong>- Roberto S.</strong>
-            </div>
+      <div className="footerCabecalho">
+        <span>Clientes</span>
+        <h2>Quem encomenda, recomenda</h2>
+      </div>
+      <div className="depoimentosGrid">
+        <div className="depoimentoCard">
+          <div className="depoimentoContent">
+            <p>"Os melhores doces da região! Atendimento impecável."</p>
+            <strong>- Juliana M.</strong>
           </div>
         </div>
-      </section>
-      {mostrarAgendamento ? (
+        <div className="depoimentoCard">
+          <div className="depoimentoContent">
+            <p>
+              "Fiz uma encomenda pro aniversário do meu filho e foi um
+              sucesso."
+            </p>
+            <strong>- Carlos R.</strong>
+          </div>
+        </div>
+        <div className="depoimentoCard">
+          <div className="depoimentoContent">
+            <p>
+              "As trufas são deliciosas e o atendimento é super atencioso."
+            </p>
+            <strong>- Ana P.</strong>
+          </div>
+        </div>
+        <div className="depoimentoCard">
+          <div className="depoimentoContent">
+            <p>
+              "Recomendo a todos! Produtos de qualidade e entrega rápida."
+            </p>
+            <strong>- Roberto S.</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+    {mostrarAgendamento ? (
       /* O formulário de agendamento fica fora da página /compra para não misturar fluxos. */
       <section id="agendamento" className="sectionAgendamento">
         <div className="formularioInformes">
@@ -125,7 +126,18 @@ export default function Footer({ mostrarAgendamento = true }) {
         />
       </section>
       <footer>© {anoAtual} Chock Trufas - Doces e salgados sob encomenda.</footer>
-      {/* Atalho fixo para atendimento rápido em qualquer ponto da página. */}
-      <a href="https://wa.me/5521992470799" className="whatsappBtn" target="_blank" rel="noreferrer">WhatsApp</a>
+      {mostrarWhatsApp ? (
+        /* Atalho fixo para atendimento rápido em qualquer ponto da home. */
+        <a
+          href="https://wa.me/5521992470799"
+          className="whatsappBtn"
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Conversar com a Chock Trufas pelo WhatsApp"
+        >
+          WhatsApp
+        </a>
+      ) : null}
     </>
+  );
 }

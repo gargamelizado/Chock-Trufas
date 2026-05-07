@@ -49,7 +49,7 @@
       "name": "Italianilho",
       "type": "produto",
       "price": 10.0,
-      "fillingOptions":[
+      "fillingOptions": [
         "Misto (queijo com presunto)",
         "Palmito",
         "Frango",
@@ -57,14 +57,13 @@
         "Chocolate",
         "doce de leite",
         "beijinho"
-
       ]
     },
     {
       "id": "pacote-festa",
       "name": "Pacote Festa",
       "type": "combo",
-      "price": 500.0,
+      "price": 120.0,
       "comboRules": {
         "salgadinhos": 100,
         "docinhos": 50,
